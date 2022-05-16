@@ -27,3 +27,12 @@ export interface IProducts {
   data: IProduct[];
   meta: IMeta;
 }
+
+export interface IRegisterUserValues {
+  userId: string;
+  username: string;
+  password: string;
+  email: string;
+  phone: string;
+  nickname: string;
+}
