@@ -1,38 +1,45 @@
+import { NextApiRequest } from "next";
 import NextAuth from "next-auth";
-import GoogleProviders from "next-auth/providers/google";
+import CredentialsProvider from "next-auth/providers/credentials";
+import { signIn } from "next-auth/react";
 
-const options = {
+export default NextAuth({
   providers: [
-    GoogleProviders({
-      clientId: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    CredentialsProvider({
+      name: "이메일 혹은 아이디로 로그인",
+      credentials: {
+        email: {
+          label: "Email",
+          type: "text",
+          placeholder: "이메일이나 아이디",
+        },
+        password: {
+          label: "Password",
+          type: "password",
+          placeholder: "비밀번호",
+        },
+      },
+      async authorize(credentials: Record<any, any>, req: NextApiRequest) {
+        return credentials;
+      },
     }),
   ],
-  database: process.env.NEXT_PUBLIC_DATABASE_URL,
-  session: {
-    jwt: true,
-  },
   callbacks: {
-    session: async (session, user) => {
-      session.jwt = user.jwt;
-      session.id = user.id;
+    session: async ({ session, token }) => {
+      session.id = token.id;
+      session.jwt = token.jwt;
       return Promise.resolve(session);
     },
-    jwt: async (token, user, account) => {
+    jwt: async ({ token, user }) => {
       const isSignIn = user ? true : false;
-      if (isSignIn) {
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/auth/${account.provider}/callback?access_token=${account?.accessToken}`
-        );
-        const data = await response.json();
-        token.jwt = data.jwt;
-        token.id = data.user.id;
+      if (isSignIn && user) {
+        token.id = user.id;
+        token.jwt = user.jwt;
       }
       return Promise.resolve(token);
     },
   },
-};
-
-const Auth = (req, res) => NextAuth(req, res, options);
-
-export default Auth;
+  pages: {
+    signIn: "/login",
+  },
+});
