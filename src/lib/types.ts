@@ -29,7 +29,6 @@ export interface IProducts {
 }
 
 export interface IRegisterUserValues {
-  userId: string;
   username: string;
   password: string;
   email: string;
