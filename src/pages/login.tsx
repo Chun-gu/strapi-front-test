@@ -1,6 +1,7 @@
 import { NextPage } from "next";
 import { useForm } from "react-hook-form";
 import axios from "axios";
+import { signIn } from "next-auth/react";
 
 interface IFormValues {
   username: string;
@@ -13,13 +14,11 @@ const Login: NextPage = () => {
   const onSubmit = async (values: IFormValues) => {
     console.log(values);
     const { username, password } = values;
-    const response = await axios.post(
-      `${process.env.NEXT_PUBLIC_STRAPI_URL}/auth/local`,
-      {
-        username,
-        password,
-      }
-    );
+    const response = await signIn("credentials", {
+      username,
+      password,
+      redirect: false,
+    });
     console.log(response);
   };
 
