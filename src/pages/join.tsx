@@ -1,42 +1,26 @@
 import { NextPage } from "next";
 import { useForm } from "react-hook-form";
 import axios from "axios";
-import { nanoid } from "nanoid";
-import Error from "next/error";
-
-interface IFormValues {
-  username: string;
-  password: string;
-  email: string;
-  phone: string;
-  nickname: string;
-}
+import { IRegisterUserValues } from "@types";
+import { useMutation } from "react-query";
+import { addUser } from "@api";
 
 const Login: NextPage = () => {
-  const { register, handleSubmit } = useForm<IFormValues>();
+  const { register, handleSubmit } = useForm<IRegisterUserValues>();
 
-  const onSubmit = async (values: IFormValues) => {
-    console.log(values);
-    const { username, password, phone, email, nickname } = values;
-    const userId = `userId-${nanoid()}`;
+  const onSubmit = async (values: IRegisterUserValues) => {
+    // const { data, error } = useMutation("registerUser", () => addUser(values));
     try {
-      const response = await axios.post(
-        "http://localhost:1337/api/auth/local/register",
-        {
-          userId,
-          username,
-          password,
-          email,
-          phone,
-          nickname,
-        }
-      );
-      if (response.status === 200) {
-        alert("회원가입 성공");
-      }
+      const data = await addUser(values);
+      if (data) alert("회원가입 성공");
     } catch (error) {
-      console.log(error.message);
-      // alert(response.data.error.message);
+      if (axios.isAxiosError(error) && error.response) {
+        const errorMessage = (error.response.data as { error: Error }).error
+          .message;
+        alert(`가입 실패\n${errorMessage}`);
+      } else {
+        alert("가입 도중에 오류 발생");
+      }
     }
   };
 
