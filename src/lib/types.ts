@@ -35,3 +35,18 @@ export interface IRegisterUserValues {
   phone: string;
   nickname: string;
 }
+
+export interface IUser {
+  blocked: boolean;
+  confirmed: boolean;
+  createdAt: string;
+  email: string;
+  id: number;
+  money: number;
+  nickname: string;
+  phone: string;
+  provider: string;
+  updatedAt: string;
+  userId: string;
+  username: string;
+}
