@@ -28,6 +28,15 @@ export interface IProducts {
   meta: IMeta;
 }
 
+export interface IAddProductValues {
+  productName: string;
+  option: string;
+  price: number;
+  discountRate: number;
+  stock: number;
+  categories: string;
+}
+
 export interface IRegisterUserValues {
   username: string;
   password: string;
