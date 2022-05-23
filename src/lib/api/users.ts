@@ -9,10 +9,17 @@ export const getUsers = async () => {
   return data;
 };
 
+export const getUser = async (userId: string) => {
+  const { data } = await axios.get(
+    `${process.env.NEXT_PUBLIC_API_URL}/api/user/${userId}`
+  );
+  return data;
+};
+
 export const addUser = async (values: IRegisterUserValues) => {
   const userId = `user-${nanoid()}`;
   const { data } = await axios.post(
-    `http://localhost:1337/api/auth/local/register`,
+    `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/auth/local/register`,
     { userId, ...values }
   );
   return data;
