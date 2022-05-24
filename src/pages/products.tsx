@@ -30,12 +30,16 @@ const ProductsPage: NextPage<IProducts> = ({ data, meta }) => {
 export default ProductsPage;
 
 export const getStaticProps: GetStaticProps = async () => {
-  const queryClient = new QueryClient();
-  await queryClient.prefetchQuery("getProducts", getProducts);
+  // const queryClient = new QueryClient();
+  // await queryClient.prefetchQuery("getProducts", getProducts);
+
+  const data = await getProducts();
 
   return {
     props: {
-      dehydratedState: dehydrate(queryClient),
+      data: data.data,
+      meta: data.meta,
+      // dehydratedState: dehydrate(queryClient),
     },
   };
 };
