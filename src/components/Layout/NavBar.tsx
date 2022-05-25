@@ -3,13 +3,12 @@ import Link from "next/link";
 
 const NavBar = () => {
   const { data: session, status } = useSession();
-  if (status === "authenticated") console.log(session);
 
   return (
     <header>
       <button type="button">유저</button>
       {session ? (
-        <button type="button" onClick={signOut}>
+        <button type="button" onClick={() => signOut()}>
           로그아웃
         </button>
       ) : (
