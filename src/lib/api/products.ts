@@ -2,14 +2,9 @@ import axios from "axios";
 import { nanoid } from "nanoid";
 import { IAddProductValues } from "@types";
 
-export const getProducts = async () => {
-  const { data } = await axios.get(
-    `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/products`
-  );
-  return data;
-};
-
-export const getProduct = async (productId: string) => {
+export const getProducts = async (
+  productId: string | string[] | undefined = ""
+) => {
   const { data } = await axios.get(
     `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/products/${productId}`
   );
