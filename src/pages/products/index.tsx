@@ -1,10 +1,10 @@
 import { GetStaticProps, NextPage } from "next";
-import { dehydrate, QueryClient, useQuery } from "react-query";
-import { Product } from "@components";
-import { IProducts } from "@types";
+// import { dehydrate, QueryClient, useQuery } from "react-query";
+import { IApiResponse, IProduct } from "@types";
 import { getProducts } from "@api";
+import Link from "next/link";
 
-const ProductsPage: NextPage<IProducts> = ({ data, meta }) => {
+const ProductsPage: NextPage<IApiResponse<IProduct[]>> = ({ data, meta }) => {
   console.log("products", data);
   // const { isLoading, error, data } = useQuery<IProducts, Error>(
   //   "products",
@@ -20,7 +20,16 @@ const ProductsPage: NextPage<IProducts> = ({ data, meta }) => {
       <h1>상품 목록</h1>
       <ul>
         {data.map((product) => (
-          <Product key={product.id} {...product} />
+          <li key={product.id}>
+            <Link
+              href={{
+                pathname: "products/[productId]",
+                query: { productId: product.attributes.productId },
+              }}
+            >
+              {product.attributes.productName}
+            </Link>
+          </li>
         ))}
       </ul>
     </>
