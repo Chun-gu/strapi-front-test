@@ -2,16 +2,9 @@ import axios from "axios";
 import { IRegisterUserValues } from "@types";
 import { nanoid } from "nanoid";
 
-export const getUsers = async () => {
+export const getUsers = async (userId: string | string[] | undefined) => {
   const { data } = await axios.get(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/users`
-  );
-  return data;
-};
-
-export const getUser = async (userId: string) => {
-  const { data } = await axios.get(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/user/${userId}`
+    `${process.env.NEXT_PUBLIC_API_URL}/api/users/${userId ?? ""}`
   );
   return data;
 };
