@@ -7,6 +7,11 @@ export interface IMeta {
   };
 }
 
+export interface IApiResponse<T> {
+  data: T;
+  meta: IMeta;
+}
+
 export interface IProduct {
   id: number;
   attributes: {
@@ -21,11 +26,6 @@ export interface IProduct {
     updatedAt: string;
     publishedAt: string;
   };
-}
-
-export interface IProducts {
-  data: IProduct[];
-  meta: IMeta;
 }
 
 export interface IAddProductValues {
