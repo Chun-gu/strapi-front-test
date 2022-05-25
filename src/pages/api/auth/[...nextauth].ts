@@ -5,9 +5,6 @@ import { JWT } from "next-auth/jwt";
 import CredentialsProvider from "next-auth/providers/credentials";
 
 interface ICustomSession extends Session {
-  name?: string | null | undefined;
-  email?: string | null | undefined;
-  image?: string | null | undefined;
   jwt: string;
   user: IUser;
 }
@@ -44,7 +41,6 @@ export default NextAuth({
               password: credentials?.password,
             }
           );
-          console.log("로그인 결과", data);
           if (data) {
             return data;
           } else {
@@ -58,8 +54,6 @@ export default NextAuth({
   ],
   callbacks: {
     async jwt({ token, user }) {
-      console.log("jwt의 user", user);
-      console.log("jwt의 token", token);
       if (user) {
         return {
           ...token,
