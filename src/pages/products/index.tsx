@@ -22,10 +22,7 @@ const ProductsPage: NextPage<IApiResponse<IProduct[]>> = ({ data, meta }) => {
         {data.map((product) => (
           <li key={product.id}>
             <Link
-              href={{
-                pathname: "products/[productId]",
-                query: { productId: product.attributes.productId },
-              }}
+              href={{ pathname: "products/[id]", query: { id: product.id } }}
             >
               {product.attributes.productName}
             </Link>
