@@ -1,22 +1,23 @@
-import { addProduct } from "@api";
-import axios from "axios";
 import { NextPage } from "next";
+import axios from "axios";
 import { useForm } from "react-hook-form";
+import { addProduct } from "@api";
 import { IAddProductValues } from "@types";
 
 const AddProduct: NextPage = () => {
   const { register, handleSubmit } = useForm<IAddProductValues>();
 
   const onSubmit = async (values: IAddProductValues) => {
-    console.log("상품정보", values);
+    console.log("제품정보", values);
     try {
       const data = await addProduct(values);
-      if (data) alert("상품 등록 성공");
+      if (data) alert("제품 등록 성공");
     } catch (error) {
+      console.log(error);
       if (axios.isAxiosError(error) && error.response) {
         const errorMessage = (error.response.data as { error: Error }).error
           .message;
-        alert(`상품등록 실패\n${errorMessage}`);
+        alert(`제품 등록 실패 \n ${errorMessage}`);
       } else {
         alert("등록 도중에 오류 발생");
       }
@@ -25,10 +26,10 @@ const AddProduct: NextPage = () => {
 
   return (
     <>
-      <h1>상품 등록</h1>
+      <h1>제품 등록</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div>
-          <label htmlFor="productName">상품명</label>
+          <label htmlFor="productName">제품명</label>
           <input type="text" id="productName" {...register("productName")} />
         </div>
         <div>
@@ -54,6 +55,10 @@ const AddProduct: NextPage = () => {
         <div>
           <label htmlFor="stock">재고</label>
           <input type="text" id="stock" {...register("stock")} />
+        </div>
+        <div>
+          <label htmlFor="images">제품 이미지</label>
+          <input type="file" id="images" {...register("images")} />
         </div>
         <button type="submit">상품 등록</button>
       </form>
