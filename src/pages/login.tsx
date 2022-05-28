@@ -1,6 +1,5 @@
 import { NextPage } from "next";
 import { useForm } from "react-hook-form";
-import axios from "axios";
 import { signIn } from "next-auth/react";
 
 interface IFormValues {
@@ -12,7 +11,6 @@ const Login: NextPage = () => {
   const { register, handleSubmit } = useForm<IFormValues>();
 
   const onSubmit = async (values: IFormValues) => {
-    console.log(values);
     const { username, password } = values;
     const response = await signIn("credentials", {
       username,
