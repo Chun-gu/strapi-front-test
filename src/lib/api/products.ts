@@ -1,21 +1,27 @@
 import axios from "axios";
-import { nanoid } from "nanoid";
-import { IAddProductValues } from "@types";
+import { IAddProductValues, IIdArg } from "@types";
 
-export const getProducts = async (
-  productId: string | string[] | undefined = ""
-) => {
+export const getProducts = async (id: IIdArg = "") => {
   const { data } = await axios.get(
-    `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/products/${productId}`
+    `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/products/${id}`
   );
   return data;
 };
 
 export const addProduct = async (values: IAddProductValues) => {
-  const productId = `product-${nanoid()}`;
+  const formData = new FormData();
+  const { images, ...rest } = values;
+  formData.append("files.images", images[0]);
+  formData.append("data", JSON.stringify(rest));
   const { data } = await axios.post(
     `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/products`,
-    { data: { productId, ...values } }
+    formData,
+    {
+      headers: {
+        "content-type": "multipart/form-data",
+        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNjUzNjk1NjEyLCJleHAiOjE2NTYyODc2MTJ9.tbpu8lnRLMuh49x9wkSfG_i9LtYMYdPFaVbrR7N8WUc`,
+      },
+    }
   );
   return data;
 };
