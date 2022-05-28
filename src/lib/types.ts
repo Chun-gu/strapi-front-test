@@ -12,10 +12,10 @@ export interface IApiResponse<T> {
   meta: IMeta;
 }
 
+export type IIdArg = string | string[] | undefined;
 export interface IProduct {
   id: number;
   attributes: {
-    productId: string;
     productName: string;
     option: string;
     price: number;
@@ -35,6 +35,7 @@ export interface IAddProductValues {
   discountRate: number;
   stock: number;
   categories: string;
+  images: FileList;
 }
 
 export interface IRegisterUserValues {
@@ -56,6 +57,12 @@ export interface IUser {
   phone: string;
   provider: string;
   updatedAt: string;
-  userId: string;
   username: string;
+}
+
+export interface IAddReviewValues {
+  product: number;
+  rating: number;
+  images: FileList;
+  content: string;
 }
