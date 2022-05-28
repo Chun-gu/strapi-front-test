@@ -13,8 +13,8 @@ const Product: NextPage<IApiResponse<IProduct>> = ({ data, meta }) => (
 );
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const productId = ctx.params?.productId;
-  const data = await getProducts(productId);
+  const id = ctx.params?.id;
+  const data = await getProducts(id);
   console.log(data);
 
   if (!data) {
