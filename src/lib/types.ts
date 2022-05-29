@@ -47,22 +47,28 @@ export interface IRegisterUserValues {
 }
 
 export interface IUser {
-  blocked: boolean;
-  confirmed: boolean;
-  createdAt: string;
-  email: string;
   id: number;
-  money: number;
-  nickname: string;
-  phone: string;
-  provider: string;
-  updatedAt: string;
   username: string;
+  email: string;
+  provider: string;
+  confirmed: boolean;
+  blocked: boolean;
+  createdAt: string;
+  updatedAt: string;
+  money: number;
+  phone: string;
+  nickname: string;
+  isSeller:boolean;
 }
 
 export interface IAddReviewValues {
   product: number;
   rating: number;
   images: FileList;
+  content: string;
+}
+
+export interface IAddCommentValues {
+  review: number;
   content: string;
 }
