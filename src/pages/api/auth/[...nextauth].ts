@@ -1,19 +1,6 @@
-import { IUser } from "@types";
-import axios from "axios";
-import NextAuth, { Session } from "next-auth";
-import { JWT } from "next-auth/jwt";
+import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-
-interface ICustomSession extends Session {
-  jwt: string;
-  user: IUser;
-}
-interface ICustomJWT extends JWT {
-  user: {
-    jwt: string;
-    user: IUser;
-  };
-}
+import axios from "axios";
 
 export default NextAuth({
   providers: [
@@ -30,6 +17,7 @@ export default NextAuth({
           type: "password",
         },
       },
+
       async authorize(
         credentials: Record<"username" | "password", string> | undefined
       ) {
@@ -52,27 +40,34 @@ export default NextAuth({
       },
     }),
   ],
+
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        return {
-          ...token,
-          user,
-        };
+        token.jwt = user.jwt;
+        token.user = user.user;
       }
       return token;
     },
-    async session({ session, token }): Promise<Session | ICustomSession> {
+
+    async session({ session, token }) {
       if (token) {
-        return {
-          ...session,
-          jwt: (token as ICustomJWT).user.jwt,
-          user: (token as ICustomJWT).user.user,
-        };
+        session.jwt = token.jwt;
+        session.user = token.user;
       }
       return session;
     },
+
+    // async redirect({ url, baseUrl }) {
+    //   console.log("url", url, "baseUrl", baseUrl);
+    //   // Allows relative callback URLs
+    //   if (url.startsWith("/")) return `${baseUrl}${url}`;
+    //   // Allows callback URLs on the same origin
+    //   else if (new URL(url).origin === baseUrl) return url;
+    //   return baseUrl;
+    // },
   },
+
   pages: {
     signIn: "/login",
   },
