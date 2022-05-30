@@ -8,8 +8,11 @@ export const getReviews = async (id: IIdArg = "") => {
   return data;
 };
 
-export const addReview = async (author: string, values: IAddReviewValues) => {
-  console.log("addReview가 받은 values", { author, ...values });
+export const addReview = async (
+  jwt: string,
+  author: number,
+  values: IAddReviewValues
+) => {
   const formData = new FormData();
   const { images, ...rest } = values;
   formData.append("files.images", images[0]);
@@ -20,7 +23,7 @@ export const addReview = async (author: string, values: IAddReviewValues) => {
     {
       headers: {
         "content-type": "multipart/form-data",
-        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNjUzNjk1NjEyLCJleHAiOjE2NTYyODc2MTJ9.tbpu8lnRLMuh49x9wkSfG_i9LtYMYdPFaVbrR7N8WUc`,
+        Authorization: `Bearer ${jwt}`,
       },
     }
   );
