@@ -11,19 +11,23 @@ const AddReview: NextPage = () => {
   const { register, handleSubmit } = useForm<IAddReviewValues>();
 
   const onSubmit = async (values: IAddReviewValues) => {
-    console.log("리뷰정보", values);
-    const author = session?.user?.id;
-    try {
-      const data = await addReview(author, values);
-      if (data) alert("리뷰 등록 성공");
-    } catch (error) {
-      console.log(error);
-      if (axios.isAxiosError(error) && error.response) {
-        const errorMessage = (error.response.data as { error: Error }).error
-          .message;
-        alert(`리뷰 등록 실패 \n ${errorMessage}`);
-      } else {
-        alert("등록 도중에 오류 발생");
+    if (!session) alert("로그인이 필요합니다");
+    else if (session) {
+      console.log("리뷰정보", values);
+      const author = session.user!.id;
+      const jwt = session.jwt as string;
+      try {
+        const data = await addReview(jwt, author, values);
+        if (data) alert("리뷰 등록 성공");
+      } catch (error) {
+        console.log(error);
+        if (axios.isAxiosError(error) && error.response) {
+          const errorMessage = (error.response.data as { error: Error }).error
+            .message;
+          alert(`리뷰 등록 실패 \n ${errorMessage}`);
+        } else {
+          alert("등록 도중에 오류 발생");
+        }
       }
     }
   };
@@ -34,7 +38,7 @@ const AddReview: NextPage = () => {
       <h2>현재 회원: {session?.user?.username}</h2>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div>
-          <label htmlFor="product">제품 id</label>
+          <label htmlFor="product">타겟 제품 id</label>
           <input type="text" id="product" {...register("product")} />
         </div>
         <div>
