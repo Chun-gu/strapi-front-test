@@ -8,13 +8,17 @@ export const getComments = async (id: IIdArg = "") => {
   return data;
 };
 
-export const addComment = async (author: string, values: IAddCommentValues) => {
+export const addComment = async (
+  jwt: string,
+  author: number,
+  values: IAddCommentValues
+) => {
   const { data } = await axios.post(
     `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/comments`,
     { data: { author, ...values } },
     {
       headers: {
-        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNjUzNjk1NjEyLCJleHAiOjE2NTYyODc2MTJ9.tbpu8lnRLMuh49x9wkSfG_i9LtYMYdPFaVbrR7N8WUc`,
+        Authorization: `Bearer ${jwt}`,
       },
     }
   );
