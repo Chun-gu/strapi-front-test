@@ -58,7 +58,7 @@ export interface IUser {
   money: number;
   phone: string;
   nickname: string;
-  isSeller:boolean;
+  isSeller: boolean;
 }
 
 export interface IAddReviewValues {
@@ -70,5 +70,15 @@ export interface IAddReviewValues {
 
 export interface IAddCommentValues {
   review: number;
+  content: string;
+}
+
+export interface IAddAnswerValues {
+  inquiryId: string;
+  answer: string;
+}
+
+export interface IAddInquiryValues {
+  productId: string;
   content: string;
 }
