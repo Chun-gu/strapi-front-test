@@ -3,7 +3,7 @@ import Link from "next/link";
 
 const NavBar = () => {
   const { data: session, status } = useSession();
-  console.log(session);
+  console.log("현재 session 정보", session);
   return (
     <header>
       <Link href="/join">
@@ -26,6 +26,12 @@ const NavBar = () => {
       </Link>
       <Link href="/addAnswer">
         <button>답변등록</button>
+      </Link>
+      <Link href="/addCart">
+        <button>장바구니 등록</button>
+      </Link>
+      <Link href="/addOrder">
+        <button>주문 등록</button>
       </Link>
       <button type="button">마이페이지</button>
       {session ? (
