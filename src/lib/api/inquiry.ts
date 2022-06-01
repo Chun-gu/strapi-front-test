@@ -1,4 +1,4 @@
-import { IAddAnswerValues, IAddInquiryValues } from "@types";
+import { IAddInquiryValues } from "@types";
 import axios from "axios";
 
 export const addInquiry = async (
