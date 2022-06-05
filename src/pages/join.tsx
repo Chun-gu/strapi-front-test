@@ -1,7 +1,7 @@
 import { NextPage } from "next";
 import { useForm } from "react-hook-form";
 import axios from "axios";
-import { IRegisterUserValues } from "@types";
+import { IRegisterUserValues } from "src/types";
 import { useMutation } from "react-query";
 import { addUser } from "@api";
 

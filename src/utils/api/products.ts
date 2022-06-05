@@ -1,5 +1,5 @@
 import axios from "axios";
-import { IAddProductValues, IIdArg } from "@types";
+import { IAddProductValues, IIdArg } from "src/types";
 
 export const getProducts = async (id: IIdArg = "") => {
   const { data } = await axios.get(

@@ -1,5 +1,6 @@
-import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
+import { signOut, useSession } from "next-auth/react";
+import * as Styled from "./styled";
 
 const NavBar = () => {
   const { data: session, status } = useSession();

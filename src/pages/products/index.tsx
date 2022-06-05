@@ -1,6 +1,6 @@
 import { GetStaticProps, NextPage } from "next";
 // import { dehydrate, QueryClient, useQuery } from "react-query";
-import { IApiResponse, IProduct } from "@types";
+import { IApiResponse, IProduct } from "src/types";
 import { getProducts } from "@api";
 import Link from "next/link";
 

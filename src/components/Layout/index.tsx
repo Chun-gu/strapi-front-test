@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
-import Navbar from "./NavBar";
+import Footer from "./Footer";
+import Navbar from "./Navbar";
 
 type LayoutProps = {
   children: ReactNode;
@@ -10,6 +11,7 @@ const Layout = ({ children }: LayoutProps) => {
     <>
       <Navbar />
       <main>{children}</main>
+      <Footer />
     </>
   );
 };

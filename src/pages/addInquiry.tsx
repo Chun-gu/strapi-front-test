@@ -1,7 +1,7 @@
 import { NextPage } from "next";
 import { useForm } from "react-hook-form";
 import { addInquiry } from "@api";
-import { IAddInquiryValues } from "@types";
+import { IAddInquiryValues } from "src/types";
 import { useSession } from "next-auth/react";
 
 const AddInquiry: NextPage = () => {

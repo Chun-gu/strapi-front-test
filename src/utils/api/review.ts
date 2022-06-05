@@ -1,4 +1,4 @@
-import { IAddReviewValues, IIdArg } from "@types";
+import { IAddReviewValues, IIdArg } from "src/types";
 import axios from "axios";
 
 export const getReviews = async (id: IIdArg = "") => {

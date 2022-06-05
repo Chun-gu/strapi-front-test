@@ -1,4 +1,4 @@
-import { IAddReviewValues } from "@types";
+import { IAddReviewValues } from "src/types";
 import { NextPage } from "next";
 import { useForm } from "react-hook-form";
 import { addReview } from "@api";

@@ -1,5 +1,5 @@
 import { getProducts } from "@api";
-import { IApiResponse, IProduct } from "@types";
+import { IApiResponse, IProduct } from "src/types";
 import { GetServerSideProps, NextPage } from "next";
 
 const Product: NextPage<IApiResponse<IProduct>> = ({ data, meta }) => (

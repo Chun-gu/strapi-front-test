@@ -1,5 +1,5 @@
 import { addComment } from "@api";
-import { IAddCommentValues } from "@types";
+import { IAddCommentValues } from "src/types";
 import axios from "axios";
 import { NextPage } from "next";
 import { useSession } from "next-auth/react";

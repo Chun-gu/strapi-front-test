@@ -1,4 +1,4 @@
-import { IAddCommentValues, IIdArg } from "@types";
+import { IAddCommentValues, IIdArg } from "src/types";
 import axios from "axios";
 
 export const getComments = async (id: IIdArg = "") => {

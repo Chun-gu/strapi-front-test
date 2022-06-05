@@ -2,7 +2,7 @@ import { NextPage } from "next";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import { addProduct } from "@api";
-import { IAddProductValues } from "@types";
+import { IAddProductValues } from "src/types";
 
 const AddProduct: NextPage = () => {
   const { register, handleSubmit } = useForm<IAddProductValues>();

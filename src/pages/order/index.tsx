@@ -4,7 +4,7 @@ import { FieldValues, useForm } from 'react-hook-form';
 import ImageWrapper from '@utils/ImageWrapper';
 import DefaultContainerPage from 'src/components/common/DefaultContainer';
 import { Buttons, Postcode } from '@components';
-import * as Styled from 'styled-component'
+import * as Styled from './styled';
 
 interface IFormValues {
   orderer: string;
@@ -32,7 +32,7 @@ export default function Order() {
     setValue,
     getValues,
     handleSubmit,
-    formState: { errors, isValid }
+    formState: { errors, isValid },
   } = useForm<IFormValues | FieldValues>({ mode: 'onChange' });
   const openPostcode = () => {
     setIsPostcodeOpen(true);
@@ -52,7 +52,7 @@ export default function Order() {
       address,
       detailedAddress,
       message,
-      payMethod
+      payMethod,
     } = getValues();
     const ordererMobile = `${ordererMobile1}-${ordererMobile2}-${ordererMobile3}`;
     const recipientMobile = `${recipientMobile1}-${recipientMobile2}-${recipientMobile3}`;
@@ -65,7 +65,7 @@ export default function Order() {
       recipientMobile,
       fullAddress,
       message,
-      payMethod
+      payMethod,
     );
   };
 
@@ -122,7 +122,7 @@ export default function Order() {
                 maxLength={10}
                 {...register('orderer', {
                   required: true,
-                  minLength: 2
+                  minLength: 2,
                 })}
               />
               {errors.orderer?.type === 'required' && (
@@ -144,7 +144,7 @@ export default function Order() {
                   {...register('ordererMobile1', {
                     required: true,
                     minLength: 2,
-                    pattern: /[0-9]+/
+                    pattern: /[0-9]+/,
                   })}
                 />
                 &#45;
@@ -155,7 +155,7 @@ export default function Order() {
                   {...register('ordererMobile2', {
                     required: true,
                     minLength: 3,
-                    pattern: /[0-9]+/
+                    pattern: /[0-9]+/,
                   })}
                 />
                 &#45;
@@ -166,7 +166,7 @@ export default function Order() {
                   {...register('ordererMobile3', {
                     required: true,
                     minLength: 4,
-                    pattern: /[0-9]+/
+                    pattern: /[0-9]+/,
                   })}
                 />
               </Styled.MobileWrapper>
@@ -186,7 +186,7 @@ export default function Order() {
                 {...register('email', {
                   required: true,
                   pattern:
-                    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+                    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
                 })}
               />
               {errors.email?.type === 'required' && (
@@ -228,7 +228,7 @@ export default function Order() {
                   {...register('recipientMobile1', {
                     required: true,
                     minLength: 2,
-                    pattern: /[0-9]+/
+                    pattern: /[0-9]+/,
                   })}
                 />
                 &#45;
@@ -239,7 +239,7 @@ export default function Order() {
                   {...register('recipientMobile2', {
                     required: true,
                     minLength: 3,
-                    pattern: /[0-9]+/
+                    pattern: /[0-9]+/,
                   })}
                 />
                 &#45;
@@ -250,7 +250,7 @@ export default function Order() {
                   {...register('recipientMobile3', {
                     required: true,
                     minLength: 4,
-                    pattern: /[0-9]+/
+                    pattern: /[0-9]+/,
                   })}
                 />
               </Styled.MobileWrapper>

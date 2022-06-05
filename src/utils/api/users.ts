@@ -1,5 +1,5 @@
 import axios from "axios";
-import { IIdArg, IRegisterUserValues } from "@types";
+import { IIdArg, IRegisterUserValues } from "src/types";
 
 export const getUsers = async (userId: IIdArg = "") => {
   const { data } = await axios.get(

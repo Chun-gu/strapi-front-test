@@ -1,7 +1,7 @@
 import { useSession } from "next-auth/react";
 import { useForm } from "react-hook-form";
 import { addAnswer } from "@api";
-import { IAddAnswerValues } from "@types";
+import { IAddAnswerValues } from "src/types";
 import axios from "axios";
 
 const AddAnswer = () => {

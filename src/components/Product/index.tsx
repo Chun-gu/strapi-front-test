@@ -1,4 +1,4 @@
-import { IProduct } from "@types";
+import { IProduct } from "src/types";
 
 const Product = (props: IProduct) => {
   const { productName, price, discountRate, stock, description } =
