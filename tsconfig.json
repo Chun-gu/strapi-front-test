@@ -19,8 +19,9 @@
       "@components": ["src/components/index"],
       "@pages/*": ["src/pages/*"],
       "@styles/*": ["src/styles/*"],
-      "@api": ["src/lib/api/index"],
-      "@types": ["src/lib/types"]
+      "@api": ["src/utils/api/index"],
+      "@types": ["src/types/index"],
+      "@utils/*": ["src/utils/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
