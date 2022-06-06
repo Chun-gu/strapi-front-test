@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import ImageWrapper from '@utils/ImageWrapper';
 import { IComment } from '@shared/types';
-import { dateConverter } from 'src/utils/dateConverter';
+import { dateConverter } from '@utils/dateConverter';
 import authorImg from 'public/images/product-img-small-1.png';
 import * as Styled from './styled';
 

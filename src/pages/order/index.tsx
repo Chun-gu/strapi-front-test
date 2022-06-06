@@ -2,7 +2,7 @@ import Image from 'next/image';
 import { useState } from 'react';
 import { FieldValues, useForm } from 'react-hook-form';
 import ImageWrapper from '@utils/ImageWrapper';
-import DefaultContainerPage from 'src/components/common/DefaultContainer';
+import DefaultContainerPage from 'src/components/common';
 import { Buttons, Postcode } from '@components';
 import * as Styled from './styled';
 

@@ -1,12 +1,10 @@
 import { useEffect, useState } from 'react';
 import { IInquiry, IUser } from '@shared/types';
-import api from '@utils/api';
 import { dateConverter } from '@utils/dateConverter';
 import * as Buttons from '../Buttons';
 import * as Styled from './styled';
 
 export function InquiryItem({
-  userId,
   content,
   answer,
   createdAt,

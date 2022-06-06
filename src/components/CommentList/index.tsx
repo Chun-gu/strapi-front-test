@@ -1,16 +1,13 @@
 import { useSession } from 'next-auth/react';
-import { CustomSession } from '@pages/api/auth/[...nextauth]';
 import Image from 'next/image';
 import { useState, useEffect, useCallback } from 'react';
 import { useForm } from 'react-hook-form';
 import { nanoid } from 'nanoid';
-import api from '@utils/api';
 import ImageWrapper from '@utils/ImageWrapper';
 import { IComment } from '@shared/types';
 import { CommentItem } from '../CommentItem';
 import * as Buttons from '../Buttons';
 import { Pagination } from '../Pagination';
-// import dummyCommentData from './dummyCommentsData.json';
 import * as Styled from './styled';
 
 interface ICommentListProps {
@@ -19,13 +16,12 @@ interface ICommentListProps {
 
 export function CommentList({ reviewId }: ICommentListProps) {
   const { data: session } = useSession();
-  const { id: userId, nickname } = (session as CustomSession).user;
   const {
     reset,
     register,
     getValues,
     handleSubmit,
-    formState: { isValid }
+    formState: { isValid },
   } = useForm<{ comment: string }>({ mode: 'onChange' });
 
   const itemsPerPage = 5;
@@ -46,7 +42,7 @@ export function CommentList({ reviewId }: ICommentListProps) {
     const { success, message } = await api.post('/comment', {
       review: reviewId,
       user: userId,
-      content
+      content,
     });
     if (success) {
       reset();
@@ -108,7 +104,7 @@ export function CommentList({ reviewId }: ICommentListProps) {
                 {...register('comment', {
                   required: true,
                   minLength: 10,
-                  pattern: /[^\s]/
+                  pattern: /[^\s]/,
                 })}
               />
             </Styled.CommentInput>
