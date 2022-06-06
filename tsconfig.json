@@ -21,7 +21,8 @@
       "@styles/*": ["src/styles/*"],
       "@api": ["src/utils/api/index"],
       "@types": ["src/types/index"],
-      "@utils/*": ["src/utils/*"]
+      "@utils/*": ["src/utils/*"],
+      "@shared/*": ["src/shared/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
