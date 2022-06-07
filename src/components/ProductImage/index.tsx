@@ -38,7 +38,7 @@ export function ProductImage({ productImages }: IProductImageProps) {
   return (
     <Styled.ProductImage>
       <Styled.ImageSlider>
-        <ImageWrapper width="60rem" height="60rem">
+        <ImageWrapper width={60} height={60}>
           <Image src={productImages[currentSlideNum]} layout="fill" />
         </ImageWrapper>
         {productImages.length > 1 && (
@@ -61,7 +61,7 @@ export function ProductImage({ productImages }: IProductImageProps) {
               data-slide-num={index}
               onClick={onClickThumbnail}
             >
-              <ImageWrapper width="7rem" height="7rem">
+              <ImageWrapper width={7} height={7}>
                 <Image src={img} layout="fill" />
               </ImageWrapper>
             </button>
