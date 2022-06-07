@@ -1,14 +1,14 @@
 import styled from 'styled-components';
 
 interface props {
-  width?: string;
-  height?: string;
+  width?: number;
+  height?: number;
   imgStyle?: string;
 }
 
 export default styled.div<props>`
-  width: ${({ width }) => width};
-  height: ${({ height }) => height};
+  width: ${({ width }) => width}rem;
+  height: ${({ height }) => height}rem;
   position: relative;
   & > * {
     width: 100%;
