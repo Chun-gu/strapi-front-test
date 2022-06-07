@@ -1,11 +1,13 @@
-import { GetStaticProps, NextPage } from "next";
+import { GetStaticProps, NextPage } from 'next';
 // import { dehydrate, QueryClient, useQuery } from "react-query";
-import { IApiResponse, IProduct } from "src/types";
-import { getProducts } from "@api";
-import Link from "next/link";
+import { IApiResponse, IProduct } from 'src/types';
+import { getProducts } from '@api';
+import Link from 'next/link';
+import { ProductCard } from '@components';
+import styled from 'styled-components';
 
 const ProductsPage: NextPage<IApiResponse<IProduct[]>> = ({ data, meta }) => {
-  console.log("products", data);
+  console.log('products', data);
   // const { isLoading, error, data } = useQuery<IProducts, Error>(
   //   "products",
   //   getProducts
@@ -18,17 +20,18 @@ const ProductsPage: NextPage<IApiResponse<IProduct[]>> = ({ data, meta }) => {
   return (
     <>
       <h1>상품 목록</h1>
-      <ul>
+      <ProductList>
         {data.map((product) => (
           <li key={product.id}>
+            <ProductCard />
             <Link
-              href={{ pathname: "products/[id]", query: { id: product.id } }}
+              href={{ pathname: 'products/[id]', query: { id: product.id } }}
             >
               {product.attributes.productName}
             </Link>
           </li>
         ))}
-      </ul>
+      </ProductList>
     </>
   );
 };
@@ -49,3 +52,9 @@ export const getStaticProps: GetStaticProps = async () => {
     },
   };
 };
+
+const ProductList = styled.ul`
+  display: grid;
+  grid-template-columns: repeat(3, 38rem);
+  justify-content: space-around;
+`;
