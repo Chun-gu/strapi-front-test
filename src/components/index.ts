@@ -1,6 +1,6 @@
-export { default as Layout } from "./Layout";
-export { default as Product } from "./Product";
-export * as Buttons from "./Buttons";
+export { default as Layout } from './Layout';
+export { default as Product } from './Product';
+export * as Buttons from './Buttons';
 export * from './ReviewList';
 export * from './ReviewItem';
 export * as StarRating from './StarRating';
@@ -12,3 +12,5 @@ export * from './InquiryList';
 export * from './InquiryItem';
 export * from './Postcode';
 export * from './Portal';
+export { default as Tooltip } from './Tooltip';
+export { default as ProductCard } from './ProductCard';
