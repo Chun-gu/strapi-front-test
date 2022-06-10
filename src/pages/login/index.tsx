@@ -36,7 +36,7 @@ function Login() {
 
   return (
     <Styled.Main>
-      <ImageWrapper width="55rem" height="7.4rem">
+      <ImageWrapper width={55} height={7.4}>
         <Logo viewBox="0 0 156 38" />
       </ImageWrapper>
       <Styled.Container onSubmit={handleSubmit(login)}>

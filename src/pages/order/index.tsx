@@ -88,8 +88,8 @@ export default function Order() {
               <span className="sr-only">상품정보</span>
               <Styled.Info>
                 <ImageWrapper
-                  width="10.4rem"
-                  height="10.4rem"
+                  width={10.4}
+                  height={10.4}
                   imgStyle="border-radius: 1rem;"
                 >
                   <Image src={productImg} layout="fill" />
