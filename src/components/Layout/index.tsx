@@ -11,17 +11,15 @@ const Layout = ({ children }: LayoutProps) => {
   return (
     <>
       <Navbar />
-      <Main>
+      <main>
         <Container>{children}</Container>
-      </Main>
+      </main>
       <Footer />
     </>
   );
 };
 
 export default Layout;
-
-const Main = styled.main``;
 
 const Container = styled.div`
   width: 128rem;
