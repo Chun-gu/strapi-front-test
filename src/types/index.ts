@@ -20,6 +20,7 @@ export interface IProduct {
     option: string;
     price: number;
     discountRate: number;
+    images: IImages;
     stock: number;
     description: string;
     createdAt: string;
@@ -81,4 +82,20 @@ export interface IAddAnswerValues {
 export interface IAddInquiryValues {
   productId: string;
   content: string;
+}
+
+export interface IImages {
+  data: [
+    {
+      id: number;
+      attributes: {
+        formats: {
+          thumbnail: { url: string };
+          large: { url: string };
+          medium: { url: string };
+          small: { url: string };
+        };
+      };
+    },
+  ];
 }
