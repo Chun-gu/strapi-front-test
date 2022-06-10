@@ -15,7 +15,7 @@ const Login: NextPage = () => {
     const response = await signIn("credentials", {
       username,
       password,
-      redirect: false,
+      callbackUrl: "/",
     });
     console.log(response);
   };
