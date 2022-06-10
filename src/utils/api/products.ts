@@ -3,7 +3,7 @@ import { IAddProductValues, IIdArg } from "src/types";
 
 export const getProducts = async (id: IIdArg = "") => {
   const { data } = await axios.get(
-    `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/products/${id}`
+    `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/products/${id}?populate=*`
   );
   return data;
 };
