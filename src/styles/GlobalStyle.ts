@@ -4,34 +4,38 @@ import reset from 'styled-reset';
 const GlobalStyle = createGlobalStyle`
   ${reset}
 
-  html {
-    font-size: 62.5%;
-  }
-  
-  html,
-  body {
-    padding: 0;
-    margin: 0;
+  *{
+    box-sizing: border-box;
     font-family: Spoqa Han Sans, sans-serif;
   }
   
-  a {
-    color: inherit;
-    text-decoration: none;
+  html {
+    font-size: 62.5%;
+    font-family: Spoqa Han Sans, sans-serif;
+  }
+
+  body{
+    font-size: 1.6rem;
   }
 
   button {
+    font-size: 100%;
     padding: 0;
-    margin: 0;
     border: none;
     background: none;
     cursor: pointer;
   }
-
   button:disabled {
     cursor: default;
   }
 
+  a {
+    color: inherit;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  /*
   input {
     padding: 0;
     margin: 0;
@@ -46,7 +50,7 @@ const GlobalStyle = createGlobalStyle`
   * {
     box-sizing: border-box;
     font-family: Spoqa Han Sans, sans-serif;
-  }
+  } */
 
   .sr-only {
     position: absolute;
