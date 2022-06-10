@@ -1,13 +1,13 @@
 import Link from 'next/link';
-import { signOut, useSession } from 'next-auth/react';
-import * as Styled from './styled';
-import { Tooltip } from '@components';
-import User from 'public/images/icon-user.svg';
+import { useSession } from 'next-auth/react';
 import Logo from 'public/images/logo.svg';
+import UserMenu from 'src/components/UserMenu';
+import * as Styled from './styled';
 
 const NavBar = () => {
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
   console.log('현재 session 정보', session);
+
   return (
     <Styled.Header>
       <Styled.Container>
@@ -41,22 +41,17 @@ const NavBar = () => {
             <button>주문 등록</button>
           </Link>
         </div>
-        <div>
-          <Tooltip>
-            <User />
-            <button type="button">마이페이지</button>
-          </Tooltip>
-
-          {session ? (
-            <button type="button" onClick={() => signOut()}>
-              로그아웃
-            </button>
-          ) : (
-            <Link href="/login">
-              <button>로그인</button>
+        <Styled.UserMenuWrapper>
+          {session && (
+            <Link href="/cart">
+              <Styled.CartLink>
+                <Styled.CartIcon width={32} height={32} />
+                <span>장바구니</span>
+              </Styled.CartLink>
             </Link>
           )}
-        </div>
+          <UserMenu />
+        </Styled.UserMenuWrapper>
       </Styled.Container>
     </Styled.Header>
   );
