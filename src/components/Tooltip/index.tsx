@@ -1,31 +1,30 @@
-import { ReactNode, useEffect, useRef, useState } from 'react';
+import { Dispatch, ReactNode, SetStateAction, useEffect, useRef } from 'react';
 import * as Styled from './styled';
 
-type TooltipProps = { children: ReactNode };
+type TooltipProps = {
+  children: ReactNode;
+  isOpen: boolean;
+  setIsOpen: Dispatch<SetStateAction<boolean>>;
+};
 
-const Tooltip = ({ children }: TooltipProps) => {
+const Tooltip = ({ children, isOpen, setIsOpen }: TooltipProps) => {
   const tooltipRef = useRef<HTMLDivElement>(null);
-  const [isVisible, setIsVisible] = useState(false);
-  const toggleVisibility = () => setIsVisible((prev) => !prev);
 
   const clickOutside = (e: MouseEvent) => {
-    if (
-      isVisible &&
-      !tooltipRef.current?.contains(e.target as HTMLDivElement)
-    ) {
-      setIsVisible(false);
+    if (isOpen && !tooltipRef.current?.contains(e.target as HTMLDivElement)) {
+      setIsOpen(false);
     }
   };
 
   useEffect(() => {
-    if (isVisible) document.addEventListener('click', clickOutside);
+    if (isOpen) document.addEventListener('mousedown', clickOutside);
 
     return () => {
-      document.removeEventListener('click', clickOutside);
+      document.removeEventListener('mousedown', clickOutside);
     };
   }, []);
 
-  return <Styled.Container ref={tooltipRef}>{children}</Styled.Container>;
+  return isOpen ? <Styled.Container ref={tooltipRef}>{children}</Styled.Container> : null;
 };
 
 export default Tooltip;
