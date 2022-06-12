@@ -11,7 +11,12 @@ const NavBar = () => {
   return (
     <Styled.Header>
       <Styled.Container>
-        <Logo />
+        <Link href="/">
+          <a>
+            <span className="sr-only">메인 페이지로 이동</span>
+            <Logo />
+          </a>
+        </Link>
         <div>
           <Link href="/join">
             <button>회원가입</button>
