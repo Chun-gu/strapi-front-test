@@ -2,6 +2,7 @@ import { useState } from 'react';
 import type { AppProps } from 'next/app';
 import { SessionProvider } from 'next-auth/react';
 import { Hydrate, QueryClient, QueryClientProvider } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
 import Layout from '../components/Layout';
 import GlobalStyle from '@styles/GlobalStyle';
 
@@ -17,6 +18,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
           </Layout>
         </SessionProvider>
       </Hydrate>
+      <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );
 }
