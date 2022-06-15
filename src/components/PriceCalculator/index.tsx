@@ -7,7 +7,7 @@ import * as Buttons from '../Buttons';
 import * as Styled from './styled';
 
 interface IPriceCalculatorProps {
-  productId: string;
+  productId: string | string[] | undefined;
   price: number;
   stock: number;
 }
@@ -15,7 +15,7 @@ interface IPriceCalculatorProps {
 export function PriceCalculator({
   productId,
   price,
-  stock
+  stock,
 }: IPriceCalculatorProps) {
   const [isAddedToCart, setIsAddedToCart] = useState(false);
   const [totalCount, setTotalCount] = useState(1);
@@ -51,10 +51,10 @@ export function PriceCalculator({
         query: {
           productId,
           totalCount,
-          totalPrice
-        }
+          totalPrice,
+        },
       },
-      '/order'
+      '/order',
     );
   };
 
