@@ -35,22 +35,15 @@ const GlobalStyle = createGlobalStyle`
     cursor: pointer;
   }
 
-  /*
   input {
     padding: 0;
     margin: 0;
     border: none;
     background: none;
   }
-  
   input:focus {
     outline: none;
   }
-
-  * {
-    box-sizing: border-box;
-    font-family: Spoqa Han Sans, sans-serif;
-  } */
 
   .sr-only {
     position: absolute;
