@@ -4,8 +4,8 @@ interface props {
   width?: number;
   height?: number;
   margin?: string;
-  borderColor: string;
-  borderRadius?: number;
+  borderColor?: string;
+  borderRadius?: number | string;
   imgStyle?: string;
 }
 
@@ -13,8 +13,9 @@ export default styled.div<props>`
   width: ${({ width }) => width}rem;
   height: ${({ height }) => height}rem;
   margin: ${({ margin }) => margin};
-  border: 1px solid ${({ borderColor }) => borderColor};
-  border-radius: ${({ borderRadius }) => borderRadius}rem;
+  ${({ borderColor }) => borderColor ?? `border: 1px solid ${borderColor}`};
+  border-radius: ${({ borderRadius }) =>
+    typeof borderRadius === 'number' ? `${borderRadius}rem` : borderRadius};
   position: relative;
   overflow: hidden;
   & > * {
