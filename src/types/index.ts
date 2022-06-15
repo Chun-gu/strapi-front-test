@@ -13,20 +13,15 @@ export interface IApiResponse<T> {
 }
 
 export type IIdArg = string | string[] | undefined;
+
 export interface IProduct {
   id: number;
-  attributes: {
-    productName: string;
-    option: string;
-    price: number;
-    discountRate: number;
-    images: IImages;
-    stock: number;
-    description: string;
-    createdAt: string;
-    updatedAt: string;
-    publishedAt: string;
-  };
+  productName: string;
+  price: number;
+  discountRate: number;
+  stock: number;
+  description: string;
+  images: IImage[];
 }
 
 export interface IAddProductValues {
@@ -84,18 +79,41 @@ export interface IAddInquiryValues {
   content: string;
 }
 
-export interface IImages {
-  data: [
-    {
-      id: number;
-      attributes: {
-        formats: {
-          thumbnail: { url: string };
-          large: { url: string };
-          medium: { url: string };
-          small: { url: string };
-        };
-      };
-    },
-  ];
+export interface IImage {
+  id: number;
+  thumbnail: string;
+  large: string;
+  medium: string;
+  small: string;
+}
+
+export interface IReview {
+  id: number;
+  rating: number;
+  content: string;
+  updatedAt: string;
+  author: {
+    id: number;
+    username: string;
+  };
+  images: IImage[];
+}
+export interface IReviewResponse {
+  productId: number;
+  reviews: IReview[];
+}
+
+export interface IComment {
+  id: number;
+  content: string;
+  updatedAt: string;
+  author: {
+    id: number;
+    username: string;
+  };
+}
+
+export interface ICommentResponse {
+  reviewId: number;
+  comments: IComment[];
 }
