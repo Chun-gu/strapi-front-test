@@ -20,17 +20,17 @@ const Product: NextPage<IApiResponse<IProduct>> = () => {
     isLoading,
     data: productData,
     error,
-  } = useQuery<IApiResponse<IProduct>, Error>(['getProduct', productId], () =>
+  } = useQuery<IProduct, Error>(['getProduct', productId], () =>
     getProducts(productId),
   );
 
   const { productName, price, discountRate, stock, description, images } =
-  productData!.data.attributes;
-  
+    productData!;
+
   const finalPrice =
-  discountRate === 0
-  ? price
-  : Math.round((price * (100 - discountRate)) / 1000) * 10;
+    discountRate === 0
+      ? price
+      : Math.round((price * (100 - discountRate)) / 1000) * 10;
 
   const sectionRefs = useRef<HTMLElement[]>([]);
   const storeRef = useCallback((elem: HTMLElement, index: number) => {
@@ -84,6 +84,7 @@ const Product: NextPage<IApiResponse<IProduct>> = () => {
         </Styled.TabSection>
         <Styled.TabSection ref={(elem: HTMLElement) => storeRef(elem, 1)}>
           <h2>리뷰</h2>
+          <ReviewList productId={productId} />
           {/* {!reviews || reviews.length === 0 ? (
               <Styled.NoneYet>아직 리뷰가 없습니다.</Styled.NoneYet>
             ) : (
@@ -159,17 +160,6 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   await queryClient.prefetchQuery(['getProduct', productId], () =>
     getProducts(productId),
   );
-  // const data = await getProducts(productId);
-  // console.log(data);
-
-  // if (!data) {
-  //   return {
-  //     redirect: {
-  //       destination: "/",
-  //       permanent: false,
-  //     },
-  //   };
-  // }
 
   return {
     props: {
