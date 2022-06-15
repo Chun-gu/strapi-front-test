@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { COLOR } from '../../../shared/constants';
+import { COLOR } from '@styles/color';
 
 export const Container = styled.main`
   width: 128rem;
@@ -28,7 +28,7 @@ export const ProductSummary = styled.div`
 
 export const ProductTitle = styled.h2`
   font-size: 3.6rem;
-  font-weight: 400;
+  font-weight: 700;
   margin-bottom: 1.7rem;
 `;
 
@@ -92,11 +92,6 @@ export const TabSection = styled.section`
     list-style-position: inside;
     line-height: 1.5;
   }
-`;
-
-export const NoneYet = styled.p`
-  font-size: 2.4rem;
-  text-align: center;
 `;
 
 export const TabMenu = styled.section`
