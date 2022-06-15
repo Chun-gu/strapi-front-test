@@ -3,7 +3,7 @@ import axios from "axios";
 
 export const getReviews = async (id: IIdArg = "") => {
   const { data } = await axios.get(
-    `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/reviews/${id}`
+    `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/product-reviews/${id}`
   );
   return data;
 };
