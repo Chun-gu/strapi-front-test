@@ -1,20 +1,21 @@
-import { nanoid } from 'nanoid';
-import PrevIcon from 'public/images/icon-caret-prev.svg';
-import NextIcon from 'public/images/icon-caret-next.svg';
-import * as Styled from './styled';
+import { Dispatch, SetStateAction } from "react";
+import { nanoid } from "nanoid";
+import PrevIcon from "public/images/icon-caret-prev.svg";
+import NextIcon from "public/images/icon-caret-next.svg";
+import * as Styled from "./styled";
 
 interface IPaginationProps {
   totalItemCount: number;
   itemsPerPage: number;
   pageNum: number;
-  setPageNum: Function;
+  setPageNum: Dispatch<SetStateAction<number>>;
 }
 
 export function Pagination({
   totalItemCount,
   itemsPerPage,
   pageNum,
-  setPageNum
+  setPageNum,
 }: IPaginationProps) {
   const totalPageCount = Math.ceil(totalItemCount / itemsPerPage);
 
