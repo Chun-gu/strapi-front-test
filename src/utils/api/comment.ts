@@ -1,32 +1,25 @@
-import { IAddCommentValues, IIdArg } from 'src/types';
-import axios from 'axios';
-import useSWR from 'swr';
+import axios from "axios";
+import { IAddCommentValues } from "@types";
 
-const fetcher = (url: string) => axios.get(url).then((res) => res.data);
-
-export const getComments = async (id: IIdArg = '') => {
+export const getComments = async (id: number) => {
   const { data } = await axios.get(
-    `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/comments/${id}`,
+    `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/review-comments/${id}`,
   );
-  return useSWR(
-    `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/comments/${id}`,
-    fetcher,
-  );
+
+  return data;
 };
 
-export const addComment = async (
-  jwt: string,
-  author: number,
-  values: IAddCommentValues,
-) => {
+export const addComment = async ({
+  jwt,
+  author,
+  content,
+  review,
+}: IAddCommentValues) => {
   const { data } = await axios.post(
     `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/comments`,
-    { data: { author, ...values } },
-    {
-      headers: {
-        Authorization: `Bearer ${jwt}`,
-      },
-    },
+    { data: { author, content, review } },
+    { headers: { Authorization: `Bearer ${jwt}` } },
   );
+
   return data;
 };
