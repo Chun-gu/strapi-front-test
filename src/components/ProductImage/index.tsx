@@ -1,17 +1,17 @@
-import { MouseEvent, useState } from 'react';
-import { nanoid } from 'nanoid';
-import ImageWrapper from '@utils/ImageWrapper';
-import Image from 'next/image';
-import PrevCaret from 'public/images/icon-caret-prev.svg';
-import NextCaret from 'public/images/icon-caret-next.svg';
-import * as Styled from './styled';
+import { MouseEvent, useState } from "react";
+import Image from "next/image";
+import { IImage } from "@types";
+import ImageWrapper from "@utils/ImageWrapper";
+import PrevCaret from "public/images/icon-caret-prev.svg";
+import NextCaret from "public/images/icon-caret-next.svg";
+import * as Styled from "./styled";
 
 interface IProductImageProps {
-  productImages: string[];
+  productImages: IImage[];
 }
 
-export function ProductImage({ productImages }: IProductImageProps) {
-  const totalSlideCount = productImages.length;
+export default function ProductImage({ productImages }: IProductImageProps) {
+  const totalSlideCount = productImages?.length ?? 1;
   const [currentSlideNum, setCurrentSlideNum] = useState(0);
 
   const toPrevSlide = () => {
@@ -39,9 +39,15 @@ export function ProductImage({ productImages }: IProductImageProps) {
     <Styled.ProductImage>
       <Styled.ImageSlider>
         <ImageWrapper width={60} height={60}>
-          <Image src={productImages[currentSlideNum]} layout="fill" />
+          <Image
+            src={productImages[currentSlideNum].medium}
+            layout="fill"
+            objectFit="cover"
+            priority={true}
+            alt="제품 사진"
+          />
         </ImageWrapper>
-        {productImages.length > 1 && (
+        {productImages?.length > 1 && (
           <>
             <Styled.PrevButton onClick={toPrevSlide}>
               <PrevCaret />
@@ -57,12 +63,17 @@ export function ProductImage({ productImages }: IProductImageProps) {
           productImages.map((img, index) => (
             <button
               type="button"
-              key={nanoid()}
+              key={`thumbnail-${index}`}
               data-slide-num={index}
               onClick={onClickThumbnail}
             >
               <ImageWrapper width={7} height={7}>
-                <Image src={img} layout="fill" />
+                <Image
+                  src={img.thumbnail}
+                  layout="fill"
+                  objectFit="cover"
+                  alt={`${index}번째 제품 사진`}
+                />
               </ImageWrapper>
             </button>
           ))}
