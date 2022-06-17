@@ -1,7 +1,7 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const TabMenu = styled.div`
   position: sticky;
-  top: 10rem;
+  top: 0;
   z-index: 5;
 `;
