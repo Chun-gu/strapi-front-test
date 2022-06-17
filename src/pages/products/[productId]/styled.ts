@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import { COLOR } from '@styles/color';
+import styled from "styled-components";
+import { COLOR } from "@styles/color";
 
 export const Container = styled.main`
   width: 128rem;
@@ -69,7 +69,7 @@ export const ProductBody = styled.section``;
 
 export const TabSection = styled.section`
   position: relative;
-  min-height: 50rem;
+  min-height: 60rem;
   font-size: 1.8rem;
   margin-bottom: 8rem;
   h2 {
