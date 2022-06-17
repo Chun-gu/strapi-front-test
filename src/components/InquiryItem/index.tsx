@@ -15,7 +15,7 @@ export function InquiryItem({ ...inquiry }: IInquiry) {
   const isSeller = session?.user?.isSeller;
 
   const router = useRouter();
-  const productId = router.query.id;
+  const { productId } = router.query;
 
   const { id, content, author, answer, createdAt } = inquiry;
 
