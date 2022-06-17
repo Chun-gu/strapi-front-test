@@ -1,5 +1,6 @@
-import { createGlobalStyle } from 'styled-components';
-import reset from 'styled-reset';
+import { createGlobalStyle } from "styled-components";
+import reset from "styled-reset";
+import styled from "styled-components";
 
 const GlobalStyle = createGlobalStyle`
   ${reset}
@@ -73,3 +74,8 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 export default GlobalStyle;
+
+export const NoneYet = styled.p`
+  font-size: 2.4rem;
+  text-align: center;
+`;
