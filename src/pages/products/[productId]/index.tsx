@@ -1,31 +1,32 @@
-import { useCallback, useRef } from 'react';
-import { GetServerSideProps, NextPage } from 'next';
-import { useRouter } from 'next/router';
-import { dehydrate, QueryClient, useQuery } from 'react-query';
-import { getProducts } from '@api';
-import { IApiResponse, IProduct } from 'src/types';
+import { useCallback, useRef } from "react";
+import { dehydrate, QueryClient, useQuery } from "react-query";
+import { GetServerSideProps, NextPage } from "next";
+import { useRouter } from "next/router";
+import { getProducts } from "@api";
 import {
   ProductImage,
   PriceCalculator,
   TabMenu,
   ReviewList,
   InquiryList,
-} from '@components';
-import * as Styled from './styled';
+} from "@components";
+import { IApiResponse, IProduct } from "@types";
+import * as Styled from "./styled";
 
 const Product: NextPage<IApiResponse<IProduct>> = () => {
   const router = useRouter();
   const { productId } = router.query;
+
   const {
     isLoading,
-    data: productData,
+    data: product,
     error,
-  } = useQuery<IProduct, Error>(['getProduct', productId], () =>
+  } = useQuery<IProduct, Error>(["getProduct", productId], () =>
     getProducts(productId),
   );
 
-  const { productName, price, discountRate, stock, description, images } =
-    productData!;
+  const { name, price, discountRate, stock, description, images } =
+    product as IProduct;
 
   const finalPrice =
     discountRate === 0
@@ -43,7 +44,7 @@ const Product: NextPage<IApiResponse<IProduct>> = () => {
         <ProductImage productImages={images} />
         <Styled.ProductSummary>
           <div>
-            <Styled.ProductTitle>{productName}</Styled.ProductTitle>
+            <Styled.ProductTitle>{name}</Styled.ProductTitle>
             <Styled.ProductPrice>
               {discountRate !== 0 ? (
                 <>
@@ -84,20 +85,11 @@ const Product: NextPage<IApiResponse<IProduct>> = () => {
         </Styled.TabSection>
         <Styled.TabSection ref={(elem: HTMLElement) => storeRef(elem, 1)}>
           <h2>리뷰</h2>
-          <ReviewList productId={productId} />
-          {/* {!reviews || reviews.length === 0 ? (
-              <Styled.NoneYet>아직 리뷰가 없습니다.</Styled.NoneYet>
-            ) : (
-              <ReviewList reviews={reviews} />
-            )} */}
+          <ReviewList />
         </Styled.TabSection>
         <Styled.TabSection ref={(elem: HTMLElement) => storeRef(elem, 2)}>
           <h2>Q&amp;A</h2>
-          {/* {!inquiries || inquiries.length === 0 ? (
-              <Styled.NoneYet>아직 문의가 없습니다.</Styled.NoneYet>
-            ) : (
-              <InquiryList inquiries={inquiries} />
-            )} */}
+          <InquiryList />
         </Styled.TabSection>
         <Styled.TabSection ref={(elem: HTMLElement) => storeRef(elem, 3)}>
           <h2>교환/반품 정보</h2>
@@ -157,7 +149,7 @@ const Product: NextPage<IApiResponse<IProduct>> = () => {
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const productId = ctx.params?.productId;
   const queryClient = new QueryClient();
-  await queryClient.prefetchQuery(['getProduct', productId], () =>
+  await queryClient.prefetchQuery(["getProduct", productId], () =>
     getProducts(productId),
   );
 
