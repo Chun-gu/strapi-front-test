@@ -1,7 +1,8 @@
-import { COLOR } from '@shared/constants';
-import styled from 'styled-components';
+import { COLOR } from "@shared/constants";
+import styled from "styled-components";
 
 export const List = styled.ul`
+  min-height: 31.8rem;
   font-size: 1.6rem;
   line-height: 1.3;
   margin-bottom: 4rem;
