@@ -1,17 +1,16 @@
-import ImageWrapper from '@utils/ImageWrapper';
-import Image from 'next/image';
-import * as Styled from './styled';
-import Link from 'next/link';
-import { IProduct } from '@types';
-import { COLOR } from '@styles/color';
-// import { IProduct } from '@shared/types';
+import Image from "next/image";
+import Link from "next/link";
+import { IProduct } from "@types";
+import ImageWrapper from "@utils/ImageWrapper";
+import { COLOR } from "@styles/color";
+import * as Styled from "./styled";
 
 const ProductCard = ({ ...product }: IProduct) => {
-  const { images, price, discountRate } = product.attributes;
+  const { images, price, discountRate } = product;
   const currentPrice = (price * ((100 - discountRate) / 100)).toLocaleString();
 
   return (
-    <Link href={{ pathname: 'products/[id]', query: { id: product.id } }}>
+    <Link href={{ pathname: "/products/[id]", query: { id: product.id } }}>
       <a>
         <ImageWrapper
           width={38}
@@ -20,15 +19,14 @@ const ProductCard = ({ ...product }: IProduct) => {
           borderColor={COLOR.greyC4}
         >
           <Image
-            src={images.data[0].attributes.formats.small.url}
+            src={images[0].small}
             layout="fill"
             objectFit="cover"
             priority={true}
+            alt={`${product.name}의 사진`}
           />
         </ImageWrapper>
-        <Styled.Name className="ellipsis-single">
-          {product.attributes.productName}
-        </Styled.Name>
+        <Styled.Name className="ellipsis-single">{product.name}</Styled.Name>
         <Styled.Price>
           {discountRate > 0 ? (
             <>
