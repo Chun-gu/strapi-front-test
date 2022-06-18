@@ -4,7 +4,7 @@ import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import { getInquiries } from "@api";
 import { InquiryItem, Pagination } from "@components";
-import { IInquiriesResponse } from "@types";
+import { IApiResponse, IInquiry } from "@types";
 import { NoneYet } from "@styles/GlobalStyle";
 import * as Styled from "./styled";
 
@@ -12,7 +12,7 @@ export function InquiryList() {
   const router = useRouter();
   const { productId } = router.query;
 
-  const { data } = useQuery<IInquiriesResponse>(
+  const { data: inquiries } = useQuery<IApiResponse<IInquiry[]>>(
     ["getInquiries", productId],
     () => getInquiries(productId),
   );
@@ -23,7 +23,7 @@ export function InquiryList() {
 
   return (
     <>
-      {data && data?.inquiries.length !== 0 ? (
+      {inquiries && inquiries?.data.length !== 0 ? (
         <>
           <Styled.List>
             <li>
@@ -32,15 +32,15 @@ export function InquiryList() {
               <span aria-hidden="true">작성자</span>
               <span aria-hidden="true">작성일</span>
             </li>
-            {data.inquiries
+            {inquiries.data
               .slice(offset, offset + itemsPerPage)
               .map((inquiry) => (
                 <InquiryItem key={`inquiry-${inquiry.id}`} {...inquiry} />
               ))}
           </Styled.List>
-          {data.inquiries.length > itemsPerPage && (
+          {inquiries.data.length > itemsPerPage && (
             <Pagination
-              totalItemCount={data.inquiries.length}
+              totalItemCount={inquiries.data.length}
               itemsPerPage={itemsPerPage}
               pageNum={pageNum}
               setPageNum={setPageNum}
