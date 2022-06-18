@@ -3,13 +3,14 @@ import { useForm } from "react-hook-form";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
-import { ICommentResponse } from "@types";
+import { IApiResponse, IComment } from "@types";
 import { addComment, getComments } from "@api";
 import ImageWrapper from "@utils/ImageWrapper";
-import CommentItem from "../CommentItem";
 import * as Buttons from "../Buttons";
+import CommentItem from "../CommentItem";
 import { Pagination } from "../Pagination";
 import * as Styled from "./styled";
+import { CommentListLoader } from "../Loader";
 
 interface ICommentListProps {
   reviewId: number;
@@ -17,9 +18,14 @@ interface ICommentListProps {
 
 export function CommentList({ reviewId }: ICommentListProps) {
   const { data: session } = useSession();
-  const { isLoading, data: commentsData } = useQuery<ICommentResponse>(
-    ["getComments", reviewId],
-    () => getComments(reviewId),
+
+  const [pageNum, setPageNum] = useState(1);
+  const itemsPerPage = 5;
+
+  const { isLoading, data: comments } = useQuery<IApiResponse<IComment[]>>(
+    ["getComments", { reviewId, pageNum }],
+    () => getComments(reviewId, itemsPerPage, pageNum),
+    { keepPreviousData: true },
   );
 
   const {
@@ -30,15 +36,11 @@ export function CommentList({ reviewId }: ICommentListProps) {
     formState: { isValid },
   } = useForm<{ content: string }>({ mode: "onChange" });
 
-  const itemsPerPage = 5;
-  const [pageNum, setPageNum] = useState(1);
-  const offset = (pageNum - 1) * itemsPerPage;
-
   const queryClient = useQueryClient();
   const { mutate } = useMutation(addComment, {
     onSuccess: () => {
       alert("댓글 작성 성공!");
-      queryClient.invalidateQueries(["getComments", reviewId]);
+      queryClient.invalidateQueries(["getComments"]);
       reset();
     },
     onError: (error) => {
@@ -53,25 +55,25 @@ export function CommentList({ reviewId }: ICommentListProps) {
       const author = session.user?.id as number;
       const jwt = session.jwt as string;
       mutate({ review: reviewId, author, jwt, content });
+    } else {
+      alert("로그인이 필요합니다.");
     }
   };
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <CommentListLoader />;
   return (
     <Styled.CommentSection>
-      {commentsData && commentsData.comments.length > 0 && (
+      {comments && comments.data.length > 0 && (
         <>
           <ul>
-            {commentsData.comments
-              .slice(offset, offset + itemsPerPage)
-              .map((comment) => (
-                <CommentItem key={comment.id} {...comment} />
-              ))}
+            {comments.data.map((comment) => (
+              <CommentItem key={comment.id} {...comment} />
+            ))}
           </ul>
-          {commentsData.comments.length > itemsPerPage && (
+          {comments.pagination.total > itemsPerPage && (
             <Styled.PaginationWrapper>
               <Pagination
-                totalItemCount={commentsData.comments.length}
+                totalItemCount={comments.pagination.total}
                 itemsPerPage={itemsPerPage}
                 pageNum={pageNum}
                 setPageNum={setPageNum}
