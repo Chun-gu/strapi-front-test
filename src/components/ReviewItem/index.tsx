@@ -7,6 +7,7 @@ import StarRating from "../StarRating";
 import { CommentList } from "../CommentList";
 import authorImg from "public/images/product-img-small-1.png";
 import * as Styled from "./styled";
+import CustomImage from "../CustomImage";
 
 export function ReviewItem({ ...review }: IReview) {
   const [isOpen, setIsOpen] = useState(false);
@@ -36,11 +37,10 @@ export function ReviewItem({ ...review }: IReview) {
           <>
             {images.length > 0 && (
               <ImageWrapper width={40} height={40}>
-                <Image
-                  src={images[0].medium}
-                  layout="fill"
-                  objectFit="cover"
+                <CustomImage
+                  src={images[0]?.medium}
                   alt="리뷰 사진"
+                  fallback="/images/product-img-lg.png"
                 />
               </ImageWrapper>
             )}
@@ -53,12 +53,13 @@ export function ReviewItem({ ...review }: IReview) {
       </Styled.ReviewContent>
       {!isOpen && (
         <ImageWrapper width={8} height={8}>
-          <Image
-            src={images[0].thumbnail}
-            layout="fill"
-            objectFit="cover"
-            alt="리뷰 사진"
-          />
+          {images.length > 0 && (
+            <CustomImage
+              src={images[0]?.thumbnail}
+              alt="리뷰 사진"
+              fallback="/images/product-img-lg.png"
+            />
+          )}
         </ImageWrapper>
       )}
     </Styled.ReviewContainer>
