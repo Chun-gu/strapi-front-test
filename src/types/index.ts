@@ -1,22 +1,59 @@
-export interface IMeta {
-  pagination: {
-    page: number;
-    pageSize: number;
-    pageCount: number;
-    total: number;
-  };
-}
+// Common Interfaces
+export type IIdArg = number | string | string[] | undefined;
 
 export interface IApiResponse<T> {
   data: T;
-  meta: IMeta;
+  pagination: IPagination;
 }
 
-export type IIdArg = string | string[] | undefined;
+export interface IPagination {
+  page: number;
+  pageSize: number;
+  pageCount: number;
+  total: number;
+}
 
+export interface IImage {
+  id: number;
+  thumbnail: string;
+  small: string;
+  medium: string;
+  large: string;
+}
+
+export interface IAuthor {
+  id: number;
+  username: string;
+}
+
+// User Interfaces
+export interface IUser {
+  id: number;
+  username: string;
+  email: string;
+  provider: string;
+  confirmed: boolean;
+  blocked: boolean;
+  createdAt: string;
+  updatedAt: string;
+  money: number;
+  phone: string;
+  nickname: string;
+  isSeller: boolean;
+}
+
+export interface IAddUserValues {
+  username: string;
+  password: string;
+  email: string;
+  phone: string;
+  nickname: string;
+}
+
+// Product Interfaces
 export interface IProduct {
   id: number;
-  productName: string;
+  name: string;
   price: number;
   discountRate: number;
   stock: number;
@@ -34,27 +71,14 @@ export interface IAddProductValues {
   images: FileList;
 }
 
-export interface IRegisterUserValues {
-  username: string;
-  password: string;
-  email: string;
-  phone: string;
-  nickname: string;
-}
-
-export interface IUser {
+// Review Interfaces
+export interface IReview {
   id: number;
-  username: string;
-  email: string;
-  provider: string;
-  confirmed: boolean;
-  blocked: boolean;
+  rating: number;
+  content: string;
   createdAt: string;
-  updatedAt: string;
-  money: number;
-  phone: string;
-  nickname: string;
-  isSeller: boolean;
+  author: IAuthor;
+  images: IImage[];
 }
 
 export interface IAddReviewValues {
@@ -64,14 +88,28 @@ export interface IAddReviewValues {
   content: string;
 }
 
+// Comment Interfaces
+export interface IComment {
+  id: number;
+  content: string;
+  createdAt: string;
+  author: IAuthor;
+}
+
 export interface IAddCommentValues {
+  jwt: string;
+  author: number;
   review: number;
   content: string;
 }
 
-export interface IAddAnswerValues {
-  inquiryId: string;
-  answer: string;
+// Inquiry Interfaces
+export interface IInquiry {
+  id: number;
+  content: string;
+  author: IAuthor;
+  answer: IAnswer | null;
+  createdAt: string;
 }
 
 export interface IAddInquiryValues {
@@ -79,41 +117,14 @@ export interface IAddInquiryValues {
   content: string;
 }
 
-export interface IImage {
-  id: number;
-  thumbnail: string;
-  large: string;
-  medium: string;
-  small: string;
-}
-
-export interface IReview {
-  id: number;
-  rating: number;
-  content: string;
-  updatedAt: string;
-  author: {
-    id: number;
-    username: string;
-  };
-  images: IImage[];
-}
-export interface IReviewResponse {
-  productId: number;
-  reviews: IReview[];
-}
-
-export interface IComment {
+// Answer Interfaces
+export interface IAnswer {
   id: number;
   content: string;
-  updatedAt: string;
-  author: {
-    id: number;
-    username: string;
-  };
+  createdAt: string;
 }
 
-export interface ICommentResponse {
-  reviewId: number;
-  comments: IComment[];
+export interface IAddAnswerValues {
+  inquiry: string;
+  answer: string;
 }
