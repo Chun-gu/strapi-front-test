@@ -4,13 +4,13 @@ import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import { getReviews } from "@api";
 import { ReviewItem, Pagination } from "@components";
-import { IReviewResponse } from "@types";
+import { IApiResponse, IReview } from "@types";
 import * as Styled from "./styled";
 
 export function ReviewList() {
   const router = useRouter();
   const { productId } = router.query;
-  const { data: reviewsData } = useQuery<IReviewResponse>(
+  const { data: reviews } = useQuery<IApiResponse<IReview[]>>(
     ["getReviews", productId],
     () => getReviews(productId),
   );
@@ -21,20 +21,20 @@ export function ReviewList() {
 
   return (
     <>
-      {reviewsData && reviewsData?.reviews.length !== 0 ? (
+      {reviews && reviews?.data.length !== 0 ? (
         <>
           <Styled.ReviewList>
             <ul>
-              {reviewsData.reviews
+              {reviews?.data
                 .slice(offset, offset + itemsPerPage)
                 .map((review) => (
                   <ReviewItem key={review.id} {...review} />
                 ))}
             </ul>
           </Styled.ReviewList>
-          {reviewsData && reviewsData.reviews.length > itemsPerPage && (
+          {reviews && reviews.data.length > itemsPerPage && (
             <Pagination
-              totalItemCount={reviewsData.reviews.length}
+              totalItemCount={reviews.data.length}
               itemsPerPage={itemsPerPage}
               pageNum={pageNum}
               setPageNum={setPageNum}
