@@ -1,16 +1,24 @@
 import axios from "axios";
 import { IAddProductValues, IIdArg } from "@types";
 
-export const getProducts = async (id: IIdArg = "") => {
+export const getProducts = async ({ pageParam = 1 }) => {
   const { data } = await axios.get(
-    `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/products/${id}`,
+    `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/products?page=${pageParam}`,
+  );
+
+  return data;
+};
+
+export const getProduct = async (productId: IIdArg) => {
+  const { data } = await axios.get(
+    `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/products/${productId}`,
   );
 
   return data;
 };
 
 export const addProduct = async (values: IAddProductValues) => {
-  const { images, ...rest } = values;
+  const { images, jwt, ...rest } = values;
   const formData = new FormData();
   formData.append("files.images", images[0]);
   formData.append("data", JSON.stringify(rest));
@@ -21,7 +29,7 @@ export const addProduct = async (values: IAddProductValues) => {
     {
       headers: {
         "content-type": "multipart/form-data",
-        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNjUzNjk1NjEyLCJleHAiOjE2NTYyODc2MTJ9.tbpu8lnRLMuh49x9wkSfG_i9LtYMYdPFaVbrR7N8WUc`,
+        Authorization: `Bearer ${jwt}`,
       },
     },
   );
