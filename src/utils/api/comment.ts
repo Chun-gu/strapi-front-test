@@ -1,9 +1,9 @@
 import axios from "axios";
 import { IAddCommentValues } from "@types";
 
-export const getComments = async (id: number) => {
+export const getComments = async (id: number, limit: number, page: number) => {
   const { data } = await axios.get(
-    `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/review-comments/${id}`,
+    `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/review-comments/${id}?limit=${limit}&page=${page}`,
   );
 
   return data;
