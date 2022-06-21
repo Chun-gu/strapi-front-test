@@ -1,9 +1,11 @@
-import { dehydrate, QueryClient, useQuery } from "react-query";
-import { GetStaticProps, NextPage } from "next";
+import React, { useRef } from "react";
+import { dehydrate, QueryClient, useInfiniteQuery } from "react-query";
+import { NextPage, GetServerSideProps } from "next";
 import Head from "next/head";
 import { getProducts } from "@api";
-import { ProductCard, ProductsLoader } from "@components";
-import { IProduct } from "@types";
+import { ProductItem, Loader } from "@components";
+import { IApiResponse, IProduct } from "@types";
+import useIntersectionObserver from "@utils/useIntersectionObserver";
 import styled from "styled-components";
 
 const Home: NextPage = () => {
@@ -11,10 +13,29 @@ const Home: NextPage = () => {
     isLoading,
     data: products,
     error,
-  } = useQuery<IProduct[], Error>(["getProducts"], () => getProducts());
+    hasNextPage,
+    fetchNextPage,
+    isFetchingNextPage,
+  } = useInfiniteQuery<IApiResponse<IProduct[]>>(["getProducts"], getProducts, {
+    getNextPageParam: (lastPage) => {
+      const { pagination } = lastPage;
+      if (pagination.page === pagination.pageCount) return false;
 
-  if (isLoading) return <ProductsLoader />;
+      return pagination.page + 1;
+    },
+  });
+  console.log(products);
+
+  const bottomRef = useRef(null);
+  const entry = useIntersectionObserver(bottomRef, {});
+  const isVisible = !!entry?.isIntersecting;
+  console.log("isVisible", isVisible);
+
+  if (isLoading) return <Loader.ProductsListLoader />;
   if (error || products === null) return <div>에러발생</div>;
+  if (products && isVisible && hasNextPage) {
+    fetchNextPage();
+  }
 
   return (
     <>
@@ -25,30 +46,36 @@ const Home: NextPage = () => {
 
       <h1 className="sr-only">제품 목록</h1>
       <ProductList>
-        {products?.map((product) => (
-          <li key={product.id}>
-            <ProductCard {...product} />
-          </li>
+        {products?.pages?.map((group, index) => (
+          <React.Fragment key={index}>
+            {group.data.map((product) => (
+              <li key={product.id}>
+                <ProductItem {...product} />
+              </li>
+            ))}
+          </React.Fragment>
         ))}
       </ProductList>
+      {isFetchingNextPage && <Loader.ProductsListLoader />}
+      <div ref={bottomRef} />
     </>
   );
 };
 
 export default Home;
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getServerSideProps: GetServerSideProps = async () => {
   const queryClient = new QueryClient();
-  await queryClient.prefetchQuery(["getProducts"], () => getProducts());
+  await queryClient.prefetchInfiniteQuery(["getProducts"], getProducts);
 
   return {
     props: {
-      dehydratedState: dehydrate(queryClient),
+      dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
     },
   };
 };
 
-const ProductList = styled.ul`
+export const ProductList = styled.ul`
   display: grid;
   grid-template-columns: repeat(3, 38rem);
   justify-content: space-around;
