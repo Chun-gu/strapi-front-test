@@ -1,24 +1,24 @@
 import axios from "axios";
-import { IIdArg, IRegisterUserValues } from "src/types";
+import { IIdArg, IAddUserValues } from "@types";
 
 export const getUsers = async (userId: IIdArg = "") => {
   const { data } = await axios.get(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/users/${userId}`
+    `${process.env.NEXT_PUBLIC_API_URL}/api/users/${userId}`,
   );
   return data;
 };
 
-export const addUser = async (values: IRegisterUserValues) => {
+export const addUser = async (values: IAddUserValues) => {
   const { data } = await axios.post(
     `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/auth/local/register`,
-    { ...values }
+    { ...values },
   );
   return data;
 };
 
 export const deleteUser = async (userId: string) => {
   const { data } = await axios.delete(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/users/${userId}`
+    `${process.env.NEXT_PUBLIC_API_URL}/api/users/${userId}`,
   );
   return data;
 };
