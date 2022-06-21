@@ -3,7 +3,7 @@ import axios from "axios";
 
 export const getReviews = async (id: IIdArg = "") => {
   const { data } = await axios.get(
-    `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/product-reviews/${id}`
+    `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/product-reviews/${id}`,
   );
   return data;
 };
@@ -11,7 +11,7 @@ export const getReviews = async (id: IIdArg = "") => {
 export const addReview = async (
   jwt: string,
   author: number,
-  values: IAddReviewValues
+  values: IAddReviewValues,
 ) => {
   const formData = new FormData();
   const { images, ...rest } = values;
@@ -25,7 +25,7 @@ export const addReview = async (
         "content-type": "multipart/form-data",
         Authorization: `Bearer ${jwt}`,
       },
-    }
+    },
   );
 
   return data;

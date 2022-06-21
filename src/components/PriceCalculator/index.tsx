@@ -1,10 +1,10 @@
-import Link from 'next/link';
-import { ChangeEvent, useState } from 'react';
-import PlusIcon from 'public/images/icon-plus-line.svg';
-import MinusIcon from 'public/images/icon-minus-line.svg';
-import router from 'next/router';
-import * as Buttons from '../Buttons';
-import * as Styled from './styled';
+import Link from "next/link";
+import { ChangeEvent, useState } from "react";
+import PlusIcon from "public/images/icon-plus-line.svg";
+import MinusIcon from "public/images/icon-minus-line.svg";
+import router from "next/router";
+import * as Buttons from "../Buttons";
+import * as Styled from "./styled";
 
 interface IPriceCalculatorProps {
   productId: string | string[] | undefined;
@@ -47,14 +47,14 @@ export function PriceCalculator({
     // 장바구니에 추가하는 로직 추가 예정
     router.push(
       {
-        pathname: '/order',
+        pathname: "/order",
         query: {
           productId,
           totalCount,
           totalPrice,
         },
       },
-      '/order',
+      "/order",
     );
   };
 

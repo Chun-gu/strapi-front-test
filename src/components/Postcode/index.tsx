@@ -1,9 +1,9 @@
-import { Dispatch, SetStateAction } from 'react';
-import DaumPostcode from 'react-daum-postcode';
-import { FieldValues, UseFormSetValue } from 'react-hook-form';
-import Close from 'public/images/icon-delete.svg';
-import { Portal } from '../Portal';
-import * as Styled from './styled';
+import { Dispatch, SetStateAction } from "react";
+import DaumPostcode from "react-daum-postcode";
+import { FieldValues, UseFormSetValue } from "react-hook-form";
+import Close from "public/images/icon-delete.svg";
+import { Portal } from "../Portal";
+import * as Styled from "./styled";
 
 interface IPostcodeProps {
   setIsPostcodeOpen: Dispatch<SetStateAction<boolean>>;
@@ -19,26 +19,26 @@ export function Postcode({ setIsPostcodeOpen, setValue }: IPostcodeProps) {
     zonecode: string;
   }) => {
     let fullAddress = data.address;
-    let extraAddress = '';
+    let extraAddress = "";
 
-    if (data.addressType === 'R') {
-      if (data.bname !== '') {
+    if (data.addressType === "R") {
+      if (data.bname !== "") {
         extraAddress += data.bname;
       }
-      if (data.buildingName !== '') {
+      if (data.buildingName !== "") {
         extraAddress +=
-          extraAddress !== '' ? `, ${data.buildingName}` : data.buildingName;
+          extraAddress !== "" ? `, ${data.buildingName}` : data.buildingName;
       }
-      fullAddress += extraAddress !== '' ? ` (${extraAddress})` : '';
+      fullAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
     }
     setIsPostcodeOpen(false);
-    setValue('zipcode', data.zonecode, { shouldValidate: true });
-    setValue('address', fullAddress, { shouldValidate: true });
+    setValue("zipcode", data.zonecode, { shouldValidate: true });
+    setValue("address", fullAddress, { shouldValidate: true });
   };
 
   const postcodeStyle = {
-    width: '100%',
-    height: '100%'
+    width: "100%",
+    height: "100%",
   };
 
   const closePostcode = () => {

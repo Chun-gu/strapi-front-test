@@ -1,5 +1,5 @@
-import { COLOR } from '@shared/constants';
-import styled from 'styled-components';
+import { COLOR } from "@shared/constants";
+import styled from "styled-components";
 
 interface IProps {
   isOpen: boolean;
@@ -69,7 +69,7 @@ export const ExpansionButton = styled.button<IProps>`
   right: 0;
   &::after {
     display: inline-block;
-    content: '';
+    content: "";
     width: 1rem;
     height: 1rem;
     ${({ isOpen }) =>

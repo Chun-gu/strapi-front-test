@@ -1,5 +1,5 @@
-import React from 'react';
-import * as Styled from './styled';
+import React from "react";
+import * as Styled from "./styled";
 
 interface DefaultContainerProps {
   children: React.ReactNode;

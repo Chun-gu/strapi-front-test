@@ -1,9 +1,9 @@
-import { nanoid } from 'nanoid';
-import React, { ChangeEvent, useCallback, useState } from 'react';
-import Check from 'public/images/icon-check.svg';
-import { COLOR } from '@shared/constants';
-import { UseFormRegisterReturn } from 'react-hook-form';
-import * as Styled from './styled';
+import { nanoid } from "nanoid";
+import React, { ChangeEvent, useCallback, useState } from "react";
+import Check from "public/images/icon-check.svg";
+import { COLOR } from "@shared/constants";
+import { UseFormRegisterReturn } from "react-hook-form";
+import * as Styled from "./styled";
 
 interface InputProps {
   width?: number;
@@ -65,33 +65,33 @@ export function TextInputBoxComponent({
   hook,
   name,
 }: TextInputBoxProps) {
-  const [value, setValue] = useState<string>('');
+  const [value, setValue] = useState<string>("");
   const format = useCallback((val: string) => {
-    const numbers = val.replace(/[^0-9]/g, '');
-    return numbers ? Number(numbers).toLocaleString('ko-kr') : '';
+    const numbers = val.replace(/[^0-9]/g, "");
+    return numbers ? Number(numbers).toLocaleString("ko-kr") : "";
   }, []);
   const handleChange = useCallback(
-    (e:ChangeEvent<HTMLInputElement>) => {
+    (e: ChangeEvent<HTMLInputElement>) => {
       setValue(e.target.value);
       hook?.onChange(e);
     },
     [hook],
   );
-  const isValid: boolean = false;
+  const isValid = false;
   const id = nanoid();
 
   return (
     <Styled.Box width={width}>
       {labelName && <Styled.Label htmlFor={id}>{labelName}</Styled.Label>}
       <Styled.InputBox
-        type={option === 'password' ? 'password' : type}
+        type={option === "password" ? "password" : type}
         id={id}
         name={name}
         minLength={minLength}
         maxLength={maxLength}
-        value={option === 'unit' ? format(value) : value}
+        value={option === "unit" ? format(value) : value}
         placeholder={placeholder}
-        hasOption={option !== 'none'}
+        hasOption={option !== "none"}
         {...hook}
         onChange={handleChange}
       />
@@ -102,11 +102,11 @@ export function TextInputBoxComponent({
       )}
       {(() => {
         switch (option) {
-          case 'limit':
+          case "limit":
             return (
               <Styled.Limit>{`${value.length}/${maxLength}`}</Styled.Limit>
             );
-          case 'password':
+          case "password":
             return (
               <Styled.CheckWrapper
                 width={2.8}
@@ -120,7 +120,7 @@ export function TextInputBoxComponent({
                 <Check viewBox="0 0 28 28" />
               </Styled.CheckWrapper>
             );
-          case 'unit': {
+          case "unit": {
             return <Styled.Unit>{unit}</Styled.Unit>;
           }
           default:
@@ -132,26 +132,26 @@ export function TextInputBoxComponent({
 }
 
 TextInputComponent.defaultProps = {
-  width: '100%',
-  maxLength: '',
-  minLength: '',
-  className: '',
+  width: "100%",
+  maxLength: "",
+  minLength: "",
+  className: "",
   hook: null,
-  name: '',
+  name: "",
 };
 
 TextInputBoxComponent.defaultProps = {
-  width: '100%',
-  maxLength: '',
-  minLength: '',
+  width: "100%",
+  maxLength: "",
+  minLength: "",
   labelName: null,
-  placeholder: '',
-  option: 'none',
-  validationMsg: '',
-  unit: '',
-  type: 'text',
+  placeholder: "",
+  option: "none",
+  validationMsg: "",
+  unit: "",
+  type: "text",
   hook: null,
-  name: '',
+  name: "",
 };
 
 export const TextInput = React.memo(TextInputComponent);

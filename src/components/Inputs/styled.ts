@@ -1,6 +1,6 @@
-import styled from 'styled-components';
-import { COLOR } from '@shared/constants';
-import ImageWrapper from '@utils/ImageWrapper';
+import styled from "styled-components";
+import { COLOR } from "@shared/constants";
+import ImageWrapper from "@utils/ImageWrapper";
 
 interface validationProps {
   option?: string;
@@ -59,7 +59,7 @@ export const Limit = styled.p`
 `;
 export const ValidationMsg = styled.p<validationProps>`
   ${(props) =>
-    props.option === 'password' ? 'right: 5.5rem;' : 'right: 1.5rem;'}
+    props.option === "password" ? "right: 5.5rem;" : "right: 1.5rem;"}
   position: absolute;
   top: 50%;
   /* transform: translateY(100%); */
@@ -76,7 +76,7 @@ export const CheckWrapper = styled(ImageWrapper)`
   right: 1.6rem;
 `;
 
-export const Unit = styled.div.attrs({ className: 'unit' })`
+export const Unit = styled.div.attrs({ className: "unit" })`
   display: flex;
   justify-content: center;
   align-items: center;

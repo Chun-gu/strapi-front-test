@@ -1,6 +1,6 @@
-import styled from 'styled-components';
-import { COLOR } from '@styles/color';
-import User from '/public/images/icon-user.svg';
+import styled from "styled-components";
+import { COLOR } from "@styles/color";
+import User from "/public/images/icon-user.svg";
 
 export const Container = styled.div`
   position: relative;

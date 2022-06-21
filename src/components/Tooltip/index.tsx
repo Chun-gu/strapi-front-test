@@ -1,5 +1,5 @@
-import { Dispatch, ReactNode, SetStateAction, useEffect, useRef } from 'react';
-import * as Styled from './styled';
+import { Dispatch, ReactNode, SetStateAction, useEffect, useRef } from "react";
+import * as Styled from "./styled";
 
 type TooltipProps = {
   children: ReactNode;
@@ -17,14 +17,16 @@ const Tooltip = ({ children, isOpen, setIsOpen }: TooltipProps) => {
   };
 
   useEffect(() => {
-    if (isOpen) document.addEventListener('mousedown', clickOutside);
+    if (isOpen) document.addEventListener("mousedown", clickOutside);
 
     return () => {
-      document.removeEventListener('mousedown', clickOutside);
+      document.removeEventListener("mousedown", clickOutside);
     };
   }, []);
 
-  return isOpen ? <Styled.Container ref={tooltipRef}>{children}</Styled.Container> : null;
+  return isOpen ? (
+    <Styled.Container ref={tooltipRef}>{children}</Styled.Container>
+  ) : null;
 };
 
 export default Tooltip;

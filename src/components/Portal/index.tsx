@@ -1,5 +1,5 @@
-import { ReactNode, useEffect } from 'react';
-import ReactDOM from 'react-dom';
+import { ReactNode, useEffect } from "react";
+import ReactDOM from "react-dom";
 
 interface IPortalProps {
   children: ReactNode;
@@ -8,7 +8,7 @@ interface IPortalProps {
 
 export function Portal({ children, selector }: IPortalProps) {
   const element =
-    typeof window !== 'undefined' && document.querySelector(selector);
+    typeof window !== "undefined" && document.querySelector(selector);
 
   useEffect(() => {
     document.body.style.cssText = `
@@ -18,8 +18,8 @@ export function Portal({ children, selector }: IPortalProps) {
         width: 100%;`;
     return () => {
       const scrollY = document.body.style.top;
-      document.body.style.cssText = '';
-      window.scrollTo(0, parseInt(scrollY || '0', 10) * -1);
+      document.body.style.cssText = "";
+      window.scrollTo(0, parseInt(scrollY || "0", 10) * -1);
     };
   }, []);
 

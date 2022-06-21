@@ -1,5 +1,5 @@
-import { COLOR } from '@shared/constants';
-import styled from 'styled-components';
+import { COLOR } from "@shared/constants";
+import styled from "styled-components";
 
 export const ProductImage = styled.div``;
 

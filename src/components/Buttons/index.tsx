@@ -1,17 +1,17 @@
-import { MouseEventHandler, ReactNode } from 'react';
-import * as Styled from './styled';
+import { MouseEventHandler, ReactNode } from "react";
+import * as Styled from "./styled";
 
 interface IButtonProps {
   children: ReactNode;
   onClick?: MouseEventHandler<HTMLButtonElement>;
-  type?: 'submit' | 'button' | 'reset';
+  type?: "submit" | "button" | "reset";
 }
 
 interface ICustomButtonProps extends IButtonProps {
   width: number;
   height: 3 | 4 | 5 | 5.4 | 6 | 6.8;
   fontSize: number;
-  color: 'green' | 'dark' | 'white';
+  color: "green" | "dark" | "white";
   form?: string;
   disabled: boolean;
 }
@@ -34,7 +34,7 @@ export function Custom({
   onClick,
   fontSize,
   children,
-  type
+  type,
 }: ICustomButtonProps) {
   return (
     <Styled.Custom
@@ -64,7 +64,7 @@ export function Menu({
   onClick,
   isActive,
   badgeCount,
-  children
+  children,
 }: IMenuButtonProps) {
   return (
     <Styled.Menu onClick={onClick} isActive={isActive}>
@@ -74,14 +74,14 @@ export function Menu({
   );
 }
 
-Custom.defaultProps = {
-  onClick: () => {}
-};
+// Custom.defaultProps = {
+//   onClick: () => {},
+// };
 
-Tab.defaultProps = {
-  onClick: () => {}
-};
+// Tab.defaultProps = {
+//   onClick: () => {},
+// };
 
-Menu.defaultProps = {
-  onClick: () => {}
-};
+// Menu.defaultProps = {
+//   onClick: () => {},
+// };

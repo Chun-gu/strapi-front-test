@@ -1,9 +1,8 @@
-import { useState } from 'react';
-import { signOut, useSession } from 'next-auth/react';
-import Link from 'next/link';
-import Tooltip from '../Tooltip';
-import UserIcon from '/public/images/icon-user.svg';
-import * as Styled from './styled';
+import { useState } from "react";
+import Link from "next/link";
+import { signOut, useSession } from "next-auth/react";
+import Tooltip from "../Tooltip";
+import * as Styled from "./styled";
 
 const UserMenu = () => {
   const { data: session } = useSession();

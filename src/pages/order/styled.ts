@@ -1,5 +1,5 @@
-import { COLOR } from '@styles/color';
-import styled from 'styled-components';
+import { COLOR } from "@styles/color";
+import styled from "styled-components";
 
 export const Container = styled.main`
   width: 128rem;

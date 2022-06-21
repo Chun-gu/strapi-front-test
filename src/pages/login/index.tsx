@@ -1,13 +1,13 @@
 /* eslint-disable react/jsx-key */
-import React from 'react';
-import Link from 'next/link';
-import Logo from 'public/images/logo.svg';
-import ImageWrapper from '@utils/ImageWrapper';
-import { Buttons, Inputs } from '@components';
-import { useForm } from 'react-hook-form';
-import { signIn } from 'next-auth/react';
-import { useRouter } from 'next/router';
-import * as Styled from './styled';
+import React from "react";
+import { useForm } from "react-hook-form";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { signIn } from "next-auth/react";
+import { Buttons, Inputs } from "@components";
+import ImageWrapper from "@utils/ImageWrapper";
+import Logo from "public/images/logo.svg";
+import * as Styled from "./styled";
 
 interface LoginInputs {
   loginId: string;
@@ -18,16 +18,16 @@ function Login() {
   const {
     register,
     handleSubmit,
-    formState: { errors }
-  } = useForm<LoginInputs>({ mode: 'onChange' });
+    formState: { errors },
+  } = useForm<LoginInputs>({ mode: "onChange" });
   // console.log(watch('loginId'));
   const router = useRouter();
   const login = async ({ loginId, loginPw }: LoginInputs) => {
-    const response = await signIn('id-pw-credential', {
+    const response = await signIn("id-pw-credential", {
       userId: loginId,
       password: loginPw,
       redirect: false,
-      callbackUrl: '/'
+      callbackUrl: "/",
     });
     if ((response as unknown as { url: string })?.url) {
       await router.push((response as unknown as { url: string }).url);
@@ -43,15 +43,15 @@ function Login() {
         <div>
           <Inputs.TextInput
             width={48}
-            hook={register('loginId', {
+            hook={register("loginId", {
               required: true,
               min: 3,
               max: 15,
               maxLength: 15,
               pattern: {
                 value: /^[A-Za-z0-9]+$/i,
-                message: '특수문자를 제외한 문자,숫자를 입력해주세요'
-              }
+                message: "특수문자를 제외한 문자,숫자를 입력해주세요",
+              },
             })}
             placeholder="아이디"
           />
@@ -63,11 +63,11 @@ function Login() {
           )}
 
           <Inputs.TextInput
-            hook={register('loginPw', {
+            hook={register("loginPw", {
               required: true,
               min: 8,
               max: 16,
-              maxLength: 16
+              maxLength: 16,
             })}
             width={48}
             placeholder="비밀번호"

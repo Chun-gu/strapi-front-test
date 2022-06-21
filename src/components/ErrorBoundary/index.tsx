@@ -1,4 +1,4 @@
-import { Component, ErrorInfo, ReactNode } from 'react';
+import { Component, ErrorInfo, ReactNode } from "react";
 
 interface Props {
   children: ReactNode;
@@ -26,7 +26,7 @@ class ErrorBoundary extends Component<Props, State> {
   }
   public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     // You can use your own error logging service here
-    console.log('에러바운더리 에러', { error, errorInfo });
+    console.log("에러바운더리 에러", { error, errorInfo });
   }
   public render() {
     // Check if the error is thrown

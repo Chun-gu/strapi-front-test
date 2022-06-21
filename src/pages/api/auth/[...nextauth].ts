@@ -19,7 +19,7 @@ export default NextAuth({
       },
 
       async authorize(
-        credentials: Record<"username" | "password", string> | undefined
+        credentials: Record<"username" | "password", string> | undefined,
       ) {
         try {
           const { data } = await axios.post(
@@ -27,7 +27,7 @@ export default NextAuth({
             {
               identifier: credentials?.username,
               password: credentials?.password,
-            }
+            },
           );
           if (data) {
             return data;

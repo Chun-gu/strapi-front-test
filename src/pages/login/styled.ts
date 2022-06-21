@@ -1,5 +1,5 @@
-import { COLOR } from '@shared/constants';
-import styled from 'styled-components';
+import { COLOR } from "@shared/constants";
+import styled from "styled-components";
 
 export const Main = styled.main`
   display: flex;
@@ -38,7 +38,7 @@ export const UL = styled.ul`
     cursor: pointer;
   }
   & li + li::before {
-    content: '';
+    content: "";
     display: inline-block;
     width: 1px;
     height: 1.3rem;

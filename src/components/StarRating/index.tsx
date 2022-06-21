@@ -1,7 +1,7 @@
-import React, { Dispatch, MouseEvent, SetStateAction, useState } from 'react';
-import { nanoid } from 'nanoid';
-import { COLOR } from '@styles/color';
-import Star from 'public/images/icon-star-rating.svg';
+import React, { Dispatch, MouseEvent, SetStateAction, useState } from "react";
+import { nanoid } from "nanoid";
+import { COLOR } from "@styles/color";
+import Star from "public/images/icon-star-rating.svg";
 
 interface IRatingProps {
   rating: number;
@@ -51,8 +51,8 @@ function Index({ rating, readOnly, setRating }: IRatingProps) {
   );
 }
 
-Index.defaultProps = {
-  setRating: () => {},
-};
+// Index.defaultProps = {
+//   setRating: () => {},
+// };
 
 export default React.memo(Index);

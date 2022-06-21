@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import { COLOR } from '@styles/color';
+import styled from "styled-components";
+import { COLOR } from "@styles/color";
 
 export const CommentSection = styled.div`
   border-top: 0.1rem solid ${COLOR.greyC4};

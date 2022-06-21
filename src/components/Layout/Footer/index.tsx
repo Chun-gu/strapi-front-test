@@ -1,7 +1,7 @@
-import Instagram from 'public/images/icon-instagram.svg';
-import Facebook from 'public/images/icon-facebook.svg';
-import Youtube from 'public/images/icon-youtube.svg';
-import * as Styled from './styled';
+import Instagram from "public/images/icon-instagram.svg";
+import Facebook from "public/images/icon-facebook.svg";
+import Youtube from "public/images/icon-youtube.svg";
+import * as Styled from "./styled";
 
 const Footer = () => {
   return (
