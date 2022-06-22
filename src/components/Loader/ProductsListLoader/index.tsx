@@ -1,6 +1,6 @@
-import * as Styled from './styled';
+import * as Styled from "./styled";
 
-const ProductsLoader = () => {
+const ProductsListLoader = () => {
   return (
     <Styled.ProductList>
       <li>
@@ -52,4 +52,4 @@ const ProductsLoader = () => {
   );
 };
 
-export default ProductsLoader;
+export default ProductsListLoader;
