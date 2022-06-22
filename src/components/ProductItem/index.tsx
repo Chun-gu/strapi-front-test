@@ -5,7 +5,7 @@ import ImageWrapper from "@utils/ImageWrapper";
 import { COLOR } from "@styles/color";
 import * as Styled from "./styled";
 
-const ProductCard = ({ ...product }: IProduct) => {
+const ProductItem = ({ ...product }: IProduct) => {
   const { images, price, discountRate } = product;
   const currentPrice = (price * ((100 - discountRate) / 100)).toLocaleString();
 
@@ -49,4 +49,4 @@ const ProductCard = ({ ...product }: IProduct) => {
   );
 };
 
-export default ProductCard;
+export default ProductItem;

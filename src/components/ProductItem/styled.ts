@@ -1,5 +1,5 @@
-import { COLOR } from '@styles/color';
-import styled from 'styled-components';
+import { COLOR } from "@styles/color";
+import styled from "styled-components";
 
 export const Name = styled.span`
   display: block;
