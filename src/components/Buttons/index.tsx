@@ -14,6 +14,11 @@ interface ICustomButtonProps extends IButtonProps {
   color: "green" | "dark" | "white";
   form?: string;
   disabled: boolean;
+  position?: string;
+  top?: number;
+  left?: number;
+  bottom?: number;
+  right?: number;
 }
 
 interface ITabButtonProps extends IButtonProps {
@@ -35,6 +40,11 @@ export function Custom({
   fontSize,
   children,
   type,
+  position,
+  top,
+  left,
+  bottom,
+  right,
 }: ICustomButtonProps) {
   return (
     <Styled.Custom
@@ -46,6 +56,11 @@ export function Custom({
       fontSize={fontSize}
       color={color}
       type={type}
+      position={position}
+      top={top}
+      left={left}
+      bottom={bottom}
+      right={right}
     >
       {children}
     </Styled.Custom>

@@ -7,6 +7,11 @@ interface ICustomProps {
   height: number;
   fontSize: number;
   color: string;
+  position?: string;
+  top?: number;
+  left?: number;
+  bottom?: number;
+  right?: number;
 }
 
 export const Custom = styled.button<ICustomProps>`
@@ -50,6 +55,11 @@ export const Custom = styled.button<ICustomProps>`
   display: inline-flex;
   justify-content: space-around;
   align-items: center;
+  position: ${({ position }) => position};
+  top: ${({ top }) => top}rem;
+  left: ${({ left }) => left}rem;
+  bottom: ${({ bottom }) => bottom}rem;
+  right: ${({ right }) => right}rem;
 `;
 
 export const Tab = styled.button<{ isActive: boolean }>`
