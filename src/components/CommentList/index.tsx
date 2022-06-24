@@ -19,12 +19,12 @@ interface ICommentListProps {
 export function CommentList({ reviewId }: ICommentListProps) {
   const { data: session } = useSession();
 
-  const [pageNum, setPageNum] = useState(1);
-  const itemsPerPage = 5;
+  const [page, setPage] = useState(1);
+  const limit = 5;
 
   const { isLoading, data: comments } = useQuery<IApiResponse<IComment[]>>(
-    ["getComments", { reviewId, pageNum }],
-    () => getComments(reviewId, itemsPerPage, pageNum),
+    ["getComments", { reviewId, page }],
+    () => getComments(reviewId, limit, page),
     { keepPreviousData: true },
   );
 
@@ -61,6 +61,7 @@ export function CommentList({ reviewId }: ICommentListProps) {
   };
 
   if (isLoading) return <CommentListLoader />;
+
   return (
     <Styled.CommentSection>
       {comments && comments.data.length > 0 && (
@@ -70,13 +71,13 @@ export function CommentList({ reviewId }: ICommentListProps) {
               <CommentItem key={comment.id} {...comment} />
             ))}
           </ul>
-          {comments.pagination.total > itemsPerPage && (
+          {comments.pagination.total > limit && (
             <Styled.PaginationWrapper>
               <Pagination
                 totalItemCount={comments.pagination.total}
-                itemsPerPage={itemsPerPage}
-                pageNum={pageNum}
-                setPageNum={setPageNum}
+                limit={limit}
+                page={page}
+                setPage={setPage}
               />
             </Styled.PaginationWrapper>
           )}

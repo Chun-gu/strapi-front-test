@@ -1,63 +1,76 @@
 import { useState } from "react";
-import { dehydrate, QueryClient, useQuery } from "react-query";
-import { GetServerSideProps } from "next";
+import { useQuery } from "react-query";
 import { useRouter } from "next/router";
 import { getReviews } from "@api";
-import { ReviewItem, Pagination } from "@components";
+import { ReviewItem, Pagination, Buttons } from "@components";
+import { ReviewListLoader } from "../Loader";
 import { IApiResponse, IReview } from "@types";
+import { NoneYet } from "@styles/GlobalStyle";
 import * as Styled from "./styled";
 
 export function ReviewList() {
   const router = useRouter();
   const { productId } = router.query;
-  const { data: reviews } = useQuery<IApiResponse<IReview[]>>(
-    ["getReviews", productId],
-    () => getReviews(productId),
+
+  const [page, setPage] = useState(1);
+  const limit = 5;
+  const { isLoading, data: reviews } = useQuery<IApiResponse<IReview[]>>(
+    ["getReviews", { productId, page }],
+    () => getReviews(productId, limit, page),
   );
 
-  const itemsPerPage = 5;
-  const [pageNum, setPageNum] = useState(1);
-  const offset = (pageNum - 1) * itemsPerPage;
+  if (isLoading) return <ReviewListLoader />;
 
   return (
-    <>
-      {reviews && reviews?.data.length !== 0 ? (
+    <Styled.ReviewSection>
+      <Buttons.Custom
+        width={10}
+        height={4}
+        color="green"
+        fontSize={1.6}
+        disabled={false}
+        type="button"
+        position="absolute"
+        bottom={0}
+        right={0}
+      >
+        리뷰 작성
+      </Buttons.Custom>
+      {reviews && reviews?.data.length > 0 ? (
         <>
           <Styled.ReviewList>
-            <ul>
-              {reviews?.data
-                .slice(offset, offset + itemsPerPage)
-                .map((review) => (
-                  <ReviewItem key={review.id} {...review} />
-                ))}
-            </ul>
+            {reviews.data.map((review) => (
+              <ReviewItem key={review.id} {...review} />
+            ))}
           </Styled.ReviewList>
-          {reviews && reviews.data.length > itemsPerPage && (
+          {reviews.pagination.total > limit && (
             <Pagination
-              totalItemCount={reviews.data.length}
-              itemsPerPage={itemsPerPage}
-              pageNum={pageNum}
-              setPageNum={setPageNum}
+              totalItemCount={reviews.pagination.total}
+              limit={limit}
+              page={page}
+              setPage={setPage}
             />
           )}
         </>
       ) : (
-        <Styled.NoneYet>아직 리뷰가 없습니다.</Styled.NoneYet>
+        <Styled.NoneYetWrapper>
+          <NoneYet>아직 리뷰가 없습니다.</NoneYet>
+        </Styled.NoneYetWrapper>
       )}
-    </>
+    </Styled.ReviewSection>
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const productId = ctx.params?.productId;
-  const queryClient = new QueryClient();
-  await queryClient.prefetchQuery(["getReviews", productId], () =>
-    getReviews(productId),
-  );
+// export const getServerSideProps: GetServerSideProps = async (ctx) => {
+//   const productId = ctx.params?.productId;
+//   const queryClient = new QueryClient();
+//   await queryClient.prefetchQuery(["getReviews", productId], () =>
+//     getReviews(productId),
+//   );
 
-  return {
-    props: {
-      dehydratedState: dehydrate(queryClient),
-    },
-  };
-};
+//   return {
+//     props: {
+//       dehydratedState: dehydrate(queryClient),
+//     },
+//   };
+// };
