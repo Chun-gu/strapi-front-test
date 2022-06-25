@@ -1,16 +1,16 @@
 // Common Interfaces
 export type IIdArg = number | string | string[] | undefined;
 
-export interface IApiResponse<T> {
-  data: T;
-  pagination: IPagination;
-}
-
 export interface IPagination {
   page: number;
   pageSize: number;
   pageCount: number;
   total: number;
+}
+
+export interface IApiResponse<T> {
+  data: T;
+  pagination: IPagination;
 }
 
 export interface IImage {
@@ -47,7 +47,6 @@ export interface IAddUserValues {
   password: string;
   email: string;
   phone: string;
-  nickname: string;
 }
 
 // Product Interfaces
@@ -69,6 +68,7 @@ export interface IAddProductValues {
   stock: number;
   categories: string;
   images: FileList;
+  jwt: string;
 }
 
 // Review Interfaces
