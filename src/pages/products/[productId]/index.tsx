@@ -2,7 +2,7 @@ import { useCallback, useRef } from "react";
 import { dehydrate, QueryClient, useQuery } from "react-query";
 import { GetServerSideProps, NextPage } from "next";
 import { useRouter } from "next/router";
-import { getProducts } from "@api";
+import { getProduct } from "@api";
 import {
   ProductImage,
   PriceCalculator,
@@ -13,32 +13,29 @@ import {
 import { IApiResponse, IProduct } from "@types";
 import * as Styled from "./styled";
 
-const Product: NextPage<IApiResponse<IProduct>> = () => {
+const Product: NextPage = () => {
   const router = useRouter();
   const { productId } = router.query;
 
-  const {
-    isLoading,
-    data: product,
-    error,
-  } = useQuery<IProduct, Error>(["getProduct", productId], () =>
-    getProducts(productId),
+  const { data: product } = useQuery<IApiResponse<IProduct>, Error>(
+    ["getProduct", productId],
+    () => getProduct(productId),
   );
-
-  const { name, price, discountRate, stock, description, images } =
-    product as IProduct;
-
-  const finalPrice =
-    discountRate === 0
-      ? price
-      : Math.round((price * (100 - discountRate)) / 1000) * 10;
 
   const sectionRefs = useRef<HTMLElement[]>([]);
   const storeRef = useCallback((elem: HTMLElement, index: number) => {
     sectionRefs.current[index] = elem;
   }, []);
 
-  return (
+  const { images, name, discountRate, price, stock, description } =
+    product?.data || ({} as IProduct);
+
+  const finalPrice =
+    discountRate === 0
+      ? price
+      : Math.round((price * (100 - discountRate)) / 1000) * 10;
+
+  return product?.data !== null ? (
     <>
       <Styled.ProductHeader>
         <ProductImage productImages={images} />
@@ -143,6 +140,8 @@ const Product: NextPage<IApiResponse<IProduct>> = () => {
         </Styled.TabSection>
       </Styled.ProductBody>
     </>
+  ) : (
+    <div>제품을 찾을 수 없습니다.</div>
   );
 };
 
@@ -150,7 +149,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const productId = ctx.params?.productId;
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery(["getProduct", productId], () =>
-    getProducts(productId),
+    getProduct(productId),
   );
 
   return {
