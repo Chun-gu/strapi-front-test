@@ -12,7 +12,7 @@ interface IPostcodeProps {
 
 export function Postcode({ setIsPostcodeOpen, setValue }: IPostcodeProps) {
   const handleComplete = (data: {
-    address: any;
+    address: string;
     addressType: string;
     bname: string;
     buildingName: string;
