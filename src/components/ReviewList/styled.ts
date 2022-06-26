@@ -7,6 +7,7 @@ export const ReviewSection = styled.div`
 `;
 
 export const ReviewList = styled.ul`
+  min-height: 60.6rem;
   margin-bottom: 4rem;
 `;
 

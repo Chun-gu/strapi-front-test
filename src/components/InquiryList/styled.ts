@@ -19,6 +19,7 @@ export const Field = styled.div`
 `;
 
 export const List = styled.ul`
+  min-height: 26.5rem;
   margin-bottom: 4rem;
   li {
     display: grid;
