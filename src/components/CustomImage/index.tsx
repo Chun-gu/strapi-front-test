@@ -4,10 +4,18 @@ import Image from "next/image";
 interface customImageProps {
   src: string;
   alt: string;
+  priority?: boolean;
   fallback: string;
+  objectFit: React.CSSProperties["objectFit"];
 }
 
-export default function CustomImage({ src, alt, fallback }: customImageProps) {
+export default function CustomImage({
+  src,
+  alt,
+  priority,
+  fallback,
+  objectFit,
+}: customImageProps) {
   const [imgSrc, setImgSrc] = useState(src);
 
   useEffect(() => {
@@ -19,7 +27,8 @@ export default function CustomImage({ src, alt, fallback }: customImageProps) {
       src={imgSrc ? imgSrc : fallback}
       alt={alt}
       layout="fill"
-      objectFit="cover"
+      priority={priority}
+      objectFit={objectFit}
       onError={() => {
         setImgSrc(fallback);
       }}
