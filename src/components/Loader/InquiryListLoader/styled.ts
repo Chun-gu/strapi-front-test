@@ -15,9 +15,6 @@ export const InquiryItem = styled.div`
   height: 5.3rem;
   padding: 1.5rem 0;
   border-bottom: 1px solid ${COLOR.greyC4};
-  &:first-child {
-    border-bottom: 1px solid ${COLOR.black};
-  }
 `;
 
 export const content = styled(Loader)<{ width: number }>`
