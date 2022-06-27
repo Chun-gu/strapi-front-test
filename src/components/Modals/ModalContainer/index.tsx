@@ -1,4 +1,4 @@
-import { ReactNode, useEffect } from "react";
+import { ReactNode } from "react";
 import { Portal } from "src/components/Portal";
 import * as Styled from "./styled";
 
