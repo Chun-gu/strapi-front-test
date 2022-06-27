@@ -82,7 +82,9 @@ export interface IReview {
 }
 
 export interface IAddReviewValues {
-  product: number;
+  jwt: string;
+  author: number;
+  product: string | string[] | undefined;
   rating: number;
   images: FileList;
   content: string;
