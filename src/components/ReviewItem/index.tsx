@@ -38,8 +38,13 @@ export function ReviewItem({ ...review }: IReview) {
             {images.length > 0 && (
               <ImageWrapper width={40} height={40}>
                 <CustomImage
-                  src={images[0]?.medium}
+                  src={
+                    images[0]?.medium ||
+                    images[0]?.small ||
+                    images[0]?.thumbnail
+                  }
                   alt="리뷰 사진"
+                  objectFit="contain"
                   fallback="/images/product-img-lg.png"
                 />
               </ImageWrapper>
@@ -57,6 +62,8 @@ export function ReviewItem({ ...review }: IReview) {
             <CustomImage
               src={images[0]?.thumbnail}
               alt="리뷰 사진"
+              priority={true}
+              objectFit="cover"
               fallback="/images/product-img-lg.png"
             />
           )}
