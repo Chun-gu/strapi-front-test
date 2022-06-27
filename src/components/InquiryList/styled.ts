@@ -2,6 +2,7 @@ import { COLOR } from "@shared/constants";
 import styled from "styled-components";
 
 export const InquirySection = styled.div`
+  min-height: 37.6rem;
   font-size: 1.6rem;
   line-height: 1.3;
   text-align: center;
