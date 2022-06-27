@@ -10,10 +10,9 @@ export const ReviewContainer = styled.li`
   padding: 2rem 6rem;
   display: flex;
   justify-content: space-between;
-  border-top: 0.1rem solid ${COLOR.greyC4};
   border-bottom: 0.1rem solid ${COLOR.greyC4};
-  li + & {
-    border-top: none;
+  &:nth-child(5) {
+    border-bottom: none;
   }
 `;
 
