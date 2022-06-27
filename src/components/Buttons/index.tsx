@@ -19,6 +19,7 @@ interface ICustomButtonProps extends IButtonProps {
   left?: number;
   bottom?: number;
   right?: number;
+  autofocus?: boolean;
 }
 
 interface ITabButtonProps extends IButtonProps {
@@ -45,6 +46,7 @@ export function Custom({
   left,
   bottom,
   right,
+  autofocus,
 }: ICustomButtonProps) {
   return (
     <Styled.Custom
@@ -61,6 +63,7 @@ export function Custom({
       left={left}
       bottom={bottom}
       right={right}
+      autoFocus={autofocus}
     >
       {children}
     </Styled.Custom>
@@ -88,15 +91,3 @@ export function Menu({
     </Styled.Menu>
   );
 }
-
-// Custom.defaultProps = {
-//   onClick: () => {},
-// };
-
-// Tab.defaultProps = {
-//   onClick: () => {},
-// };
-
-// Menu.defaultProps = {
-//   onClick: () => {},
-// };
