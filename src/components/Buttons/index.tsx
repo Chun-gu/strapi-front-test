@@ -11,7 +11,7 @@ interface ICustomButtonProps extends IButtonProps {
   width: number;
   height: 3 | 4 | 5 | 5.4 | 6 | 6.8;
   fontSize: number;
-  color: "green" | "dark" | "white";
+  color: "green" | "dark" | "white" | "red";
   form?: string;
   disabled: boolean;
   position?: string;

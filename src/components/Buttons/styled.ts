@@ -31,6 +31,10 @@ export const Custom = styled.button<ICustomProps>`
         return `
           color: ${COLOR.white};
           background-color: ${COLOR.accentColor}`;
+      case "red":
+        return `
+          color: ${COLOR.white};
+          background-color: ${COLOR.red}`;
       case "dark":
         return `
           color: ${COLOR.white};
