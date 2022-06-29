@@ -1,5 +1,7 @@
 import { ReactNode, useEffect } from "react";
 import ReactDOM from "react-dom";
+import { useRecoilValue } from "recoil";
+import { modalIdListAtom } from "src/atoms/modalAtom";
 
 interface IPortalProps {
   children: ReactNode;
@@ -7,15 +9,25 @@ interface IPortalProps {
 }
 
 export function Portal({ children, selector }: IPortalProps) {
+  const modalIdList = useRecoilValue(modalIdListAtom);
   const element =
     typeof window !== "undefined" && document.querySelector(selector);
 
   useEffect(() => {
-    document.body.style.cssText = `
-        overflow: hidden;`;
+    if (modalIdList.length === 1) {
+      document.body.style.cssText = `
+      position: fixed; 
+      top: -${window.scrollY}px;
+      width: 100%;
+      overflow-y: scroll;`;
+    }
 
     return () => {
-      document.body.style.cssText = "";
+      if (modalIdList.length === 1) {
+        const scrollY = document.body.style.top;
+        document.body.style.cssText = "";
+        window.scrollTo(0, parseInt(scrollY || "0", 10) * -1);
+      }
     };
   }, []);
 
