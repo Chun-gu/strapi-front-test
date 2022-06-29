@@ -115,7 +115,9 @@ export interface IInquiry {
 }
 
 export interface IAddInquiryValues {
-  productId: string;
+  jwt: string;
+  author: number;
+  product: number | string | string[] | undefined;
   content: string;
 }
 

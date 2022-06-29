@@ -13,14 +13,15 @@ export const getInquiries = async (
   return data;
 };
 
-export const addInquiry = async (
-  jwt: string,
-  author: number,
-  values: IAddInquiryValues,
-) => {
+export const addInquiry = async ({
+  jwt,
+  author,
+  product,
+  content,
+}: IAddInquiryValues) => {
   const { data } = await axios.post(
     `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/inquiries`,
-    { data: { author, ...values } },
+    { data: { product, author, content } },
     { headers: { Authorization: `Bearer ${jwt}` } },
   );
 
