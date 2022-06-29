@@ -10,16 +10,19 @@ import Spinner from "src/components/Spinner";
 import StarRating from "src/components/StarRating";
 import AlertModal from "../AlertModal";
 import ModalContainer from "../ModalContainer";
+import CloseIcon from "public/images/icon-delete.svg";
+import { Title, Wrapper, CloseButton } from "../styled";
 import * as Styled from "./styled";
 
 type AddReviewModalProps = { productId: string | string[] | undefined };
 
 const AddReviewModal = ({ productId }: AddReviewModalProps) => {
+  const { data: session } = useSession();
   const addReviewModal = useModal("addReviewModal");
   const alertModal = useModal("alertModal");
 
   const [rating, setRating] = useState(1);
-  const { data: session } = useSession();
+
   const {
     reset,
     register,
@@ -44,6 +47,11 @@ const AddReviewModal = ({ productId }: AddReviewModalProps) => {
     },
   });
 
+  const handleClose = () => {
+    if (isLoading) return;
+    addReviewModal.closeModal();
+  };
+
   const onSubmit = async () => {
     const author = session?.user?.id as number;
     const jwt = session?.jwt as string;
@@ -52,57 +60,59 @@ const AddReviewModal = ({ productId }: AddReviewModalProps) => {
   };
 
   useEffect(() => {
+    console.log("AddReviewModal 마운트");
     return () => {
+      console.log("AddReviewModal 언마운트");
       reset();
     };
   }, []);
 
   return (
     <>
-      {addReviewModal.modal.isOpen && (
-        <ModalContainer closeModal={addReviewModal.closeModal}>
-          {isLoading && <Spinner />}
-          <Styled.ModalContent>
-            <h3 className="sr-only">리뷰 작성하기</h3>
-            <StarRating
-              rating={rating}
-              readOnly={false}
-              setRating={setRating}
-            />
-            <form onSubmit={handleSubmit(onSubmit)}>
-              <div>
-                <label htmlFor="images">이미지 첨부</label>
-                <input type="file" id="images" {...register("images")} />
-              </div>
-              <div>
-                <label htmlFor="content" className="sr-only">
-                  리뷰 내용
-                </label>
-                <Styled.ReviewContent
-                  id="content"
-                  placeholder="리뷰를 작성하세요. (10자 ~ 200자)"
-                  {...register("content", {
-                    required: true,
-                    minLength: 10,
-                    maxLength: 200,
-                  })}
-                />
-              </div>
-              <Buttons.Custom
-                type="submit"
-                width={10}
-                height={3}
-                fontSize={1.6}
-                color="green"
-                disabled={!isValid || isLoading}
-              >
-                작성
-              </Buttons.Custom>
-            </form>
-          </Styled.ModalContent>
-        </ModalContainer>
+      <ModalContainer closeModal={handleClose}>
+        {isLoading && <Spinner />}
+        <Wrapper>
+          <Title>리뷰 작성</Title>
+          <StarRating rating={rating} readOnly={false} setRating={setRating} />
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <div>
+              <label htmlFor="images">이미지 첨부</label>
+              <input type="file" id="images" {...register("images")} />
+            </div>
+            <div>
+              <label htmlFor="content" className="sr-only">
+                리뷰 내용
+              </label>
+              <Styled.ReviewContent
+                id="content"
+                placeholder="리뷰를 작성하세요. (10자 ~ 200자)"
+                {...register("content", {
+                  required: true,
+                  minLength: 10,
+                  maxLength: 200,
+                })}
+              />
+            </div>
+            <Buttons.Custom
+              type="submit"
+              width={10}
+              height={3}
+              fontSize={1.6}
+              color="green"
+              disabled={!isValid || isLoading}
+            >
+              작성
+            </Buttons.Custom>
+          </form>
+          <CloseButton onClick={handleClose}>
+            <CloseIcon width={18} height={18} />
+            <span className="sr-only">리뷰 작성창 닫기</span>
+          </CloseButton>
+        </Wrapper>
+      </ModalContainer>
+      {alertModal.modal.isOpen && (
+        <AlertModal modalId="alertModal" onClose={handleClose} />
       )}
-      <AlertModal onClose={addReviewModal.closeModal} />
     </>
   );
 };
