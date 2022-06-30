@@ -16,13 +16,15 @@
     "baseUrl": ".",
     "incremental": true,
     "paths": {
+      "@api": ["src/api/index"],
+      "@atoms/*": ["src/atoms/*"],
       "@components": ["src/components/index"],
+      "@hooks": ["src/hooks/index"],
       "@pages/*": ["src/pages/*"],
       "@styles/*": ["src/styles/*"],
-      "@api": ["src/utils/api/index"],
+      "@shared/*": ["src/shared/*"],
       "@types": ["src/types/index"],
       "@utils/*": ["src/utils/*"],
-      "@shared/*": ["src/shared/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
