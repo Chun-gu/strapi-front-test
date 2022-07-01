@@ -1,11 +1,4 @@
-import {
-  atom,
-  atomFamily,
-  DefaultValue,
-  selectorFamily,
-  useRecoilState,
-  useResetRecoilState,
-} from "recoil";
+import { atom, atomFamily, DefaultValue, selectorFamily } from "recoil";
 
 interface ModalState {
   id: string;
@@ -13,9 +6,7 @@ interface ModalState {
   isOpen: boolean;
 }
 
-type modalId = string;
-
-export const modalAtomFamily = atomFamily<ModalState, modalId>({
+export const modalAtomFamily = atomFamily<ModalState, string>({
   key: "modalAtomFamily",
   default: (id) => ({
     id,
@@ -24,12 +15,12 @@ export const modalAtomFamily = atomFamily<ModalState, modalId>({
   }),
 });
 
-export const modalIdListAtom = atom<modalId[]>({
+export const modalIdListAtom = atom<string[]>({
   key: "modalIdListAtom",
   default: [],
 });
 
-export const modalSelectorFamily = selectorFamily<ModalState, modalId>({
+export const modalSelectorFamily = selectorFamily<ModalState, string>({
   key: "modalSelectorFamily",
   get:
     (modalId) =>
@@ -38,7 +29,7 @@ export const modalSelectorFamily = selectorFamily<ModalState, modalId>({
 
   set:
     (modalId) =>
-    ({ get, set, reset }, newModalState) => {
+    ({ set, reset }, newModalState) => {
       if (newModalState instanceof DefaultValue) {
         reset(modalAtomFamily(modalId));
         set(modalIdListAtom, (prev) => prev.filter((item) => item !== modalId));
@@ -52,29 +43,3 @@ export const modalSelectorFamily = selectorFamily<ModalState, modalId>({
       );
     },
 });
-
-export const useModal = (modalId: modalId, onClose?: () => void) => {
-  const [modal, setModal] = useRecoilState(modalSelectorFamily(modalId));
-  const resetModal = useResetRecoilState(modalSelectorFamily(modalId));
-
-  const addText = (text: string) => {
-    setModal((prev) => ({ ...prev, text }));
-  };
-
-  const openModal = () => {
-    setModal((prev) => ({ ...prev, isOpen: true }));
-  };
-
-  // const hideModal = () => {
-  //   if (onClose) onClose();
-  //   setModal((prev) => ({ ...prev, isOpen: false }));
-  // };
-
-  const closeModal = () => {
-    resetModal();
-  };
-
-  const closeAllModal = () => {};
-
-  return { modal, addText, openModal, closeModal, closeAllModal };
-};
