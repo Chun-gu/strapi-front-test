@@ -22,9 +22,8 @@
       "@hooks": ["src/hooks/index"],
       "@pages/*": ["src/pages/*"],
       "@styles/*": ["src/styles/*"],
-      "@shared/*": ["src/shared/*"],
       "@types": ["src/types/index"],
-      "@utils/*": ["src/utils/*"],
+      "@utils": ["src/utils/index"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
