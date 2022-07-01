@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { Buttons, Postcode } from "@components";
-import ImageWrapper from "@utils/ImageWrapper";
+import { ImageWrapper } from "@utils";
 import * as Styled from "./styled";
 
 interface IFormValues {

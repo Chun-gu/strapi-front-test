@@ -22,6 +22,7 @@ const Tooltip = ({ children, isOpen, setIsOpen }: TooltipProps) => {
     return () => {
       document.removeEventListener("mousedown", clickOutside);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return isOpen ? (

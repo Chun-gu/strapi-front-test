@@ -1,16 +1,16 @@
 import { MouseEvent, useState } from "react";
-import Image from "next/image";
+import { CustomImage } from "@components";
 import { IImage } from "@types";
-import ImageWrapper from "@utils/ImageWrapper";
-import PrevCaret from "public/images/icon-caret-prev.svg";
-import NextCaret from "public/images/icon-caret-next.svg";
+import { ImageWrapper } from "@utils";
+import PrevCaret from "public/assets/icons/icon-caret-prev.svg";
+import NextCaret from "public/assets/icons/icon-caret-next.svg";
 import * as Styled from "./styled";
 
 interface IProductImageProps {
   productImages: IImage[];
 }
 
-export default function ProductImage({ productImages }: IProductImageProps) {
+const ProductImage = ({ productImages }: IProductImageProps) => {
   const totalSlideCount = productImages?.length ?? 1;
   const [currentSlideNum, setCurrentSlideNum] = useState(0);
 
@@ -39,28 +39,32 @@ export default function ProductImage({ productImages }: IProductImageProps) {
     <Styled.ProductImage>
       <Styled.ImageSlider>
         <ImageWrapper width={60} height={60}>
-          <Image
-            src={productImages[currentSlideNum].medium}
-            layout="fill"
+          <CustomImage
+            src={
+              productImages[currentSlideNum].medium ||
+              productImages[currentSlideNum].small ||
+              productImages[currentSlideNum].thumbnail
+            }
             objectFit="cover"
             priority={true}
-            alt="제품 사진"
+            fallback="/assets/images/img-product-fallback.png"
+            alt={`제품의 ${currentSlideNum + 1}번째 이미지`}
           />
         </ImageWrapper>
         {productImages?.length > 1 && (
           <>
             <Styled.PrevButton onClick={toPrevSlide}>
-              <PrevCaret />
+              <PrevCaret width={15} height={50} />
             </Styled.PrevButton>
             <Styled.NextButton onClick={toNextSlide}>
-              <NextCaret />
+              <NextCaret width={15} height={50} />
             </Styled.NextButton>
           </>
         )}
       </Styled.ImageSlider>
       <Styled.Thumbnails>
         {productImages.length > 1 &&
-          productImages.map((img, index) => (
+          productImages.map((image, index) => (
             <button
               type="button"
               key={`thumbnail-${index}`}
@@ -68,11 +72,11 @@ export default function ProductImage({ productImages }: IProductImageProps) {
               onClick={onClickThumbnail}
             >
               <ImageWrapper width={7} height={7}>
-                <Image
-                  src={img.thumbnail}
-                  layout="fill"
+                <CustomImage
+                  src={image.thumbnail}
                   objectFit="cover"
-                  alt={`${index}번째 제품 사진`}
+                  fallback="/assets/images/img-product-fallback.png"
+                  alt={`제품의 ${index + 1}번째 썸네일`}
                 />
               </ImageWrapper>
             </button>
@@ -80,4 +84,6 @@ export default function ProductImage({ productImages }: IProductImageProps) {
       </Styled.Thumbnails>
     </Styled.ProductImage>
   );
-}
+};
+
+export default ProductImage;

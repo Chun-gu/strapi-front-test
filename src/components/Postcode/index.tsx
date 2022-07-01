@@ -1,8 +1,8 @@
 import { Dispatch, SetStateAction } from "react";
 import DaumPostcode from "react-daum-postcode";
 import { FieldValues, UseFormSetValue } from "react-hook-form";
-import CloseIcon from "public/images/icon-delete.svg";
-import { Portal } from "../Portal";
+import { Portal } from "@components";
+import CloseIcon from "public/assets/icons/icon-delete.svg";
 import * as Styled from "./styled";
 
 interface IPostcodeProps {
@@ -10,7 +10,7 @@ interface IPostcodeProps {
   setValue: UseFormSetValue<FieldValues>;
 }
 
-export function Postcode({ setIsPostcodeOpen, setValue }: IPostcodeProps) {
+const Postcode = ({ setIsPostcodeOpen, setValue }: IPostcodeProps) => {
   const handleComplete = (data: {
     address: string;
     addressType: string;
@@ -53,11 +53,13 @@ export function Postcode({ setIsPostcodeOpen, setValue }: IPostcodeProps) {
           <header>우편번호 검색</header>
           <DaumPostcode onComplete={handleComplete} style={postcodeStyle} />
           <button type="button" onClick={closePostcode}>
-            <CloseIcon />
+            <CloseIcon width={25} height={25} />
             <span className="sr-only">우편번호 검색창 닫기</span>
           </button>
         </Styled.Inner>
       </Styled.Container>
     </Portal>
   );
-}
+};
+
+export default Postcode;

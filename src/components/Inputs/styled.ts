@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import { COLOR } from "@shared/constants";
-import ImageWrapper from "@utils/ImageWrapper";
+import { COLOR } from "@styles/color";
+import { ImageWrapper } from "@utils";
 
 interface validationProps {
   option?: string;

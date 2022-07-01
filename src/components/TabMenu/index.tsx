@@ -8,7 +8,7 @@ interface ITabMenuProps {
   };
 }
 
-export function TabMenu({ sectionRefs: { current } }: ITabMenuProps) {
+const TabMenu = ({ sectionRefs: { current } }: ITabMenuProps) => {
   const TabMenuDatas = ["제품 상세 정보", "리뷰", "Q&A", "교환/반품 정보"];
   const [activeTab, setActiveTab] = useState<HTMLElement | Element>();
   const tabMenu = useRef<HTMLDivElement>(null);
@@ -60,4 +60,6 @@ export function TabMenu({ sectionRefs: { current } }: ITabMenuProps) {
       ))}
     </Styled.TabMenu>
   );
-}
+};
+
+export default TabMenu;

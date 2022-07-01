@@ -1,7 +1,7 @@
 import { ReactNode, useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
-import { modalIdListAtom } from "src/atoms/modalAtom";
-import { Portal } from "src/components/Portal";
+import { modalIdListAtom } from "@atoms/modalAtom";
+import { Portal } from "@components";
 import * as Styled from "./styled";
 
 interface ModalContainerProps {
@@ -17,6 +17,7 @@ const ModalContainer = ({ children, closeModal }: ModalContainerProps) => {
     if (modalIdList.length > 1) {
       setIsMultiple(true);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

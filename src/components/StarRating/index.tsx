@@ -1,7 +1,6 @@
 import React, { Dispatch, MouseEvent, SetStateAction, useState } from "react";
-import { nanoid } from "nanoid";
+import Star from "public/assets/icons/icon-star-rating.svg";
 import { COLOR } from "@styles/color";
-import Star from "public/images/icon-star-rating.svg";
 
 interface IRatingProps {
   rating: number;
@@ -9,7 +8,7 @@ interface IRatingProps {
   setRating?: Dispatch<SetStateAction<number>>;
 }
 
-function Index({ rating, readOnly, setRating }: IRatingProps) {
+const StarRating = ({ rating, readOnly, setRating }: IRatingProps) => {
   const [hoverRating, setHoverRating] = useState(0);
 
   const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
@@ -34,7 +33,7 @@ function Index({ rating, readOnly, setRating }: IRatingProps) {
     <div>
       {[...Array(5)].map((_, index) => (
         <button
-          key={nanoid()}
+          key={`rate-${index + 1}`}
           type="button"
           data-rating={index + 1}
           disabled={readOnly}
@@ -49,10 +48,6 @@ function Index({ rating, readOnly, setRating }: IRatingProps) {
       ))}
     </div>
   );
-}
+};
 
-// Index.defaultProps = {
-//   setRating: () => {},
-// };
-
-export default React.memo(Index);
+export default React.memo(StarRating);

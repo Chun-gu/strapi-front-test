@@ -1,7 +1,7 @@
 import { useQuery } from "react-query";
 import { useSession } from "next-auth/react";
 import { getAnswer } from "@api";
-import { dateConverter } from "@utils/dateConverter";
+import { dateConverter } from "@utils";
 import * as Buttons from "../Buttons";
 import * as Styled from "./styled";
 

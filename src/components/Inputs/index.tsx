@@ -1,8 +1,8 @@
-import { nanoid } from "nanoid";
 import React, { ChangeEvent, useCallback, useState } from "react";
-import Check from "public/images/icon-check.svg";
-import { COLOR } from "@shared/constants";
 import { UseFormRegisterReturn } from "react-hook-form";
+import { nanoid } from "nanoid";
+import CheckIcon from "public/assets/icons/icon-check.svg";
+import { COLOR } from "@styles/color";
 import * as Styled from "./styled";
 
 interface InputProps {
@@ -117,7 +117,7 @@ export function TextInputBoxComponent({
                   }
                 `}
               >
-                <Check viewBox="0 0 28 28" />
+                <CheckIcon viewBox="0 0 28 28" />
               </Styled.CheckWrapper>
             );
           case "unit": {

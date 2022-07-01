@@ -2,15 +2,14 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useQueryClient, useMutation } from "react-query";
 import { useSession } from "next-auth/react";
-import { addInquiry } from "@api";
+import { addInquiry } from "src/api";
 import { Buttons } from "@components";
 import { IAddInquiryValues } from "@types";
-import { useModal } from "src/atoms/modalAtom";
+import { useModal } from "@hooks";
 import Spinner from "src/components/Spinner";
 import AlertModal from "../AlertModal";
 import ModalContainer from "../ModalContainer";
-import CloseIcon from "public/images/icon-delete.svg";
-import * as Styled from "./styled";
+import CloseIcon from "public/assets/icons/icon-delete.svg";
 import { CloseButton, Input, Title, Wrapper } from "../styled";
 
 type AddInquiryModalProps = { productId: string | string[] | undefined };
@@ -34,13 +33,13 @@ const AddInquiryModal = ({ productId }: AddInquiryModalProps) => {
       reset();
       queryClient.invalidateQueries(["getInquiries"]);
       alertModal.addText("작성을 완료했습니다.");
-      alertModal.openModal();
+      alertModal.open();
     },
-    onError: (error) => {
+    onError: () => {
       alertModal.addText(
         "작성에 실패했습니다. 잠시 후 다시 시도해주시기 바랍니다.",
       );
-      alertModal.openModal();
+      alertModal.open();
     },
   });
 
@@ -53,7 +52,7 @@ const AddInquiryModal = ({ productId }: AddInquiryModalProps) => {
 
   const handleClose = () => {
     if (isLoading) return;
-    addInquiryModal.closeModal();
+    addInquiryModal.close();
   };
 
   useEffect(() => {
@@ -62,7 +61,7 @@ const AddInquiryModal = ({ productId }: AddInquiryModalProps) => {
       console.log("AddInquiryModal 언마운트");
       reset();
     };
-  }, []);
+  }, [reset]);
 
   return (
     <>

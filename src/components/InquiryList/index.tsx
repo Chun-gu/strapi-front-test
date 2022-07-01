@@ -1,18 +1,17 @@
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { getInquiries } from "@api";
 import { Buttons, InquiryItem, Pagination } from "@components";
-import InquiryListLoader from "../Loader/InquiryListLoader";
-import { IApiResponse, IInquiry } from "@types";
+import { InquiryListLoader } from "../Loader";
+import { AddInquiryModal } from "../Modals";
+import { useModal } from "@hooks";
 import { NoneYet } from "@styles/GlobalStyle";
+import { IApiResponse, IInquiry } from "@types";
 import * as Styled from "./styled";
-import { useSession } from "next-auth/react";
-import { useModal } from "src/atoms/modalAtom";
-import AddInquiryModal from "../Modals/AddInquiryModal";
-import AlertModal from "../Modals/AlertModal";
 
-export function InquiryList() {
+const InquiryList = () => {
   const router = useRouter();
   const { productId } = router.query;
 
@@ -29,9 +28,9 @@ export function InquiryList() {
 
   const writeInquiry = () => {
     if (session) {
-      addInquiryModal.openModal();
+      addInquiryModal.open();
     } else {
-      toLoginModal.openModal();
+      toLoginModal.open();
     }
   };
 
@@ -84,8 +83,7 @@ export function InquiryList() {
           </Styled.List>
           {inquiries.pagination.total > limit && (
             <Pagination
-              totalItemCount={inquiries.pagination.total}
-              limit={limit}
+              totalPageCount={inquiries.pagination.pageCount}
               page={page}
               setPage={setPage}
             />
@@ -94,6 +92,6 @@ export function InquiryList() {
       )}
     </Styled.InquirySection>
   );
-}
+};
 
 export default InquiryList;

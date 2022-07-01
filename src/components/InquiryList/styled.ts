@@ -1,5 +1,5 @@
-import { COLOR } from "@shared/constants";
 import styled from "styled-components";
+import { COLOR } from "@styles/color";
 
 export const InquirySection = styled.div`
   min-height: 37.6rem;
@@ -22,14 +22,6 @@ export const Field = styled.div`
 export const List = styled.ul`
   min-height: 26.5rem;
   margin-bottom: 4rem;
-  li {
-    display: grid;
-    grid-template-columns: 1fr 7fr 1fr 1fr;
-    gap: 1rem;
-    min-height: 5.3rem;
-    padding: 1.5rem 0;
-    text-align: center;
-  }
 `;
 
 export const NoneYetWrapper = styled.div`

@@ -1,16 +1,11 @@
 import Image from "next/image";
-import ImageWrapper from "@utils/ImageWrapper";
 import { IComment } from "@types";
-import { dateConverter } from "@utils/dateConverter";
-import authorImg from "public/images/product-img-small-1.png";
+import { ImageWrapper, dateConverter } from "@utils";
+import authorImg from "public/assets/images/img-user-fallback.png";
 import * as Styled from "./styled";
 
-export default function CommentItem({ ...comment }: IComment) {
-  const {
-    author: { username },
-    content,
-    createdAt,
-  } = comment;
+const CommentItem = ({ ...comment }: IComment) => {
+  const { author, content, createdAt } = comment;
 
   return (
     <Styled.CommentItem>
@@ -20,13 +15,15 @@ export default function CommentItem({ ...comment }: IComment) {
             src={authorImg}
             layout="fill"
             objectFit="cover"
-            alt="작성자 사진"
+            alt="작성자 프로필 이미지"
           />
         </ImageWrapper>
-        <span>{username}</span>
+        <span>{author.username}</span>
       </Styled.Author>
       <Styled.Content>{content}</Styled.Content>
       <Styled.Date>{dateConverter(createdAt)}</Styled.Date>
     </Styled.CommentItem>
   );
-}
+};
+
+export default CommentItem;

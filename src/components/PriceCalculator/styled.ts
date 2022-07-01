@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { COLOR } from "@shared/constants";
+import { COLOR } from "@styles/color";
 
 export const Count = styled.div`
   height: 11rem;

@@ -1,22 +1,23 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import Image from "next/image";
 import { useSession } from "next-auth/react";
-import { IApiResponse, IComment } from "@types";
+import Image from "next/image";
 import { addComment, getComments } from "@api";
-import ImageWrapper from "@utils/ImageWrapper";
+import { IApiResponse, IComment } from "@types";
+import { ImageWrapper } from "@utils";
 import * as Buttons from "../Buttons";
 import CommentItem from "../CommentItem";
-import { Pagination } from "../Pagination";
-import * as Styled from "./styled";
 import { CommentListLoader } from "../Loader";
+import Pagination from "../Pagination";
+import authorImg from "public/assets/images/img-user-fallback.png";
+import * as Styled from "./styled";
 
 interface ICommentListProps {
   reviewId: number;
 }
 
-export function CommentList({ reviewId }: ICommentListProps) {
+const CommentList = ({ reviewId }: ICommentListProps) => {
   const { data: session } = useSession();
 
   const [page, setPage] = useState(1);
@@ -74,8 +75,7 @@ export function CommentList({ reviewId }: ICommentListProps) {
           {comments.pagination.total > limit && (
             <Styled.PaginationWrapper>
               <Pagination
-                totalItemCount={comments.pagination.total}
-                limit={limit}
+                totalPageCount={comments.pagination.pageCount}
                 page={page}
                 setPage={setPage}
               />
@@ -86,11 +86,7 @@ export function CommentList({ reviewId }: ICommentListProps) {
       <Styled.CommentInputForm onSubmit={handleSubmit(onSubmit)}>
         <Styled.Author>
           <ImageWrapper width={4} height={4} borderRadius="50%">
-            <Image
-              src="/images/seller-profileIMG.png"
-              layout="fill"
-              alt="작성자 사진"
-            />
+            <Image src={authorImg} layout="fill" alt="작성자 사진" />
           </ImageWrapper>
           <span className="ellipsis-single">
             {session ? session.user?.username : "로그인 필요"}
@@ -122,4 +118,6 @@ export function CommentList({ reviewId }: ICommentListProps) {
       </Styled.CommentInputForm>
     </Styled.CommentSection>
   );
-}
+};
+
+export default CommentList;

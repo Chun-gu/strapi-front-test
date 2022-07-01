@@ -1,14 +1,14 @@
 import { ReactNode, useEffect } from "react";
 import ReactDOM from "react-dom";
 import { useRecoilValue } from "recoil";
-import { modalIdListAtom } from "src/atoms/modalAtom";
+import { modalIdListAtom } from "@atoms/modalAtom";
 
 interface IPortalProps {
   children: ReactNode;
   selector: string;
 }
 
-export function Portal({ children, selector }: IPortalProps) {
+const Portal = ({ children, selector }: IPortalProps) => {
   const modalIdList = useRecoilValue(modalIdListAtom);
   const element =
     typeof window !== "undefined" && document.querySelector(selector);
@@ -29,7 +29,10 @@ export function Portal({ children, selector }: IPortalProps) {
         window.scrollTo(0, parseInt(scrollY || "0", 10) * -1);
       }
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return element && children ? ReactDOM.createPortal(children, element) : null;
-}
+};
+
+export default Portal;

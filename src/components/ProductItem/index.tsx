@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { IProduct } from "@types";
-import ImageWrapper from "@utils/ImageWrapper";
+import { ImageWrapper } from "@utils";
 import { COLOR } from "@styles/color";
 import * as Styled from "./styled";
 

@@ -1,18 +1,20 @@
-import { addReview } from "@api";
-import { Buttons } from "@components";
-import { IAddReviewValues } from "@types";
-import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "react-query";
-import { useModal } from "src/atoms/modalAtom";
-import Spinner from "src/components/Spinner";
-import StarRating from "src/components/StarRating";
+import { useSession } from "next-auth/react";
+import { addReview } from "@api";
+import { Buttons, Spinner, StarRating } from "@components";
+import { IAddReviewValues } from "@types";
+import { useModal } from "@hooks";
 import AlertModal from "../AlertModal";
 import ModalContainer from "../ModalContainer";
-import CloseIcon from "public/images/icon-delete.svg";
-import { Title, Wrapper, CloseButton } from "../styled";
-import * as Styled from "./styled";
+import CloseIcon from "public/assets/icons/icon-delete.svg";
+import { Title, Wrapper, CloseButton, Input as input } from "../styled";
+import styled from "styled-components";
+
+const Input = styled(input)`
+  height: 30rem;
+`;
 
 type AddReviewModalProps = { productId: string | string[] | undefined };
 
@@ -29,7 +31,10 @@ const AddReviewModal = ({ productId }: AddReviewModalProps) => {
     getValues,
     handleSubmit,
     formState: { isValid },
-  } = useForm<IAddReviewValues>({ mode: "onChange" });
+  } = useForm<IAddReviewValues>({
+    mode: "onChange",
+    defaultValues: { content: "defualt value" },
+  });
 
   const queryClient = useQueryClient();
   const { mutate, isLoading } = useMutation(addReview, {
@@ -37,26 +42,26 @@ const AddReviewModal = ({ productId }: AddReviewModalProps) => {
       reset();
       queryClient.invalidateQueries(["getReviews"]);
       alertModal.addText("작성을 완료했습니다.");
-      alertModal.openModal();
+      alertModal.open();
     },
-    onError: (error) => {
+    onError: () => {
       alertModal.addText(
         "작성에 실패했습니다. 잠시 후 다시 시도해주시기 바랍니다.",
       );
-      alertModal.openModal();
+      alertModal.open();
     },
   });
 
   const handleClose = () => {
     if (isLoading) return;
-    addReviewModal.closeModal();
+    addReviewModal.close();
   };
 
   const onSubmit = async () => {
     const author = session?.user?.id as number;
     const jwt = session?.jwt as string;
-    const { images, content } = getValues();
-    mutate({ author, jwt, product: productId, rating, images, content });
+    const { image, content } = getValues();
+    mutate({ author, jwt, product: productId, rating, image, content });
   };
 
   useEffect(() => {
@@ -65,7 +70,7 @@ const AddReviewModal = ({ productId }: AddReviewModalProps) => {
       console.log("AddReviewModal 언마운트");
       reset();
     };
-  }, []);
+  }, [reset]);
 
   return (
     <>
@@ -76,14 +81,14 @@ const AddReviewModal = ({ productId }: AddReviewModalProps) => {
           <StarRating rating={rating} readOnly={false} setRating={setRating} />
           <form onSubmit={handleSubmit(onSubmit)}>
             <div>
-              <label htmlFor="images">이미지 첨부</label>
-              <input type="file" id="images" {...register("images")} />
+              <label htmlFor="image">이미지 첨부</label>
+              <input type="file" id="image" {...register("image")} />
             </div>
             <div>
               <label htmlFor="content" className="sr-only">
                 리뷰 내용
               </label>
-              <Styled.ReviewContent
+              <Input
                 id="content"
                 placeholder="리뷰를 작성하세요. (10자 ~ 200자)"
                 {...register("content", {

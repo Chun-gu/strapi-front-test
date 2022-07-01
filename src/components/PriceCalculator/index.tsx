@@ -1,9 +1,9 @@
-import Link from "next/link";
 import { ChangeEvent, useState } from "react";
-import PlusIcon from "public/images/icon-plus-line.svg";
-import MinusIcon from "public/images/icon-minus-line.svg";
+import Link from "next/link";
 import router from "next/router";
 import * as Buttons from "../Buttons";
+import PlusIcon from "public/assets/icons/icon-plus-line.svg";
+import MinusIcon from "public/assets/icons/icon-minus-line.svg";
 import * as Styled from "./styled";
 
 interface IPriceCalculatorProps {
@@ -12,11 +12,11 @@ interface IPriceCalculatorProps {
   stock: number;
 }
 
-export function PriceCalculator({
+const PriceCalculator = ({
   productId,
   price,
   stock,
-}: IPriceCalculatorProps) {
+}: IPriceCalculatorProps) => {
   const [isAddedToCart, setIsAddedToCart] = useState(false);
   const [totalCount, setTotalCount] = useState(1);
   const totalPrice = price * totalCount;
@@ -149,4 +149,6 @@ export function PriceCalculator({
       </Styled.ButtonsWrapper>
     </>
   );
-}
+};
+
+export default PriceCalculator;
