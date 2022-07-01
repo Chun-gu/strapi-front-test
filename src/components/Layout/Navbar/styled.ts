@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Cart from "/public/images/icon-shopping-cart.svg";
+import Cart from "/public/assets/icons/icon-shopping-cart.svg";
 import { COLOR } from "@styles/color";
 
 export const Header = styled.header`

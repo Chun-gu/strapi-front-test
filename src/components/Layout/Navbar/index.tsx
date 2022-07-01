@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { useSession } from "next-auth/react";
-import Logo from "public/images/logo.svg";
+import Logo from "public/assets/icons/logo.svg";
 import UserMenu from "src/components/UserMenu";
 import * as Styled from "./styled";
 

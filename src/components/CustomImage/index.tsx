@@ -9,13 +9,13 @@ interface customImageProps {
   objectFit: React.CSSProperties["objectFit"];
 }
 
-export default function CustomImage({
+const CustomImage = ({
   src,
   alt,
   priority,
   fallback,
   objectFit,
-}: customImageProps) {
+}: customImageProps) => {
   const [imgSrc, setImgSrc] = useState(src);
 
   useEffect(() => {
@@ -34,4 +34,6 @@ export default function CustomImage({
       }}
     />
   );
-}
+};
+
+export default CustomImage;
