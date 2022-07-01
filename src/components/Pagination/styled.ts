@@ -1,5 +1,5 @@
-import { COLOR } from "@shared/constants";
 import styled from "styled-components";
+import { COLOR } from "@styles/color";
 
 export const Nav = styled.nav`
   display: flex;
@@ -7,14 +7,16 @@ export const Nav = styled.nav`
 `;
 
 export const Button = styled.button`
-  width: 1.8rem;
+  min-width: 1.8rem;
   height: 1.8rem;
   font-size: 1.4rem;
-  border: 0.1rem solid ${COLOR.greyE0};
+  line-height: 1.8rem;
+  outline: 1px solid ${COLOR.greyE0};
+  padding: 0 0.2rem;
   margin: 0 0.4rem;
   &:hover {
     background-color: ${COLOR.accentColor};
-    border: none;
+    outline: 1px solid ${COLOR.accentColor};
     svg > path {
       stroke: ${COLOR.white};
     }
@@ -26,11 +28,9 @@ export const Button = styled.button`
   }
   &[disabled]:hover {
     background-color: transparent;
-    border: 0.1rem solid ${COLOR.greyE0};
+    outline: 1px solid ${COLOR.greyE0};
   }
   svg {
-    width: 0.5rem;
-    height: 1.1rem;
     & > path {
       stroke: ${COLOR.black};
     }
@@ -38,8 +38,8 @@ export const Button = styled.button`
 `;
 
 export const PageButton = styled(Button)<{ isCurrentPage: boolean }>`
-  border: none;
-  margin: 0;
+  outline: none;
+  margin: 0 0.1rem;
   &:hover {
     background-color: ${COLOR.lightGreen};
   }
