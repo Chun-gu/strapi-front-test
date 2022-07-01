@@ -8,8 +8,8 @@ export const ProductList = styled.ul`
   gap: 3rem;
 `;
 
-export const Image = styled(Loader)`
-  width: 38rem;
+export const Image = styled(Loader)<{ width: number }>`
+  width: ${({ width }) => width}rem;
   height: 38rem;
   border-radius: 1rem;
   margin-bottom: 1rem;
@@ -21,7 +21,7 @@ export const Name = styled(Loader)<{ width: number }>`
   margin-bottom: 0.5rem;
 `;
 
-export const Price = styled(Loader)`
-  width: 24rem;
+export const Price = styled(Loader)<{ width: number }>`
+  width: ${({ width }) => width}rem;
   height: 2.4rem;
 `;
