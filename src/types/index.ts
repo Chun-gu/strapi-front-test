@@ -16,9 +16,9 @@ export interface IApiResponse<T> {
 export interface IImage {
   id: number;
   thumbnail: string;
-  small: string;
-  medium: string;
-  large: string;
+  small?: string;
+  medium?: string;
+  large?: string;
 }
 
 export interface IAuthor {
@@ -78,7 +78,7 @@ export interface IReview {
   content: string;
   createdAt: string;
   author: IAuthor;
-  images: IImage[];
+  image: IImage;
 }
 
 export interface IAddReviewValues {
@@ -86,7 +86,7 @@ export interface IAddReviewValues {
   author: number;
   product: string | string[] | undefined;
   rating: number;
-  images: FileList;
+  image: FileList;
   content: string;
 }
 
