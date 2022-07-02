@@ -1,5 +1,5 @@
-import { COLOR } from "@shared/constants";
 import styled from "styled-components";
+import { COLOR } from "@styles/color";
 
 interface IProps {
   isOpen: boolean;
@@ -61,11 +61,16 @@ export const ReviewText = styled.p<IProps>`
     -webkit-box-orient: vertical;`}
 `;
 
-export const ExpansionButton = styled.button<IProps>`
-  font-size: 1.4rem;
+export const ButtonsWrapper = styled.div`
+  display: flex;
+  gap: 1rem;
   position: absolute;
   bottom: 0;
   right: 0;
+`;
+
+export const ExpansionButton = styled.button<IProps>`
+  font-size: 1.4rem;
   &::after {
     display: inline-block;
     content: "";
@@ -73,8 +78,8 @@ export const ExpansionButton = styled.button<IProps>`
     height: 1rem;
     ${({ isOpen }) =>
       isOpen
-        ? `background: url('/images/icon-triangle-upward.svg') no-repeat;`
-        : `background: url('/images/icon-triangle-downward.svg') no-repeat;`}
+        ? `background: url('/assets/icons/icon-triangle-upward.svg') no-repeat;`
+        : `background: url('/assets/icons/icon-triangle-downward.svg') no-repeat;`}
     background-size: 1rem;
     margin-left: 0.3rem;
   }
