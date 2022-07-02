@@ -1,9 +1,9 @@
-import { COLOR } from "@styles/color";
 import styled from "styled-components";
+import { COLOR } from "@styles/color";
 
 export const Inquiry = styled.li`
   display: grid;
-  grid-template-columns: 1fr 7fr 1fr 1fr;
+  grid-template-columns: 1fr 87.5rem 1fr 1fr;
   gap: 1rem;
   width: 100%;
   text-align: center;
@@ -20,10 +20,10 @@ export const InquiryContent = styled.p<{
   ${({ isAnswered }) => isAnswered && `cursor: pointer;`}
   ${({ isOpen }) =>
     isOpen
-      ? undefined
+      ? `overflow-wrap: break-word`
       : `overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;`}
+        white-space: nowrap;
+        text-overflow: ellipsis;`}
 `;
 
 export const Answer = styled.div`
