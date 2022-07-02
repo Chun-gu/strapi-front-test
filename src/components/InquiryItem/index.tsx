@@ -1,29 +1,24 @@
 import { useState } from "react";
-import { useSession } from "next-auth/react";
-import { IInquiry } from "@types";
-import { dateConverter } from "@utils/dateConverter";
-import { Answer } from "@components";
-import * as Buttons from "../Buttons";
-import * as Styled from "./styled";
 import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "react-query";
-import { addAnswer } from "@api";
-import { useRouter } from "next/router";
+import { useSession } from "next-auth/react";
+import { postAnswer } from "@api";
+import { IInquiry } from "@types";
+import { dateConverter } from "@utils";
+import * as Buttons from "../Buttons";
+import * as Styled from "./styled";
 
-export function InquiryItem({ ...inquiry }: IInquiry) {
+const InquiryItem = ({ ...inquiry }: IInquiry) => {
   const { data: session } = useSession();
   const isSeller = session?.user?.isSeller;
-
-  const router = useRouter();
-  const { productId } = router.query;
 
   const { id, content, author, answer, createdAt } = inquiry;
 
   const queryClient = useQueryClient();
-  const { mutate } = useMutation(addAnswer, {
+  const { mutate } = useMutation(postAnswer, {
     onSuccess: () => {
       alert("답변 작성 성공");
-      queryClient.invalidateQueries(["getInquiries", productId]);
+      queryClient.invalidateQueries(["getInquiries"]);
       reset();
     },
     onError: (error) => {
@@ -31,7 +26,13 @@ export function InquiryItem({ ...inquiry }: IInquiry) {
     },
   });
 
-  const { reset, register, getValues, handleSubmit } = useForm<{
+  const {
+    reset,
+    register,
+    getValues,
+    handleSubmit,
+    formState: { isValid },
+  } = useForm<{
     content: string;
   }>({ mode: "onChange" });
 
@@ -61,7 +62,6 @@ export function InquiryItem({ ...inquiry }: IInquiry) {
       </Styled.InquiryContent>
       <span className="ellipsis-single">{author.username}</span>
       <span>{dateConverter(createdAt)}</span>
-      {/* {isOpen && <Answer answerId={answer?.id} />} */}
       {isOpen && !!answer && (
         <Styled.Answer>
           <Styled.AnswerContent>
@@ -80,14 +80,17 @@ export function InquiryItem({ ...inquiry }: IInquiry) {
             <Styled.AnswerInput
               type="text"
               placeholder="답변 작성"
-              {...register("content")}
+              {...register("content", {
+                required: true,
+                minLength: 10,
+              })}
             />
             <Buttons.Custom
               width={7}
               height={3}
               fontSize={1.4}
               color="green"
-              disabled={false}
+              disabled={!isValid}
             >
               작성
             </Buttons.Custom>
@@ -96,4 +99,6 @@ export function InquiryItem({ ...inquiry }: IInquiry) {
       )}
     </Styled.Inquiry>
   );
-}
+};
+
+export default InquiryItem;
