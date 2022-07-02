@@ -35,7 +35,7 @@ const Product: NextPage = () => {
       ? price
       : Math.round((price * (100 - discountRate)) / 1000) * 10;
 
-  return product?.data !== null ? (
+  return product?.data ? (
     <>
       <Styled.ProductHeader>
         <ProductImage productImages={images} />
