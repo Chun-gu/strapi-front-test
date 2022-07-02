@@ -1,5 +1,5 @@
-import { IAddReviewValues, IIdArg } from "src/types";
 import axios from "axios";
+import { IAddReviewValues, IIdArg } from "src/types";
 
 export const getReviews = async (id: IIdArg = "", limit = 5, page = 1) => {
   const { data } = await axios.get(
@@ -13,10 +13,10 @@ export const addReview = async ({
   author,
   ...values
 }: IAddReviewValues) => {
-  const { images, ...rest } = values;
+  const { image, ...rest } = values;
 
   const formData = new FormData();
-  formData.append("files.images", images[0]);
+  formData.append("files.image", image[0]);
   formData.append("data", JSON.stringify({ author, ...rest }));
 
   const { data } = await axios.post(
@@ -25,6 +25,25 @@ export const addReview = async ({
     {
       headers: {
         "content-type": "multipart/form-data",
+        Authorization: `Bearer ${jwt}`,
+      },
+    },
+  );
+
+  return data;
+};
+
+export const deleteReview = async ({
+  review,
+  jwt,
+}: {
+  review: number;
+  jwt: string;
+}) => {
+  const { data } = await axios.delete(
+    `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/reviews/${review}`,
+    {
+      headers: {
         Authorization: `Bearer ${jwt}`,
       },
     },
