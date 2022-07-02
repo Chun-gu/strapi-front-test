@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { COLOR } from "@styles/color";
 
 export const Wrapper = styled.div`
-  min-width: 40rem;
+  min-width: 30rem;
   padding: 2rem;
 `;
 
@@ -19,7 +19,7 @@ export const Content = styled.div`
 `;
 
 export const Input = styled.textarea`
-  width: 100%;
+  width: 40rem;
   height: 10rem;
   font-size: 1.6rem;
   border: 1px solid ${COLOR.greyC4};
