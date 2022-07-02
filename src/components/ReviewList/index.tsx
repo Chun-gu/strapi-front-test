@@ -1,26 +1,20 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { getReviews } from "@api";
 import { ReviewItem, Pagination, Buttons } from "@components";
 import { ReviewListLoader } from "../Loader";
 import { IApiResponse, IReview } from "@types";
 import { NoneYet } from "@styles/GlobalStyle";
+import { useModal } from "@hooks";
 import * as Styled from "./styled";
-
-import { modalSelectorFamily, useModal } from "src/atoms/modalAtom";
-import ConfirmModal from "../Modals/ConfirmModal";
-import { useSetRecoilState } from "recoil";
-import AlertModal from "../Modals/AlertModal";
-import AddReviewModal from "../Modals/AddReviewModal";
-import { useSession } from "next-auth/react";
+import { AddReviewModal, AlertModal } from "../Modals";
 
 const ReviewList = () => {
   const router = useRouter();
   const { productId } = router.query;
   const { data: session } = useSession();
-  // const confirmModal = useModal("confirmModal");
-  // const setIsOpen = useSetRecoilState(modalsSelectorFamily("confirmModal"));
   const addReviewModal = useModal("addReviewModal");
   const toLoginModal = useModal("toLoginModal");
 
@@ -28,12 +22,13 @@ const ReviewList = () => {
     console.log("로그인으로!");
     router.push("/login");
   };
+
   const writeReview = () => {
     if (session) {
-      addReviewModal.openModal();
+      addReviewModal.open();
     } else {
-      toLoginModal.addText("로그인이 필요합니다. 로그인 하시겠습니까?");
-      toLoginModal.openModal();
+      toLoginModal.addText("로그인 페이지로 이동하시겠습니까?");
+      toLoginModal.open();
     }
   };
 
@@ -43,6 +38,13 @@ const ReviewList = () => {
     ["getReviews", { productId, page }],
     () => getReviews(productId, limit, page),
   );
+
+  useEffect(() => {
+    console.log("reviewList 마운트");
+    return () => {
+      console.log("reviewList 언마운트");
+    };
+  }, []);
 
   if (isLoading) return <ReviewListLoader />;
 
@@ -62,8 +64,10 @@ const ReviewList = () => {
       >
         리뷰 작성
       </Buttons.Custom>
-      <AlertModal onClose={onClose} />
-      <AddReviewModal productId={productId} />
+      {toLoginModal.modal.isOpen && (
+        <AlertModal modalId="toLoginModal" onClose={onClose} />
+      )}
+      {addReviewModal.modal.isOpen && <AddReviewModal productId={productId} />}
       {reviews && reviews?.data?.length > 0 ? (
         <>
           <Styled.ReviewList>
@@ -74,10 +78,9 @@ const ReviewList = () => {
           {reviews.pagination.total > limit && (
             <Styled.PaginationWrapper>
               <Pagination
-                totalItemCount={reviews.pagination.total}
-                limit={limit}
                 page={page}
                 setPage={setPage}
+                totalPageCount={reviews.pagination.pageCount}
               />
             </Styled.PaginationWrapper>
           )}

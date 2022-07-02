@@ -4,8 +4,8 @@ import { NextPage, GetServerSideProps } from "next";
 import Head from "next/head";
 import { getProducts } from "@api";
 import { ProductItem, Loader } from "@components";
+import { useIntersectionObserver } from "@hooks";
 import { IApiResponse, IProduct } from "@types";
-import useIntersectionObserver from "@utils/useIntersectionObserver";
 import styled from "styled-components";
 
 const Home: NextPage = () => {
@@ -24,14 +24,13 @@ const Home: NextPage = () => {
       return pagination.page + 1;
     },
   });
-  console.log(products);
 
   const bottomRef = useRef(null);
   const entry = useIntersectionObserver(bottomRef, {});
   const isVisible = !!entry?.isIntersecting;
   console.log("isVisible", isVisible);
 
-  if (isLoading) return <Loader.ProductsListLoader />;
+  if (isLoading) return <Loader.ProductListLoader />;
   if (error || products === null) return <div>에러발생</div>;
   if (products && isVisible && hasNextPage) {
     fetchNextPage();
@@ -56,7 +55,7 @@ const Home: NextPage = () => {
           </React.Fragment>
         ))}
       </ProductList>
-      {isFetchingNextPage && <Loader.ProductsListLoader />}
+      {isFetchingNextPage && <Loader.ProductListLoader />}
       <div ref={bottomRef} />
     </>
   );
