@@ -31,9 +31,23 @@ export const Badge = styled.span`
   margin-right: 0.5rem;
 `;
 
+export const DateAndButtons = styled.div`
+  width: 12.5rem;
+  height: 100%;
+  margin-left: 1rem;
+`;
+
+export const ButtonsWrapper = styled.div`
+  display: flex;
+  justify-content: space-around;
+  width: 8.4rem;
+  margin: 0 auto;
+`;
+
 export const AnswerForm = styled.form`
   button {
     vertical-align: top;
+    margin-right: 1rem;
   }
 `;
 
