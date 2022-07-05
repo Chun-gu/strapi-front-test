@@ -1,5 +1,5 @@
 import axios from "axios";
-import { IAddInquiryValues } from "@types";
+import { IAddInquiryValues, IUpdateInquiryValues } from "@types";
 
 export const getInquiries = async (
   productId: number | string | string[] | undefined,
@@ -28,4 +28,36 @@ export const addInquiry = async ({
   return data;
 };
 
-// export const updateInquiry = async () => {return data};
+export const updateInquiry = async ({
+  jwt,
+  author,
+  inquiry,
+  content,
+}: IUpdateInquiryValues) => {
+  const { data } = await axios.put(
+    `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/inquiries/${inquiry}`,
+    { data: { inquiry, author, content } },
+    { headers: { Authorization: `Bearer ${jwt}` } },
+  );
+
+  return data;
+};
+
+export const deleteInquiry = async ({
+  inquiry,
+  jwt,
+}: {
+  inquiry: number;
+  jwt: string;
+}) => {
+  const { data } = await axios.delete(
+    `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/inquiries/${inquiry}`,
+    {
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+      },
+    },
+  );
+
+  return data;
+};

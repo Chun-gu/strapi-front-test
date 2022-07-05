@@ -6,6 +6,7 @@ export const Inquiry = styled.li`
   grid-template-columns: 1fr 87.5rem 1fr 1fr;
   gap: 1rem;
   width: 100%;
+  min-height: 5.2rem;
   text-align: center;
   color: ${COLOR.grey76};
   padding: 1.5rem 0;
@@ -24,6 +25,13 @@ export const InquiryContent = styled.p<{
       : `overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;`}
+`;
+
+export const ButtonsWrapper = styled.div`
+  display: flex;
+  justify-content: space-around;
+  width: 8.4rem;
+  margin: 0 auto;
 `;
 
 export const Answer = styled.div`

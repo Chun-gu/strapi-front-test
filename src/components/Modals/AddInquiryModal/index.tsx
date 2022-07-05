@@ -2,21 +2,30 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useQueryClient, useMutation } from "react-query";
 import { useSession } from "next-auth/react";
-import { addInquiry } from "src/api";
+import { addInquiry, updateInquiry } from "@api";
 import { Buttons } from "@components";
 import { IAddInquiryValues } from "@types";
 import { useModal } from "@hooks";
 import Spinner from "src/components/Spinner";
-import AlertModal from "../AlertModal";
 import ModalContainer from "../ModalContainer";
 import CloseIcon from "public/assets/icons/icon-delete.svg";
 import { CloseButton, Input, Title, Wrapper } from "../styled";
+import { useRouter } from "next/router";
 
-type AddInquiryModalProps = { productId: string | string[] | undefined };
+interface Props {
+  modalId: string;
+}
+const AddInquiryModal = ({ modalId }: Props) => {
+  const router = useRouter();
+  const { productId } = router.query;
 
-const AddInquiryModal = ({ productId }: AddInquiryModalProps) => {
-  const addInquiryModal = useModal("addInquiryModal");
-  const alertModal = useModal("alertModal");
+  const addInquiryModal = useModal({ modalId });
+  const postDoneModal = useModal({ modalId: "postDone" });
+  const updateDoneModal = useModal({ modalId: "updateDone" });
+  const errorModal = useModal({ modalId: "error" });
+
+  const inquiryId = addInquiryModal.modal.prevData?.id;
+  const prevContent = addInquiryModal.modal.prevData?.content;
 
   const { data: session } = useSession();
   const {
@@ -25,21 +34,33 @@ const AddInquiryModal = ({ productId }: AddInquiryModalProps) => {
     getValues,
     handleSubmit,
     formState: { isValid },
-  } = useForm<IAddInquiryValues>({ mode: "onChange" });
+  } = useForm<IAddInquiryValues>({
+    mode: "onChange",
+    defaultValues: {
+      content: prevContent || "",
+    },
+  });
 
   const queryClient = useQueryClient();
-  const { mutate, isLoading } = useMutation(addInquiry, {
+  const { mutate: post, isLoading: isPosting } = useMutation(addInquiry, {
     onSuccess: () => {
       reset();
       queryClient.invalidateQueries(["getInquiries"]);
-      alertModal.addText("작성을 완료했습니다.");
-      alertModal.open();
+      postDoneModal.open();
     },
     onError: () => {
-      alertModal.addText(
-        "작성에 실패했습니다. 잠시 후 다시 시도해주시기 바랍니다.",
-      );
-      alertModal.open();
+      errorModal.open();
+    },
+  });
+
+  const { mutate: update, isLoading: isUpdating } = useMutation(updateInquiry, {
+    onSuccess: () => {
+      reset();
+      queryClient.invalidateQueries(["getInquiries"]);
+      updateDoneModal.open();
+    },
+    onError: () => {
+      errorModal.open();
     },
   });
 
@@ -47,18 +68,20 @@ const AddInquiryModal = ({ productId }: AddInquiryModalProps) => {
     const author = session?.user?.id as number;
     const jwt = session?.jwt as string;
     const { content } = getValues();
-    mutate({ author, jwt, product: productId, content });
+    if (modalId === "addInquiry") {
+      post({ author, jwt, product: productId, content });
+    } else {
+      update({ jwt, inquiry: inquiryId, content, author });
+    }
   };
 
   const handleClose = () => {
-    if (isLoading) return;
-    addInquiryModal.close();
+    if (isPosting || isUpdating) return;
+    addInquiryModal.closeAll();
   };
 
   useEffect(() => {
-    console.log("AddInquiryModal 마운트");
     return () => {
-      console.log("AddInquiryModal 언마운트");
       reset();
     };
   }, [reset]);
@@ -66,9 +89,10 @@ const AddInquiryModal = ({ productId }: AddInquiryModalProps) => {
   return (
     <>
       <ModalContainer closeModal={handleClose}>
-        {isLoading && <Spinner />}
+        {(isPosting || isUpdating) && <Spinner />}
         <Wrapper>
           <Title>문의 작성</Title>
+          <p>답변이 등록되면 문의를 수정할 수 없습니다.</p>
           <form onSubmit={handleSubmit(onSubmit)}>
             <div>
               <label htmlFor="content" className="sr-only">
@@ -90,7 +114,7 @@ const AddInquiryModal = ({ productId }: AddInquiryModalProps) => {
               height={3}
               fontSize={1.6}
               color="green"
-              disabled={!isValid || isLoading}
+              disabled={!isValid || isPosting || isUpdating}
             >
               작성
             </Buttons.Custom>
@@ -101,9 +125,6 @@ const AddInquiryModal = ({ productId }: AddInquiryModalProps) => {
           </CloseButton>
         </Wrapper>
       </ModalContainer>
-      {alertModal.modal.isOpen && (
-        <AlertModal modalId="alertModal" onClose={handleClose} />
-      )}
     </>
   );
 };

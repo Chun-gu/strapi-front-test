@@ -5,7 +5,6 @@ import { useRouter } from "next/router";
 import { getInquiries } from "@api";
 import { Buttons, InquiryItem, Pagination } from "@components";
 import { InquiryListLoader } from "../Loader";
-import { AddInquiryModal } from "../Modals";
 import { useModal } from "@hooks";
 import { NoneYet } from "@styles/GlobalStyle";
 import { IApiResponse, IInquiry } from "@types";
@@ -14,10 +13,10 @@ import * as Styled from "./styled";
 const InquiryList = () => {
   const router = useRouter();
   const { productId } = router.query;
-
   const { data: session } = useSession();
-  const addInquiryModal = useModal("addInquiryModal");
-  const toLoginModal = useModal("toLoginModal");
+
+  const addInquiryModal = useModal({ modalId: "addInquiry" });
+  const toLoginModal = useModal({ modalId: "toLogin" });
 
   const limit = 5;
   const [page, setPage] = useState(1);
@@ -33,13 +32,6 @@ const InquiryList = () => {
       toLoginModal.open();
     }
   };
-
-  useEffect(() => {
-    console.log("InquiryList 마운트");
-    return () => {
-      console.log("InquiryList 언마운트");
-    };
-  }, []);
 
   return (
     <Styled.InquirySection>
@@ -57,12 +49,9 @@ const InquiryList = () => {
       >
         문의 작성
       </Buttons.Custom>
-      {addInquiryModal.modal.isOpen && (
-        <AddInquiryModal productId={productId} />
-      )}
       <Styled.Field>
         <span aria-hidden="true">답변상태</span>
-        <span aria-hidden="true">질문</span>
+        <span aria-hidden="true">문의</span>
         <span aria-hidden="true">작성자</span>
         <span aria-hidden="true">작성일</span>
       </Styled.Field>

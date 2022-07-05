@@ -2,27 +2,68 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "react-query";
 import { useSession } from "next-auth/react";
-import { postAnswer } from "@api";
+import { deleteInquiry, postAnswer } from "@api";
+import { useModal } from "@hooks";
 import { IInquiry } from "@types";
 import { dateConverter } from "@utils";
+import Answer from "../Answer";
 import * as Buttons from "../Buttons";
 import * as Styled from "./styled";
 
 const InquiryItem = ({ ...inquiry }: IInquiry) => {
-  const { data: session } = useSession();
-  const isSeller = session?.user?.isSeller;
-
   const { id, content, author, answer, createdAt } = inquiry;
 
+  const { data: session } = useSession();
+  const jwt = session?.jwt as string;
+  const isSeller = session?.user?.isSeller;
+  const isAuthor = session?.user?.id === author.id;
+
+  const [isOpen, setIsOpen] = useState(false);
+  const [isHover, setIsHover] = useState(false);
+
+  const updateInquiryModal = useModal({
+    modalId: "updateInquiry",
+    prevData: inquiry,
+  });
+  const deleteConfirmModal = useModal({
+    modalId: "deleteConfirm",
+    onSubmit: () => mutate({ inquiry: id, jwt }),
+  });
+  const postDoneModal = useModal({ modalId: "postDone" });
+  const deleteDoneModal = useModal({ modalId: "deleteDone" });
+  const errorModal = useModal({ modalId: "error" });
+
+  const toggleOpen = () => {
+    setIsOpen(() => !isOpen);
+  };
+
+  const onClickUpdate = () => {
+    updateInquiryModal.open();
+  };
+
+  const onClickDelete = () => {
+    deleteConfirmModal.open();
+  };
+
   const queryClient = useQueryClient();
-  const { mutate } = useMutation(postAnswer, {
+  const { mutate: post } = useMutation(postAnswer, {
     onSuccess: () => {
-      alert("답변 작성 성공");
+      postDoneModal.open();
       queryClient.invalidateQueries(["getInquiries"]);
       reset();
     },
-    onError: (error) => {
-      alert(error);
+    onError: () => {
+      errorModal.open();
+    },
+  });
+
+  const { mutate } = useMutation(deleteInquiry, {
+    onSuccess: () => {
+      deleteDoneModal.open();
+      queryClient.invalidateQueries(["getInquiries"]);
+    },
+    onError: () => {
+      errorModal.open();
     },
   });
 
@@ -38,20 +79,16 @@ const InquiryItem = ({ ...inquiry }: IInquiry) => {
 
   const onSubmit = () => {
     const { content } = getValues();
-
     if (session) {
-      const jwt = session.jwt as string;
-      mutate({ jwt, content, inquiry: id });
+      post({ jwt, content, inquiry: id });
     }
   };
 
-  const [isOpen, setIsOpen] = useState(false);
-  const toggleOpen = () => {
-    setIsOpen(() => !isOpen);
-  };
-
   return (
-    <Styled.Inquiry>
+    <Styled.Inquiry
+      onMouseEnter={() => setIsHover(true)}
+      onMouseLeave={() => setIsHover(false)}
+    >
       <span>{answer ? "답변완료" : "답변대기"}</span>
       <Styled.InquiryContent
         onClick={toggleOpen}
@@ -61,20 +98,37 @@ const InquiryItem = ({ ...inquiry }: IInquiry) => {
         {content}
       </Styled.InquiryContent>
       <span className="ellipsis-single">{author.username}</span>
-      <span>{dateConverter(createdAt)}</span>
-      {isOpen && !!answer && (
-        <Styled.Answer>
-          <Styled.AnswerContent>
-            <>
-              <Styled.Badge>답변</Styled.Badge>
-              <span>{answer.content}</span>
-            </>
-          </Styled.AnswerContent>
-          <span>판매자</span>
-          <span>{dateConverter(createdAt)}</span>
-        </Styled.Answer>
-      )}
-      {isOpen && !!isSeller && !answer && (
+      <div>
+        {isAuthor && isHover && (
+          <Styled.ButtonsWrapper>
+            {!answer && (
+              <Buttons.Custom
+                width={4}
+                height={2}
+                color="green"
+                fontSize={1.4}
+                disabled={false}
+                onClick={onClickUpdate}
+              >
+                수정
+              </Buttons.Custom>
+            )}
+            <Buttons.Custom
+              width={4}
+              height={2}
+              color="red"
+              fontSize={1.4}
+              disabled={false}
+              onClick={onClickDelete}
+            >
+              삭제
+            </Buttons.Custom>
+          </Styled.ButtonsWrapper>
+        )}
+        {(!isAuthor || !isHover) && <span>{dateConverter(createdAt)}</span>}
+      </div>
+      {isOpen && !!answer && <Answer {...answer} />}
+      {isOpen && isSeller && !answer && (
         <Styled.Answer>
           <Styled.AnswerForm onSubmit={handleSubmit(onSubmit)}>
             <Styled.AnswerInput
