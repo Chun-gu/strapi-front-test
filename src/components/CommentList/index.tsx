@@ -4,6 +4,7 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { addComment, getComments } from "@api";
+import { useModal } from "@hooks";
 import { IApiResponse, IComment } from "@types";
 import { ImageWrapper } from "@utils";
 import * as Buttons from "../Buttons";
@@ -23,6 +24,9 @@ const CommentList = ({ reviewId }: ICommentListProps) => {
   const [page, setPage] = useState(1);
   const limit = 5;
 
+  const postDoneModal = useModal({ modalId: "postDone" });
+  const errorModal = useModal({ modalId: "error" });
+
   const { isLoading, data: comments } = useQuery<IApiResponse<IComment[]>>(
     ["getComments", { reviewId, page }],
     () => getComments(reviewId, limit, page),
@@ -40,12 +44,12 @@ const CommentList = ({ reviewId }: ICommentListProps) => {
   const queryClient = useQueryClient();
   const { mutate } = useMutation(addComment, {
     onSuccess: () => {
-      alert("댓글 작성 성공!");
+      postDoneModal.open();
       queryClient.invalidateQueries(["getComments"]);
       reset();
     },
-    onError: (error) => {
-      alert(error);
+    onError: () => {
+      errorModal.open();
     },
   });
 
@@ -69,7 +73,11 @@ const CommentList = ({ reviewId }: ICommentListProps) => {
         <>
           <ul>
             {comments.data.map((comment) => (
-              <CommentItem key={comment.id} {...comment} />
+              <CommentItem
+                key={comment.id}
+                reviewId={reviewId}
+                comment={comment}
+              />
             ))}
           </ul>
           {comments.pagination.total > limit && (
@@ -98,16 +106,17 @@ const CommentList = ({ reviewId }: ICommentListProps) => {
             type="text"
             id="content"
             maxLength={100}
-            placeholder="댓글을 입력하세요(10자 이상, 공백 불가)"
+            placeholder="댓글을 입력하세요(10자 ~ 100자, 공백 불가)"
             {...register("content", {
               required: true,
               minLength: 10,
+              maxLength: 100,
               pattern: /[^\s]/,
             })}
           />
         </Styled.CommentInput>
         <Buttons.Custom
-          width={7}
+          width={8.4}
           height={3}
           fontSize={1.4}
           color="green"

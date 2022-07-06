@@ -1,5 +1,5 @@
 import axios from "axios";
-import { IAddCommentValues } from "@types";
+import { IAddCommentValues, IUpdateCommentValues } from "@types";
 
 export const getComments = async (id: number, limit: number, page: number) => {
   const { data } = await axios.get(
@@ -19,6 +19,41 @@ export const addComment = async ({
     `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/comments`,
     { data: { author, content, review } },
     { headers: { Authorization: `Bearer ${jwt}` } },
+  );
+
+  return data;
+};
+
+export const updateComment = async ({
+  jwt,
+  author,
+  content,
+  review,
+  comment,
+}: IUpdateCommentValues) => {
+  const { data } = await axios.put(
+    `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/comments/${comment}`,
+    { data: { author, content, review } },
+    { headers: { Authorization: `Bearer ${jwt}` } },
+  );
+
+  return data;
+};
+
+export const deleteComment = async ({
+  comment,
+  jwt,
+}: {
+  comment: number;
+  jwt: string;
+}) => {
+  const { data } = await axios.delete(
+    `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/comments/${comment}`,
+    {
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+      },
+    },
   );
 
   return data;

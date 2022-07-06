@@ -43,6 +43,6 @@ export const CommentInput = styled.label`
     width: 100%;
     height: 100%;
     padding: 0 1rem;
-    font-size: 1.4rem;
+    font-size: 1.6rem;
   }
 `;
