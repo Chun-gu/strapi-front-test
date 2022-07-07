@@ -1,15 +1,14 @@
 import { useState } from "react";
+import { useMutation, useQueryClient } from "react-query";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
+import { deleteReview } from "@api";
 import { Buttons, CommentList, CustomImage, StarRating } from "@components";
+import { useModal } from "@hooks";
 import { IReview } from "@types";
 import { dateConverter, ImageWrapper } from "@utils";
 import authorImg from "public/assets/images/img-user-fallback.png";
 import * as Styled from "./styled";
-import { useModal } from "@hooks";
-import { ConfirmModal } from "../Modals";
-import { useMutation, useQueryClient } from "react-query";
-import { deleteReview } from "@api";
 
 const ReviewItem = ({ ...review }: IReview) => {
   const { data: session } = useSession();
@@ -19,14 +18,18 @@ const ReviewItem = ({ ...review }: IReview) => {
   };
   const { id, author, rating, content, image, createdAt } = review;
 
-  const deleteConfirmModal = useModal(`deleteConfirm/review-${review.id}`);
-  const errorModal = useModal("error");
+  const updateRevivewModal = useModal({
+    modalId: "updateReview",
+    prevData: review,
+  });
+  const deleteDoneModal = useModal({ modalId: "deleteDone" });
+  const errorModal = useModal({ modalId: "error" });
 
   const queryClient = useQueryClient();
-  const { mutate, isLoading } = useMutation(deleteReview, {
+  const { mutate } = useMutation(deleteReview, {
     onSuccess: () => {
+      deleteDoneModal.open();
       queryClient.invalidateQueries(["getReviews"]);
-      deleteConfirmModal.close();
     },
     onError: () => {
       errorModal.open();
@@ -38,8 +41,17 @@ const ReviewItem = ({ ...review }: IReview) => {
     mutate({ jwt, review: id });
   };
 
+  const deleteConfirmModal = useModal({
+    modalId: "deleteConfirm",
+    onSubmit: () => handleDelete(jwt, id),
+  });
+
   const onClickDelete = () => {
     deleteConfirmModal.open();
+  };
+
+  const onClickUpdate = () => {
+    updateRevivewModal.open();
   };
 
   return (
@@ -82,6 +94,7 @@ const ReviewItem = ({ ...review }: IReview) => {
                 color="green"
                 fontSize={1.6}
                 disabled={false}
+                onClick={onClickUpdate}
               >
                 수정
               </Buttons.Custom>
@@ -95,13 +108,6 @@ const ReviewItem = ({ ...review }: IReview) => {
               >
                 삭제
               </Buttons.Custom>
-              {deleteConfirmModal.modal.isOpen && (
-                <ConfirmModal
-                  modalId={`deleteConfirm/review-${review.id}`}
-                  onClose={() => handleDelete(jwt, id)}
-                  isLoading={isLoading}
-                />
-              )}
             </>
           )}
           <Styled.ExpansionButton onClick={handleClick} isOpen={isOpen}>
