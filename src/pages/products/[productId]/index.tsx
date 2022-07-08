@@ -4,13 +4,16 @@ import { GetServerSideProps, NextPage } from "next";
 import { useRouter } from "next/router";
 import { getProduct } from "@api";
 import {
+  ProductDetailImage,
   ProductImage,
   PriceCalculator,
   TabMenu,
   ReviewList,
   InquiryList,
+  ScrollToTopButton,
 } from "@components";
 import { IApiResponse, IProduct } from "@types";
+import Error from "public/assets/icons/icon-error.svg";
 import * as Styled from "./styled";
 
 const Product: NextPage = () => {
@@ -27,7 +30,7 @@ const Product: NextPage = () => {
     sectionRefs.current[index] = elem;
   }, []);
 
-  const { images, name, discountRate, price, stock, description } =
+  const { images, name, discountRate, price, stock } =
     product?.data || ({} as IProduct);
 
   const finalPrice =
@@ -78,7 +81,7 @@ const Product: NextPage = () => {
         <TabMenu sectionRefs={sectionRefs} />
         <Styled.TabSection ref={(elem: HTMLElement) => storeRef(elem, 0)}>
           <h2>제품 상세 정보</h2>
-          <p>{description}</p>
+          <ProductDetailImage src="/assets/images/img-product-detail.png" />
         </Styled.TabSection>
         <Styled.TabSection ref={(elem: HTMLElement) => storeRef(elem, 1)}>
           <h2>리뷰</h2>
@@ -139,9 +142,13 @@ const Product: NextPage = () => {
           </ol>
         </Styled.TabSection>
       </Styled.ProductBody>
+      <ScrollToTopButton />
     </>
   ) : (
-    <div>제품을 찾을 수 없습니다.</div>
+    <div>
+      <Error />
+      제품을 찾을 수 없습니다.
+    </div>
   );
 };
 

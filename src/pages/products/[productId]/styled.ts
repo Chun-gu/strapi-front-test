@@ -10,6 +10,7 @@ export const Container = styled.main`
 export const ProductHeader = styled.section`
   display: flex;
   justify-content: space-between;
+  width: 100%;
   margin-bottom: 14rem;
 `;
 
