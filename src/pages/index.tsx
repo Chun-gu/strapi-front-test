@@ -3,7 +3,7 @@ import { dehydrate, QueryClient, useInfiniteQuery } from "react-query";
 import { NextPage, GetServerSideProps } from "next";
 import Head from "next/head";
 import { getProducts } from "@api";
-import { ProductItem, Loader } from "@components";
+import { ProductItem, Loader, ScrollToTopButton } from "@components";
 import { useIntersectionObserver } from "@hooks";
 import { IApiResponse, IProduct } from "@types";
 import styled from "styled-components";
@@ -28,7 +28,6 @@ const Home: NextPage = () => {
   const bottomRef = useRef(null);
   const entry = useIntersectionObserver(bottomRef, {});
   const isVisible = !!entry?.isIntersecting;
-  console.log("isVisible", isVisible);
 
   if (isLoading) return <Loader.ProductListLoader />;
   if (error || products === null) return <div>에러발생</div>;
@@ -57,6 +56,7 @@ const Home: NextPage = () => {
       </ProductList>
       {isFetchingNextPage && <Loader.ProductListLoader />}
       <div ref={bottomRef} />
+      <ScrollToTopButton />
     </>
   );
 };

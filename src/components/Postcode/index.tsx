@@ -52,10 +52,10 @@ const Postcode = ({ setIsPostcodeOpen, setValue }: IPostcodeProps) => {
         <Styled.Inner>
           <header>우편번호 검색</header>
           <DaumPostcode onComplete={handleComplete} style={postcodeStyle} />
-          <button type="button" onClick={closePostcode}>
+          <Styled.CloseButton type="button" onClick={closePostcode}>
             <CloseIcon width={25} height={25} />
             <span className="sr-only">우편번호 검색창 닫기</span>
-          </button>
+          </Styled.CloseButton>
         </Styled.Inner>
       </Styled.Container>
     </Portal>

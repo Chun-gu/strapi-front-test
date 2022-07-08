@@ -44,3 +44,18 @@ export const Inner = styled.div`
     right: 1.2rem;
   }
 `;
+
+export const CloseButton = styled.button`
+  svg {
+    path {
+      stroke: ${COLOR.greyC4};
+    }
+  }
+  &:hover {
+    svg {
+      path {
+        stroke: ${COLOR.black};
+      }
+    }
+  }
+`;
