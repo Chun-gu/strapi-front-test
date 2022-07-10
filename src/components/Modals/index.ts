@@ -1,3 +1,4 @@
+export { default as GlobalModal } from "./GlobalModal";
 export { default as AddInquiryModal } from "./AddInquiryModal";
 export { default as AddReviewModal } from "./AddReviewModal";
 export { default as AlertModal } from "./AlertModal";

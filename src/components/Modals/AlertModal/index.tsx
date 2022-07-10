@@ -1,7 +1,6 @@
-import { useEffect } from "react";
 import { Buttons } from "@components";
-import ModalContainer from "../ModalContainer";
 import { useModal } from "@hooks";
+import ModalContainer from "../ModalContainer";
 import { Content, Wrapper as wrapper } from "../styled";
 import styled from "styled-components";
 
@@ -10,12 +9,12 @@ const Wrapper = styled(wrapper)`
 `;
 
 type AlertModalProps = {
-  modalId: "postDone" | "updateDone" | "deleteDone" | "error";
+  modalId: string;
   onClose?: () => void;
 };
 
 const AlertModal = ({ modalId, onClose }: AlertModalProps) => {
-  const alertModal = useModal(modalId);
+  const alertModal = useModal({ modalId });
 
   let sentence;
   switch (modalId) {
@@ -35,26 +34,15 @@ const AlertModal = ({ modalId, onClose }: AlertModalProps) => {
 
   const handleClose = async () => {
     if (onClose) onClose();
-    alertModal.close();
+    alertModal.closeAll();
   };
-
-  useEffect(() => {
-    console.log("AlertModal 마운트");
-
-    return () => {
-      console.log("AlertModal 언마운트");
-    };
-  }, []);
 
   return (
     <>
       {alertModal.modal.isOpen && (
-        <ModalContainer closeModal={alertModal.close}>
+        <ModalContainer closeModal={alertModal.closeAll}>
           <Wrapper>
-            <Content>
-              {alertModal.modal.text}
-              {sentence}
-            </Content>
+            <Content>{sentence}</Content>
             <Buttons.Custom
               type="button"
               width={10}

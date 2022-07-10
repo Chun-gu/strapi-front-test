@@ -1,7 +1,7 @@
-import { Buttons, Spinner } from "@components";
+import { useRouter } from "next/router";
+import { Buttons } from "@components";
 import { useModal } from "@hooks";
 import ModalContainer from "../ModalContainer";
-import AlertModal from "../AlertModal";
 import { Content, Wrapper as wrapper } from "../styled";
 import styled from "styled-components";
 
@@ -14,15 +14,13 @@ const ButtonsWrapper = styled.div`
   justify-content: space-around;
 `;
 
-type confirmModalProps = {
-  modalId: string;
-  onClose?: () => void;
-  isLoading: boolean;
-};
+interface Props {
+  modalId: "toLogin" | string;
+}
 
-const ConfirmModal = ({ modalId, onClose, isLoading }: confirmModalProps) => {
-  const confirmModal = useModal(modalId);
-  const deletionComplete = useModal("deletionComplete");
+const ConfirmModal = ({ modalId }: Props) => {
+  const confirmModal = useModal({ modalId });
+  const router = useRouter();
 
   const sentence =
     modalId === "toLogin"
@@ -32,44 +30,43 @@ const ConfirmModal = ({ modalId, onClose, isLoading }: confirmModalProps) => {
   const action = modalId === "toLogin" ? "이동" : "삭제";
 
   const handleAction = () => {
-    if (onClose) onClose();
+    if (modalId === "toLogin") {
+      confirmModal.closeAll();
+      router.push("/login");
+    }
+    confirmModal.submit();
   };
 
   return (
-    <>
-      <ModalContainer closeModal={confirmModal.close}>
-        {isLoading && <Spinner />}
-        <Wrapper>
-          <Content>{sentence}</Content>
-          <ButtonsWrapper>
-            <Buttons.Custom
-              type="button"
-              width={10}
-              height={3}
-              fontSize={1.6}
-              color="green"
-              onClick={confirmModal.close}
-              disabled={false}
-            >
-              취소
-            </Buttons.Custom>
-            <Buttons.Custom
-              type="button"
-              width={10}
-              height={3}
-              fontSize={1.6}
-              color={modalId === "toLogin" ? "green" : "red"}
-              onClick={handleAction}
-              disabled={false}
-            >
-              {action}
-            </Buttons.Custom>
-          </ButtonsWrapper>
-          {deletionComplete.modal.isOpen && <AlertModal modalId="deleteDone" />}
-        </Wrapper>
-      </ModalContainer>
-      <AlertModal modalId="error" />
-    </>
+    <ModalContainer closeModal={confirmModal.close}>
+      <Wrapper>
+        <Content>{sentence}</Content>
+        <ButtonsWrapper>
+          <Buttons.Custom
+            type="button"
+            width={10}
+            height={3}
+            fontSize={1.6}
+            color="green"
+            onClick={confirmModal.close}
+            disabled={false}
+          >
+            취소
+          </Buttons.Custom>
+          <Buttons.Custom
+            type="button"
+            width={10}
+            height={3}
+            fontSize={1.6}
+            color={modalId === "toLogin" ? "green" : "red"}
+            onClick={handleAction}
+            disabled={false}
+          >
+            {action}
+          </Buttons.Custom>
+        </ButtonsWrapper>
+      </Wrapper>
+    </ModalContainer>
   );
 };
 
