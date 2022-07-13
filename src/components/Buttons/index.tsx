@@ -9,7 +9,7 @@ interface IButtonProps {
 
 interface ICustomButtonProps extends IButtonProps {
   width: number;
-  height: 3 | 4 | 5 | 5.4 | 6 | 6.8;
+  height: number;
   fontSize: number;
   color: "green" | "dark" | "white" | "red";
   form?: string;

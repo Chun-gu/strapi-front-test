@@ -1,94 +1,110 @@
-/* eslint-disable react/jsx-key */
-import React from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { NextPage } from "next";
 import Link from "next/link";
-import { signIn } from "next-auth/react";
 import { useRouter } from "next/router";
-import { Buttons, Inputs } from "@components";
-import { ImageWrapper } from "@utils";
-import Logo from "public/images/logo.svg";
+import { signIn, useSession } from "next-auth/react";
+import { Buttons, Spinner } from "@components";
+import PasswordVisible from "public/assets/icons/icon-password-visible.svg";
+import PasswordInvisible from "public/assets/icons/icon-password-invisible.svg";
 import * as Styled from "./styled";
 
-interface LoginInputs {
-  loginId: string;
-  loginPw: string;
+interface IFormValues {
+  username: string;
+  password: string;
 }
 
-function Login() {
+const Login: NextPage = () => {
+  const router = useRouter();
+  const { status } = useSession();
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+
   const {
     register,
     handleSubmit,
-    formState: { errors },
-  } = useForm<LoginInputs>({ mode: "onChange" });
-  // console.log(watch('loginId'));
-  const router = useRouter();
-  const login = async ({ loginId, loginPw }: LoginInputs) => {
-    const response = await signIn("id-pw-credential", {
-      userId: loginId,
-      password: loginPw,
-      redirect: false,
+    formState: { isValid, errors },
+  } = useForm<IFormValues>({ mode: "onChange" });
+
+  const onSubmit = async (values: IFormValues) => {
+    const { username, password } = values;
+    const response = await signIn<"credentials">("credentials", {
+      username,
+      password,
       callbackUrl: "/",
+      redirect: false,
     });
-    if ((response as unknown as { url: string })?.url) {
-      await router.push((response as unknown as { url: string }).url);
-    }
+    if (response && response.ok === false)
+      alert("아이디 혹은 비밀번호를 확인해주세요.");
   };
 
+  const storage = globalThis?.sessionStorage;
+  const prevPath = storage?.getItem("prevPath") || "/";
+
+  if (status === "loading") return <Spinner />;
+  if (status === "authenticated") {
+    router.push(prevPath);
+    return null;
+  }
+
   return (
-    <Styled.Main>
-      <ImageWrapper width={55} height={7.4}>
-        <Logo viewBox="0 0 156 38" />
-      </ImageWrapper>
-      <Styled.Container onSubmit={handleSubmit(login)}>
-        <div>
-          <Inputs.TextInput
-            width={48}
-            hook={register("loginId", {
+    <Styled.Wrapper>
+      <Styled.Title>로그인</Styled.Title>
+      <Styled.LoginForm onSubmit={handleSubmit(onSubmit)}>
+        <Styled.InputWrapper>
+          <label htmlFor="username" className="sr-only">
+            아이디
+          </label>
+          <Styled.Input
+            id="username"
+            placeholder="아이디"
+            {...register("username", {
               required: true,
-              min: 3,
-              max: 15,
-              maxLength: 15,
               pattern: {
                 value: /^[A-Za-z0-9]+$/i,
-                message: "특수문자를 제외한 문자,숫자를 입력해주세요",
+                message: "영문, 숫자만 입력해주세요.",
               },
             })}
-            placeholder="아이디"
           />
-          {errors.loginId && (
-            <Styled.ErrorMsg>아이디를 입력해주세요</Styled.ErrorMsg>
+          {errors.username && (
+            <Styled.ErrorMsg>{errors.username.message}</Styled.ErrorMsg>
           )}
-          {errors.loginId?.message && (
-            <Styled.ErrorMsg>{errors.loginId?.message}</Styled.ErrorMsg>
-          )}
-
-          <Inputs.TextInput
-            hook={register("loginPw", {
-              required: true,
-              min: 8,
-              max: 16,
-              maxLength: 16,
-            })}
-            width={48}
+        </Styled.InputWrapper>
+        <Styled.InputWrapper>
+          <label htmlFor="password" className="sr-only">
+            비밀번호
+          </label>
+          <Styled.Input
+            id="password"
+            type={isPasswordVisible ? "text" : "password"}
+            maxLength={16}
             placeholder="비밀번호"
+            {...register("password", { required: true })}
           />
-          {errors.loginPw && (
-            <Styled.ErrorMsg>비밀번호를 입력해주세요</Styled.ErrorMsg>
-          )}
-        </div>
+          <Styled.VisibilityButton
+            type="button"
+            onClick={() => setIsPasswordVisible((prev) => !prev)}
+          >
+            {isPasswordVisible ? (
+              <PasswordVisible width="100%" height="100%" />
+            ) : (
+              <PasswordInvisible width="100%" height="100%" />
+            )}
+          </Styled.VisibilityButton>
+        </Styled.InputWrapper>
+
         <Buttons.Custom
-          width={48}
+          width={33.3}
           height={6}
           fontSize={1.8}
           color="green"
-          disabled={false}
+          disabled={!isValid}
         >
           로그인
         </Buttons.Custom>
-      </Styled.Container>
-      <Styled.UL>
+      </Styled.LoginForm>
+      <Styled.Links>
         <li>
-          <Link href="/join" passHref>
+          <Link href="/register" passHref>
             <a>회원가입</a>
           </Link>
         </li>
@@ -102,9 +118,9 @@ function Login() {
             <a>비밀번호 찾기</a>
           </Link>
         </li>
-      </Styled.UL>
-    </Styled.Main>
+      </Styled.Links>
+    </Styled.Wrapper>
   );
-}
+};
 
 export default Login;

@@ -53,7 +53,6 @@ export const Custom = styled.button<ICustomProps>`
   }};
   font-size: ${(props) => props.fontSize}rem;
   font-weight: ${(props) => (props.fontSize >= 1.8 ? 700 : 500)};
-  vertical-align: middle;
   padding: 0 ${(props) => Math.floor((props.height - props.fontSize) / 2)}rem;
   border-radius: 0.5rem;
   display: inline-flex;

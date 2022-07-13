@@ -17,9 +17,9 @@ export const BackGround = styled.div`
   background-color: rgba(0, 0, 0, 0.3);
 `;
 
-export const Spinner = styled.div`
-  width: 5rem;
-  height: 5rem;
+export const Spinner = styled.div<{ size?: number }>`
+  width: ${({ size }) => size || 5}rem;
+  height: ${({ size }) => size || 5}rem;
   border: 5px solid rgba(255, 255, 255, 0.6);
   border-radius: 50%;
   border-top-color: ${COLOR.accentColor};

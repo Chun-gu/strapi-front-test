@@ -1,9 +1,13 @@
 import * as Styled from "./styled";
 
-const Spinner = () => {
+interface Props {
+  size?: number;
+}
+
+const Spinner = ({ size }: Props) => {
   return (
     <Styled.BackGround>
-      <Styled.Spinner></Styled.Spinner>
+      <Styled.Spinner size={size}></Styled.Spinner>
     </Styled.BackGround>
   );
 };
