@@ -2,15 +2,13 @@ import { COLOR } from "@styles/color";
 import styled from "styled-components";
 
 export const Footer = styled.footer`
-  display: flex;
-  flex: 1;
   font-size: 1.4rem;
   background-color: ${COLOR.greyF2};
   padding: 6rem 0;
 `;
 
 export const Container = styled.section`
-  width: 128rem;
+  max-width: 128rem;
   margin: 0 auto;
 `;
 

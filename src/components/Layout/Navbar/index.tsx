@@ -13,7 +13,7 @@ const NavBar = () => {
         <Link href="/">
           <a>
             <span className="sr-only">메인 페이지로 이동</span>
-            <Logo />
+            <Logo width={156} height={38} />
           </a>
         </Link>
         <nav>

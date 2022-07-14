@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 
 interface customImageProps {
-  src: string;
+  src?: string;
   alt: string;
   priority?: boolean;
   fallback: string;

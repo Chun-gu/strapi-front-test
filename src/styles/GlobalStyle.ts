@@ -5,7 +5,7 @@ import styled from "styled-components";
 const GlobalStyle = createGlobalStyle`
   ${reset}
 
-  *{
+  * {
     box-sizing: border-box;
     font-family: Spoqa Han Sans, sans-serif;
   }
@@ -15,7 +15,7 @@ const GlobalStyle = createGlobalStyle`
     font-family: Spoqa Han Sans, sans-serif;
   }
 
-  body{
+  body {
     font-size: 1.6rem;
   }
 

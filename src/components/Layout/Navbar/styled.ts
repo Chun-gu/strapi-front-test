@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Cart from "/public/assets/icons/icon-shopping-cart.svg";
+import Cart from "public/assets/icons/icon-shopping-cart.svg";
 import { COLOR } from "@styles/color";
 
 export const Header = styled.header`
@@ -9,7 +9,7 @@ export const Header = styled.header`
 `;
 
 export const Container = styled.div`
-  width: 128rem;
+  max-width: 128rem;
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
@@ -18,7 +18,6 @@ export const Container = styled.div`
 
 export const CartLink = styled.a`
   width: 5.6rem;
-  /* height: 5rem; */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
