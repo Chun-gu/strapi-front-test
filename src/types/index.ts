@@ -48,7 +48,6 @@ export interface IAddUserValues {
   email: string;
   phone: string;
 }
-
 // Product Interfaces
 export interface IProduct {
   id: number;
@@ -90,6 +89,16 @@ export interface IAddReviewValues {
   content: string;
 }
 
+export interface IUpdateReviewValues {
+  jwt: string;
+  author: number;
+  review?: number;
+  product: string | string[] | undefined;
+  rating: number;
+  image: FileList;
+  content: string;
+}
+
 // Comment Interfaces
 export interface IComment {
   id: number;
@@ -105,6 +114,14 @@ export interface IAddCommentValues {
   content: string;
 }
 
+export interface IUpdateCommentValues {
+  jwt: string;
+  author: number;
+  review: number;
+  content: string;
+  comment: number;
+}
+
 // Inquiry Interfaces
 export interface IInquiry {
   id: number;
@@ -118,6 +135,13 @@ export interface IAddInquiryValues {
   jwt: string;
   author: number;
   product: number | string | string[] | undefined;
+  content: string;
+}
+
+export interface IUpdateInquiryValues {
+  jwt: string;
+  author: number;
+  inquiry?: number;
   content: string;
 }
 
