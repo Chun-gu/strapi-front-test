@@ -1,29 +1,41 @@
-import { Dispatch, ReactNode, SetStateAction, useEffect, useRef } from "react";
+import {
+  Dispatch,
+  ReactNode,
+  SetStateAction,
+  useEffect,
+  useRef,
+  useCallback,
+} from "react";
 import * as Styled from "./styled";
 
-type TooltipProps = {
+interface TooltipProps {
   children: ReactNode;
   isOpen: boolean;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
-};
+}
 
 const Tooltip = ({ children, isOpen, setIsOpen }: TooltipProps) => {
   const tooltipRef = useRef<HTMLDivElement>(null);
 
-  const clickOutside = (e: MouseEvent) => {
-    if (isOpen && !tooltipRef.current?.contains(e.target as HTMLDivElement)) {
-      setIsOpen(false);
-    }
-  };
+  const onClickOutside = useCallback(
+    (e: MouseEvent) => {
+      if (tooltipRef.current && !tooltipRef.current.contains(e.target as Node))
+        setIsOpen(false);
+    },
+    [setIsOpen],
+  );
 
   useEffect(() => {
-    if (isOpen) document.addEventListener("mousedown", clickOutside);
+    if (isOpen) document.addEventListener("mousedown", onClickOutside);
+    const countdown = setTimeout(() => {
+      setIsOpen(false);
+    }, 3000);
 
     return () => {
-      document.removeEventListener("mousedown", clickOutside);
+      clearTimeout(countdown);
+      document.removeEventListener("mousedown", onClickOutside);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [isOpen, onClickOutside, setIsOpen]);
 
   return isOpen ? (
     <Styled.Container ref={tooltipRef}>{children}</Styled.Container>
