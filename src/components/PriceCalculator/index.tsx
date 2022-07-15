@@ -2,6 +2,7 @@ import { ChangeEvent, useState } from "react";
 import Link from "next/link";
 import router from "next/router";
 import * as Buttons from "../Buttons";
+import Tooltip from "../Tooltip";
 import PlusIcon from "public/assets/icons/icon-plus-line.svg";
 import MinusIcon from "public/assets/icons/icon-minus-line.svg";
 import * as Styled from "./styled";
@@ -119,32 +120,34 @@ const PriceCalculator = ({
           장바구니
         </Buttons.Custom>
         {isAddedToCart && (
-          <Styled.Tooltip>
-            <p>장바구니에 담았습니다.</p>
-            <Link href="/cart">
-              <a>
-                <Buttons.Custom
-                  width={17}
-                  height={4}
-                  fontSize={1.4}
-                  color="green"
-                  disabled={false}
-                >
-                  장바구니로 이동
-                </Buttons.Custom>
-              </a>
-            </Link>
-            <Buttons.Custom
-              width={17}
-              height={4}
-              fontSize={1.4}
-              color="green"
-              disabled={false}
-              onClick={continueToShop}
-            >
-              쇼핑 계속하기
-            </Buttons.Custom>
-          </Styled.Tooltip>
+          <Tooltip isOpen={isAddedToCart} setIsOpen={setIsAddedToCart}>
+            <Styled.Tooltip>
+              <p>장바구니에 담았습니다.</p>
+              <Link href="/cart">
+                <a>
+                  <Buttons.Custom
+                    width={17}
+                    height={4}
+                    fontSize={1.4}
+                    color="green"
+                    disabled={false}
+                  >
+                    장바구니로 이동
+                  </Buttons.Custom>
+                </a>
+              </Link>
+              <Buttons.Custom
+                width={17}
+                height={4}
+                fontSize={1.4}
+                color="green"
+                disabled={false}
+                onClick={continueToShop}
+              >
+                쇼핑 계속하기
+              </Buttons.Custom>
+            </Styled.Tooltip>
+          </Tooltip>
         )}
       </Styled.ButtonsWrapper>
     </>

@@ -6,6 +6,7 @@ export const ProductList = styled.ul`
   grid-template-columns: repeat(3, 38rem);
   justify-content: space-around;
   gap: 3rem;
+  padding-top: 3rem;
 `;
 
 export const Image = styled(Loader)<{ width: number }>`

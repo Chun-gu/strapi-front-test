@@ -1,5 +1,5 @@
-import Image from "next/image";
 import Link from "next/link";
+import { CustomImage } from "@components";
 import { IProduct } from "@types";
 import { ImageWrapper } from "@utils";
 import { COLOR } from "@styles/color";
@@ -18,12 +18,12 @@ const ProductItem = ({ ...product }: IProduct) => {
           borderRadius={1}
           borderColor={COLOR.greyC4}
         >
-          <Image
-            src={images[0].small}
-            layout="fill"
+          <CustomImage
+            src={images[0]?.small}
             objectFit="cover"
             priority={true}
             alt={`${product.name}의 사진`}
+            fallback="/assets/images/img-product-fallback.png"
           />
         </ImageWrapper>
         <Styled.Name className="ellipsis-single">{product.name}</Styled.Name>
