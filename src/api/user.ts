@@ -22,3 +22,10 @@ export const deleteUser = async (userId: string) => {
   );
   return data;
 };
+
+export const checkUsername = async (username: string) => {
+  const { data } = await axios.get(
+    `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/username-existence/${username}`,
+  );
+  return data;
+};
