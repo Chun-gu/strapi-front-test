@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useQuery } from "react-query";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
