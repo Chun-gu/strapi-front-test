@@ -4,7 +4,6 @@ export { default as CommentItem } from "./CommentItem";
 export { default as CommentList } from "./CommentList";
 export { default as CustomImage } from "./CustomImage";
 export { default as DomainSelector } from "./DomainSelector";
-export * as Inputs from "./Inputs";
 export { default as InquiryItem } from "./InquiryItem";
 export { default as InquiryList } from "./InquiryList";
 export { default as Layout } from "./Layout";
