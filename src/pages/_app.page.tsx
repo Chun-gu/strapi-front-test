@@ -36,7 +36,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
     <QueryClientProvider client={queryClient}>
       <Hydrate state={pageProps.dehydratedState}>
         <RecoilRoot>
-          <SessionProvider session={session}>
+          <SessionProvider session={session} basePath="/login/api/auth">
             <GlobalStyle />
             <Layout>
               <Component {...pageProps} />
