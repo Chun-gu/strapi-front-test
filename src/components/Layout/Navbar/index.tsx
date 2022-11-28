@@ -16,7 +16,7 @@ const NavBar = () => {
             <Logo width={156} height={38} />
           </a>
         </Link>
-        <nav>
+        {/* <nav>
           <Link href="/join">
             <button>회원가입</button>
           </Link>
@@ -44,7 +44,7 @@ const NavBar = () => {
           <Link href="/addOrder">
             <button>주문 등록</button>
           </Link>
-        </nav>
+        </nav> */}
         <Styled.UserMenuWrapper>
           {session && (
             <Link href="/cart">
